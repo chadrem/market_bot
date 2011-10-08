@@ -11,7 +11,7 @@ Market Bot is a high performance Ruby scraper for Google's Android Market with a
 
     gem install market_bot
 
-## Usage Examples (parallel download method)
+## Usage Examples (using batch API for downloading)
 
     require 'rubygems'
     require 'market_bot'
@@ -36,7 +36,7 @@ Market Bot is a high performance Ruby scraper for Google's Android Market with a
 
 == Benchmarks
 
-Below are fairly typical results using 20 http workers (Typhoeus::Hydra.new(:max_concurrency => 20).  The first benchmark downloads/parses a leaderboard containing 504 entries.  The second benchmark takes those 504 entries, converts them to MarketBot::Android::App objects and then downloads/parses their details.  Note that 20 workers are using to prevent DOSing the market servers.  Higher values may work, but I don't recommend it.
+Below are fairly typical results using 20 http workers (Typhoeus::Hydra.new(:max_concurrency => 20).  The first benchmark downloads/parses a leaderboard containing 504 entries.  The second benchmark takes those 504 entries, converts them to MarketBot::Android::App objects and then downloads/parses their details.  Note that 20 workers are used to prevent DOSing the market servers.  Higher values may work, but I don't recommend it.
 
     $ rake benchmark:android
     ----------------------------------------------------
