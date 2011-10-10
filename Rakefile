@@ -55,6 +55,7 @@ namespace :spec do
     def download(url, save_path)
       resp = Typhoeus::Request.get(url)
       File.open(save_path, "w") do |file|
+        resp.body.force_encoding('utf-8')
         file.puts(resp.body)
       end
     end
