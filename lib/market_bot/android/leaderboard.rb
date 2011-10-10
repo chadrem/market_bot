@@ -16,7 +16,7 @@ module MarketBot
 
           unless snippet_node.css('.ratings').empty?
             stars_text = snippet_node.css('.ratings').first.attributes['title'].value
-            result[:stars] = /Rating: (.+) stars .*/.match(stars_text)[1].to_i
+            result[:stars] = /Rating: (.+) stars .*/.match(stars_text)[1]
           else
             result[:stars] = nil
           end

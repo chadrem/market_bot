@@ -8,7 +8,7 @@ test_src_data = read_file(File.dirname(__FILE__), 'data', 'app_1.txt')
 def check_getters(app)
   it 'should populate the getters' do
     app.title.should == 'Pop Dat'
-    app.rating.should == 4
+    app.rating.should == '4'
     app.updated.should == 'August 27, 2011'
     app.current_version.should == '1.0'
     app.requires_android.should == '2.2 and up'
@@ -44,7 +44,7 @@ describe 'App' do
       result = App.parse(test_src_data)
 
       result[:title].should == 'Pop Dat'
-      result[:rating].should == 4
+      result[:rating].should == '4'
       result[:updated].should == 'August 27, 2011'
       result[:current_version].should == '1.0'
       result[:requires_android].should == '2.2 and up'

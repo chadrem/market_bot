@@ -15,7 +15,7 @@ module MarketBot
         doc = Nokogiri::HTML(html)
 
         result[:title]            = doc.title.gsub(/ - Android Market$/, '')
-        result[:rating]           = doc.css('.doc-metadata').first.elements[2].elements[4].text[6].to_i
+        result[:rating]           = doc.css('.doc-metadata').first.elements[2].elements[4].text[6]
         result[:updated]          = doc.css('.doc-metadata').first.elements[2].elements[6].text
         result[:current_version]  = doc.css('.doc-metadata').first.elements[2].elements[8].text
         result[:requires_android] = doc.css('.doc-metadata').first.elements[2].elements[10].text

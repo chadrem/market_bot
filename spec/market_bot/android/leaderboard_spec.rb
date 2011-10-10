@@ -26,7 +26,8 @@ def check_results(results)
       app.keys.sort.should == [:developer, :market_id, :market_url, :price_usd, :stars, :title]
       app[:market_url].should == App.new(app[:market_id]).market_url
       app[:price_usd].should =~ /^\$\d+\.\d{2}$/
-      [0, 1, 2, 3, 4].should include(app[:stars])
+      app[:stars].to_f.should > 0.0
+      app[:stars].to_f.should <= 5.0
     end
   end
 
@@ -35,7 +36,7 @@ def check_results(results)
     results.first[:market_id].should == 'com.zeptolab.ctr.paid'
     results.first[:market_url].should == 'https://market.android.com/details?id=com.zeptolab.ctr.paid'
     results.first[:price_usd].should == '$0.99'
-    results.first[:stars].should == 4
+    results.first[:stars].should == '4.6'
     results.first[:title].should == 'Cut the Rope'
   end
 
