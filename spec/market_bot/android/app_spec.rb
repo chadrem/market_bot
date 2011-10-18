@@ -18,6 +18,7 @@ def check_getters(app)
     app.price.should == 'Free'
     app.content_rating.should == 'Everyone'
     app.description.should =~ /^Experience the next level of chain/
+    app.votes.should == '4'
   end
 end
 

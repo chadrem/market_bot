@@ -3,7 +3,8 @@ module MarketBot
 
     class App
       MARKET_ATTRIBUTES = [:title, :rating, :updated, :current_version, :requires_android,
-                          :category, :installs, :size, :price, :content_rating, :description]
+                          :category, :installs, :size, :price, :content_rating, :description,
+                          :votes]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
