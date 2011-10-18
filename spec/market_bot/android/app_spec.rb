@@ -54,6 +54,7 @@ describe 'App' do
       result[:price].should == 'Free'
       result[:content_rating].should == 'Everyone'
       result[:description].should =~ /^Experience the next level of chain/
+      result[:votes].should == '4'
 
       result
     end

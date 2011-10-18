@@ -25,6 +25,7 @@ module MarketBot
         result[:price]            = doc.css('.doc-metadata').first.elements[2].elements[18].text
         result[:content_rating]   = doc.css('.doc-metadata').first.elements[2].elements[20].text
         result[:description]      = doc.css('#doc-original-text').first.text
+        result[:votes]            = doc.css('.votes').first.text
 
         result
       end
