@@ -15,18 +15,36 @@ module MarketBot
 
         doc = Nokogiri::HTML(html)
 
-        result[:title]            = doc.title.gsub(/ - Android Market$/, '')
-        result[:rating]           = doc.css('.doc-metadata').first.elements[2].elements[4].text[6]
-        result[:updated]          = doc.css('.doc-metadata').first.elements[2].elements[6].text
-        result[:current_version]  = doc.css('.doc-metadata').first.elements[2].elements[8].text
-        result[:requires_android] = doc.css('.doc-metadata').first.elements[2].elements[10].text
-        result[:category]         = doc.css('.doc-metadata').first.elements[2].elements[12].text
-        result[:installs]         = doc.css('.doc-metadata').first.elements[2].elements[14].children.first.text
-        result[:size]             = doc.css('.doc-metadata').first.elements[2].elements[16].text
-        result[:price]            = doc.css('.doc-metadata').first.elements[2].elements[18].text
-        result[:content_rating]   = doc.css('.doc-metadata').first.elements[2].elements[20].text
-        result[:description]      = doc.css('#doc-original-text').first.text
-        result[:votes]            = doc.css('.votes').first.text
+        elements = doc.css('.doc-metadata').first.elements[2].elements
+        elem_count = elements.count
+
+        (3..(elem_count - 1)).select{ |n| n.odd? }.each do |i|
+          field_name  = elements[i].text
+
+          case field_name
+          when 'Updated:'
+            result[:updated] = elements[i + 1].text
+          when 'Current Version:'
+            result[:current_version] = elements[i + 1].text
+          when 'Requires Android:'
+            result[:requires_android] = elements[i + 1].text
+          when 'Category:'
+            result[:category] = elements[i + 1].text
+          when 'Installs:'
+            result[:installs] = elements[i + 1].children.first.text
+          when 'Size:'
+            result[:size] = elements[i + 1].text
+          when 'Price:'
+            result[:price] = elements[i + 1].text
+          when 'Content Rating:'
+            result[:content_rating] = elements[i + 1].text
+          end
+        end
+
+        result[:rating]      = doc.css('.average-rating-value').first.text
+        result[:description] = doc.css('#doc-original-text').first.text
+        result[:votes]       = doc.css('.votes').first.text
+        result[:title]       = doc.title.gsub(/ - Android Market$/, '')
 
         result
       end

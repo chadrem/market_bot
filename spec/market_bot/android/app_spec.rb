@@ -4,17 +4,18 @@ include MarketBot::Android
 
 test_id = 'com.bluefroggaming.popdat'
 test_src_data = read_file(File.dirname(__FILE__), 'data', 'app_1.txt')
+test_src_data2 = read_file(File.dirname(__FILE__), 'data', 'app_2.txt')
 
 def check_getters(app)
   it 'should populate the getters' do
     app.title.should == 'Pop Dat'
-    app.rating.should == '4'
+    app.rating.should == '4.3'
     app.updated.should == 'August 27, 2011'
     app.current_version.should == '1.0'
     app.requires_android.should == '2.2 and up'
     app.category.should == 'Arcade & Action'
     app.installs.should == '50 - 100'
-    app.size.should == '18M'
+    app.size.should == '9.0M'
     app.price.should == 'Free'
     app.content_rating.should == 'Everyone'
     app.description.should =~ /^Experience the next level of chain/
@@ -45,19 +46,35 @@ describe 'App' do
       result = App.parse(test_src_data)
 
       result[:title].should == 'Pop Dat'
-      result[:rating].should == '4'
+      result[:rating].should == '4.3'
       result[:updated].should == 'August 27, 2011'
       result[:current_version].should == '1.0'
       result[:requires_android].should == '2.2 and up'
       result[:category].should == 'Arcade & Action'
       result[:installs].should == '50 - 100'
-      result[:size].should == '18M'
+      result[:size].should == '9.0M'
       result[:price].should == 'Free'
       result[:content_rating].should == 'Everyone'
       result[:description].should =~ /^Experience the next level of chain/
       result[:votes].should == '4'
 
       result
+    end
+
+    it 'should populate a hash with the correct keys/values even when the installs field is missing' do
+      result = App.parse(test_src_data2)
+
+      result[:title].should == 'Evernote'
+      result[:rating].should == '4.6'
+      result[:updated].should == 'October 13, 2011'
+      result[:current_version].should == '3.2.2'
+      result[:requires_android].should == '1.6 and up'
+      result[:category].should == 'Productivity'
+      result[:size].should == '5.0M'
+      result[:price].should == 'Free'
+      result[:content_rating].should == 'Low Maturity'
+      result[:description].should =~ /^Evernote turns your Android device into an extension/
+      result[:votes].should == '173,417'
     end
   end
 
