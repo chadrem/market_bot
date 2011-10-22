@@ -71,6 +71,9 @@ namespace :spec do
       download('https://market.android.com/details?id=kooistar.solutions.Thermometer',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'app_3.txt'))
 
+      download('https://market.android.com/details?id=es.fuelprice',
+               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'app_4.txt'))
+
       download('https://market.android.com/details?id=apps_topselling_paid',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page1.txt'))
 
