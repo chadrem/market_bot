@@ -5,11 +5,12 @@ include MarketBot::Android
 test_id = 'com.bluefroggaming.popdat'
 test_src_data = read_file(File.dirname(__FILE__), 'data', 'app_1.txt')
 test_src_data2 = read_file(File.dirname(__FILE__), 'data', 'app_2.txt')
+test_src_data3 = read_file(File.dirname(__FILE__), 'data', 'app_3.txt')
 
 def check_getters(app)
   it 'should populate the getters' do
     app.title.should == 'Pop Dat'
-    app.rating.should == '4.3'
+    app.rating.should == '4.2'
     app.updated.should == 'August 27, 2011'
     app.current_version.should == '1.0'
     app.requires_android.should == '2.2 and up'
@@ -46,7 +47,7 @@ describe 'App' do
       result = App.parse(test_src_data)
 
       result[:title].should == 'Pop Dat'
-      result[:rating].should == '4.3'
+      result[:rating].should == '4.2'
       result[:updated].should == 'August 27, 2011'
       result[:current_version].should == '1.0'
       result[:requires_android].should == '2.2 and up'
@@ -74,7 +75,23 @@ describe 'App' do
       result[:price].should == 'Free'
       result[:content_rating].should == 'Low Maturity'
       result[:description].should =~ /^Evernote turns your Android device into an extension/
-      result[:votes].should == '173,417'
+      result[:votes].should == '173,307'
+    end
+
+    it 'should populate a hash with the correct keys/values even when rating and votes are missing' do
+      result = App.parse(test_src_data3)
+
+      result[:title].should == 'Thermometer HD'
+      result[:rating].should == nil
+      result[:updated].should == 'July 2, 2011'
+      result[:current_version].should == '1.5.1'
+      result[:requires_android].should == '2.0 and up'
+      result[:category].should == 'Weather'
+      result[:size].should == '98k'
+      result[:price].should == '$0.99'
+      result[:content_rating].should == 'Low Maturity'
+      result[:description].should =~ /^Want to know the up-to-date temperature and other weather/
+      result[:votes].should == nil
     end
   end
 

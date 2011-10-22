@@ -68,6 +68,9 @@ namespace :spec do
       download('https://market.android.com/details?id=com.evernote',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'app_2.txt'))
 
+      download('https://market.android.com/details?id=kooistar.solutions.Thermometer',
+               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'app_3.txt'))
+
       download('https://market.android.com/details?id=apps_topselling_paid',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page1.txt'))
 

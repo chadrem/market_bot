@@ -41,10 +41,14 @@ module MarketBot
           end
         end
 
-        result[:rating]      = doc.css('.average-rating-value').first.text
         result[:description] = doc.css('#doc-original-text').first.text
-        result[:votes]       = doc.css('.votes').first.text
-        result[:title]       = doc.title.gsub(/ - Android Market$/, '')
+        result[:title] = doc.title.gsub(/ - Android Market$/, '')
+
+        rating_elem = doc.css('.average-rating-value')
+        result[:rating] = rating_elem.first.text unless rating_elem.empty?
+
+        votes_elem = doc.css('.votes')
+        result[:votes] = doc.css('.votes').first.text unless votes_elem.empty?
 
         result
       end
