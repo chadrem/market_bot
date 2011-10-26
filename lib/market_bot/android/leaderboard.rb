@@ -6,6 +6,14 @@ module MarketBot
       attr_reader :hydra
 
       def self.parse(html)
+        if html.include?('<title>Editors&#39; Choice - Android Market</title>')
+          parse_editors_choice_page(html)
+        else
+          parse_normal_page(html)
+        end
+      end
+
+      def self.parse_normal_page(html)
         results = []
         doc = Nokogiri::HTML(html)
 
@@ -28,6 +36,26 @@ module MarketBot
           result[:market_url] = "https://market.android.com/details?id=#{result[:market_id]}"
 
           result[:price_usd] = '$0.00' if result[:price_usd] == 'Install'
+
+          results << result
+        end
+
+        results
+      end
+
+      def self.parse_editors_choice_page(html)
+        results = []
+
+        doc = Nokogiri::HTML(html)
+
+        doc.css('.fsg-snippet').each do |snippet_node|
+          result = {}
+
+          result[:title]      = snippet_node.css('.title').text
+          result[:price_usd]  = nil
+          result[:developer]  = snippet_node.css('.goog-inline-block').text
+          result[:market_id]  = snippet_node.attributes['data-docid'].text
+          result[:market_url] = "https://market.android.com/details?id=#{result[:market_id]}"
 
           results << result
         end
@@ -63,16 +91,21 @@ module MarketBot
       end
 
       def enqueue_update(options={})
-        min_rank = options[:min_rank] || 1
-        max_rank = options[:max_rank] || 500
+        if @identifier.to_s.downcase == 'apps_editors_choice' && category == nil
+          url = 'https://market.android.com/details?id=apps_editors_choice'
+          process_page(url, 1)
+        else
+          min_rank = options[:min_rank] || 1
+          max_rank = options[:max_rank] || 500
 
-        min_page = rank_to_page(min_rank)
-        max_page = rank_to_page(max_rank)
+          min_page = rank_to_page(min_rank)
+          max_page = rank_to_page(max_rank)
 
-        @parsed_results = []
+          @parsed_results = []
 
-        urls = market_urls(:min_page => min_page, :max_page => max_page)
-        urls.each_index{ |i| process_page(urls[i], i+1) }
+          urls = market_urls(:min_page => min_page, :max_page => max_page)
+          urls.each_index{ |i| process_page(urls[i], i+1) }
+        end
 
         self
       end

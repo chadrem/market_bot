@@ -5,18 +5,25 @@ include MarketBot::Android
 test_id = :apps_topselling_paid
 test_category = :arcade
 
-$test_src_pages = []
-(1..4).each do |page|
-  $test_src_pages[page] = read_file(File.dirname(__FILE__), 'data', "leaderboard-apps_topselling_paid-page#{page}.txt")
-end
 
 def stub_hydra(hydra)
+  test_src_pages = []
+  (1..4).each do |page|
+    test_src_pages[page] = read_file(File.dirname(__FILE__), 'data', "leaderboard-apps_topselling_paid-page#{page}.txt")
+  end
+
   (0...4).each do |i|
     start = i * 24
-    response = Typhoeus::Response.new(:code => 200, :headers => '', :body => $test_src_pages[i + 1])
+    response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_pages[i + 1])
     url = "https://market.android.com/details?id=apps_topselling_paid&cat=ARCADE&start=#{start}&num=24"
     hydra.stub(:get, url).and_return(response)
   end
+
+  test_src_editors_choice = read_file(File.dirname(__FILE__), 'data', "leaderboard-apps_editors_choice.txt")
+
+  response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_editors_choice)
+  url = "https://market.android.com/details?id=apps_editors_choice"
+  hydra.stub(:get, url).and_return(response)
 end
 
 def check_results(results)
@@ -98,6 +105,25 @@ describe 'Leaderboard' do
       hydra.run
 
       check_results(lb.results)
+    end
+
+    context 'special case (editors choice page)' do
+      it 'should properly parse the page and turn them into results' do
+        hydra = Typhoeus::Hydra.new
+        stub_hydra(hydra)
+        lb = Leaderboard.new('apps_editors_choice', nil, :hydra => hydra)
+        lb.update
+
+        lb.results.count.should == 37
+
+        app = lb.results.last
+
+        app[:title].should == 'WorldMate '
+        app[:price_usd].should == nil
+        app[:developer].should == 'WorldMate'
+        app[:market_id].should == 'com.worldmate'
+        app[:market_url].should == 'https://market.android.com/details?id=com.worldmate'
+      end
     end
   end
 end

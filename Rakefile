@@ -82,6 +82,9 @@ namespace :spec do
 
       download('https://market.android.com/details?id=apps_topselling_paid&cat=ARCADE&start=1000&num=24',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page4.txt'))
+
+      download('https://market.android.com/details?id=apps_editors_choice',
+               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_editors_choice.txt'))
     end
   end
 end
