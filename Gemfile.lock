@@ -46,9 +46,9 @@ DEPENDENCIES
   ZenTest (~> 4.6.2)
   bundler (~> 1.0.0)
   jeweler (~> 1.6.4)
-  nokogiri (~> 1.5.0)
+  nokogiri
   rcov
   rdoc (>= 3.9.4)
   rspec (~> 2.3.0)
   ruby-debug19 (>= 0.11.6)
-  typhoeus (~> 0.2.4)
+  typhoeus
