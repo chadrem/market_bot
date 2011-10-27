@@ -3,8 +3,8 @@ source "http://rubygems.org"
 # Example:
 #   gem "activesupport", ">= 2.3.5"
 
-gem "typhoeus", "~> 0.2.4"
-gem "nokogiri", "~> 1.5.0"
+gem "typhoeus"
+gem "nokogiri"
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
