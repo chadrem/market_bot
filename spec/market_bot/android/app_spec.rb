@@ -76,13 +76,13 @@ describe 'App' do
       result[:content_rating].should == 'Low Maturity'
       result[:description].should =~ /^Evernote turns your Android device into an extension/
       result[:votes].should == '173,307'
+      result[:installs].should == nil
     end
 
     it 'should populate a hash with the correct keys/values even when rating and votes are missing' do
       result = App.parse(test_src_data3)
 
       result[:title].should == 'Thermometer HD'
-      result[:rating].should == nil
       result[:updated].should == 'July 2, 2011'
       result[:current_version].should == '1.5.1'
       result[:requires_android].should == '2.0 and up'
@@ -91,7 +91,20 @@ describe 'App' do
       result[:price].should == '$0.99'
       result[:content_rating].should == 'Low Maturity'
       result[:description].should =~ /^Want to know the up-to-date temperature and other weather/
+      result[:rating].should == nil
       result[:votes].should == nil
+    end
+
+    it 'should populate the associated apps keys' do
+      result = App.parse(test_src_data2)
+
+      result[:related].should be_a(Array)
+      result[:users_also_installed].should be_a(Array)
+      result[:more_from_developer].should be_a(Array)
+
+      result[:related].first[:app_id].should == 'com.intsig.camscanner'
+      result[:users_also_installed].first[:app_id].should == 'com.divnil.paintforevernote'
+      result[:more_from_developer].first[:app_id].should == 'com.evernote.skitch'
     end
   end
 
