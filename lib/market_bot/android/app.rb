@@ -4,7 +4,7 @@ module MarketBot
     class App
       MARKET_ATTRIBUTES = [:title, :rating, :updated, :current_version, :requires_android,
                           :category, :installs, :size, :price, :content_rating, :description,
-                          :votes]
+                          :votes, :developer]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -50,26 +50,22 @@ module MarketBot
         votes_elem = doc.css('.votes')
         result[:votes] = doc.css('.votes').first.text unless votes_elem.empty?
 
-        similar_elem = doc.css('.doc-similar').first
+        result[:developer] = doc.css('.doc-header-link').first.text
 
-        if similar_elem
+        if similar_elem = doc.css('.doc-similar').first
           similar_elem.children.each do |similar_elem_child|
             assoc_app_type = similar_elem_child.attributes['data-analyticsid'].text
 
-            case assoc_app_type
-            when 'more-from-developer'
-            when 'users-also-installed'
-            when 'related'
-            else
-              next
-            end
+            next unless %w(more-from-developer users-also-installed related).include?(assoc_app_type)
 
             assoc_app_type = assoc_app_type.gsub('-', '_').to_sym
             result[assoc_app_type] ||= []
 
             similar_elem_child.css('.app-left-column-related-snippet-container').each do |app_elem|
               assoc_app = {}
+
               assoc_app[:app_id] = app_elem.attributes['data-docid'].text
+
               result[assoc_app_type] << assoc_app
             end
           end

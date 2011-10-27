@@ -58,6 +58,7 @@ describe 'App' do
       result[:content_rating].should == 'Everyone'
       result[:description].should =~ /^Experience the next level of chain/
       result[:votes].should == '4'
+      result[:developer].should == 'Blue Frog Gaming'
 
       result
     end
@@ -76,6 +77,7 @@ describe 'App' do
       result[:content_rating].should == 'Low Maturity'
       result[:description].should =~ /^Evernote turns your Android device into an extension/
       result[:votes].should == '173,307'
+      result[:developer].should == 'Evernote Corp.'
       result[:installs].should == nil
     end
 
@@ -91,6 +93,7 @@ describe 'App' do
       result[:price].should == '$0.99'
       result[:content_rating].should == 'Low Maturity'
       result[:description].should =~ /^Want to know the up-to-date temperature and other weather/
+      result[:developer].should == 'Kooistar Solutions'
       result[:rating].should == nil
       result[:votes].should == nil
     end
