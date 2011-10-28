@@ -21,6 +21,9 @@ def check_getters(app)
     app.content_rating.should == 'Everyone'
     app.description.should =~ /^Experience the next level of chain/
     app.votes.should == '4'
+    app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
+    app.users_also_installed.should == [{:app_id=>"com.cyancanyon.blasted_lite"}, {:app_id=>"com.hackathon.androidandretta"}, {:app_id=>"com.slothenvy.hexadromefree"}, {:app_id=>"com.moongames.southsurfers112"}]
+    app.related.should == []
   end
 end
 
