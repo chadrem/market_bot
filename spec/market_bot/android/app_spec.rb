@@ -132,6 +132,7 @@ describe 'App' do
       hydra.stub(:get, app.market_url).and_return(response)
 
       callback_flag = false
+
       app.enqueue_update do |a|
         callback_flag = true
       end
@@ -143,6 +144,31 @@ describe 'App' do
       end
 
       check_getters(app)
+    end
+
+    context 'Batch API parser error' do
+      hydra = Typhoeus::Hydra.new
+      app = App.new(test_id, :hydra => hydra)
+      response = Typhoeus::Response.new(:code => 200, :headers => '', :body => 'some broken app page')
+      hydra.stub(:get, app.market_url).and_return(response)
+
+      callback_flag = false
+      error = nil
+
+      app.enqueue_update do |a|
+        callback_flag = true
+        error = a.error
+      end
+
+      hydra.run
+
+      it 'should call the callback' do
+        callback_flag.should be(true)
+      end
+
+      it 'should set error to the exception' do
+        error.should be_a(Exception)
+      end
     end
   end
 end
