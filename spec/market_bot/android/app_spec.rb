@@ -131,8 +131,17 @@ describe 'App' do
       app = App.new(test_id, :hydra => hydra)
       hydra.stub(:get, app.market_url).and_return(response)
 
-      app.enqueue_update
+      callback_flag = false
+      app.enqueue_update do |a|
+        callback_flag = true
+      end
+
       hydra.run
+
+      it 'should call the callback' do
+        callback_flag.should be(true)
+      end
+
       check_getters(app)
     end
   end

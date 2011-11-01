@@ -10,6 +10,7 @@ module MarketBot
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
       attr_reader :hydra
+      attr_reader :callback
 
       def self.parse(html)
         result = {}
@@ -82,6 +83,7 @@ module MarketBot
       def initialize(app_id, options={})
         @app_id = app_id
         @hydra = options[:hydra] || Typhoeus::Hydra.hydra
+        @callback = nil
       end
 
       def market_url
@@ -96,12 +98,16 @@ module MarketBot
         self
       end
 
-      def enqueue_update
+      def enqueue_update(&block)
+        @callback = block
+
         request = Typhoeus::Request.new(market_url)
+
         request.on_complete do |response|
           result = App.parse(response.body)
           update_callback(result)
         end
+
         hydra.queue(request)
 
         self
@@ -114,6 +120,8 @@ module MarketBot
           attr_value = result[a]
           instance_variable_set(attr_name, attr_value)
         end
+
+        @callback.call(self) if @callback
       end
     end
 
