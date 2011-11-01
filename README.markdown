@@ -28,11 +28,15 @@ Market Bot is a high performance Ruby scraper for Google's Android Market with a
     first_app = MarketBot::Android::App.new(lb.results.first[:market_id], :hydra => hydra)
     last_app = MarketBot::Android::App.new(lb.results.last[:market_id], :hydra => hydra)
     first_app.enqueue_update
-    last_app.enqueue_update
+    last_app.enqueue_update do |a|
+      # Callback example.  This block will execute on a successful hydra.run.
+      puts "Callback... title: #{a.title}"
+    end
     hydra.run
 
-    puts "First place app (#{first_app.title}) price: #{first_app.price}"
-    puts "Last place app (#{last_app.title}) price: #{last_app.price}"
+    # Non-callback example.  Note that you must manually check if an error occurred during the hydra.run.
+    puts "First place app (#{first_app.title}) price: #{first_app.price}" unless first_app.error
+    puts "Last place app (#{last_app.title}) price: #{last_app.price}" unless last_app.error
 
 ## Benchmarks
 
