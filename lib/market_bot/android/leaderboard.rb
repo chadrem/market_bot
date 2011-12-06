@@ -6,7 +6,7 @@ module MarketBot
       attr_reader :hydra
 
       def self.parse(html)
-        if html.include?('<title>Editors&#39; Choice - Android Market</title>')
+        if html.include?('<title>Editor&#39;s Choice - Android Market</title>')
           parse_editors_choice_page(html)
         else
           parse_normal_page(html)

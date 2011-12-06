@@ -120,7 +120,7 @@ describe 'Leaderboard' do
 
         app[:title].should == 'WorldMate '
         app[:price_usd].should == nil
-        app[:developer].should == 'WorldMate'
+        app[:developer].should == 'WorldMateWorldMate'
         app[:market_id].should == 'com.worldmate'
         app[:market_url].should == 'https://market.android.com/details?id=com.worldmate'
       end
