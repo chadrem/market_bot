@@ -44,7 +44,7 @@ module MarketBot
           end
         end
 
-        result[:description] = doc.css('#doc-original-text').first.text
+        result[:description] = doc.css('#doc-original-text').first.inner_html
         result[:title] = doc.title.gsub(/ - Android Market$/, '')
 
         rating_elem = doc.css('.average-rating-value')
