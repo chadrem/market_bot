@@ -78,6 +78,8 @@ module MarketBot
           end
         end
 
+        result[:banner_icon_url] = doc.css('.doc-banner-icon img').first.attributes['src'].value
+
         result
       end
 

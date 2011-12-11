@@ -62,6 +62,7 @@ describe 'App' do
       result[:description].should =~ /^Experience the next level of chain/
       result[:votes].should == '4'
       result[:developer].should == 'Blue Frog Gaming'
+      result[:banner_icon_url].should == 'https://www.gstatic.com/android/market/com.bluefroggaming.popdat/hi-256-0-1ed15ffdb5fc6071b35ed137aa8f9fd53a9dd39d'
 
       result
     end
@@ -82,6 +83,7 @@ describe 'App' do
       result[:votes].should == '173,307'
       result[:developer].should == 'Evernote Corp.'
       result[:installs].should == nil
+      result[:banner_icon_url].should == 'https://g0.gstatic.com/android/market/com.evernote/hi-124-6'
     end
 
     it 'should populate a hash with the correct keys/values even when rating and votes are missing' do
@@ -99,6 +101,7 @@ describe 'App' do
       result[:developer].should == 'Kooistar Solutions'
       result[:rating].should == nil
       result[:votes].should == nil
+      result[:banner_icon_url].should == 'https://g1.gstatic.com/android/market/kooistar.solutions.Thermometer/hi-124-8'
     end
 
     it 'should populate the associated apps keys' do
