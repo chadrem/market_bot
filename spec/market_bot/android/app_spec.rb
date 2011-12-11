@@ -24,6 +24,7 @@ def check_getters(app)
     app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
     app.users_also_installed.should == [{:app_id=>"com.cyancanyon.blasted_lite"}, {:app_id=>"com.hackathon.androidandretta"}, {:app_id=>"com.slothenvy.hexadromefree"}, {:app_id=>"com.moongames.southsurfers112"}]
     app.related.should == []
+    app.banner_icon_url.should == 'https://www.gstatic.com/android/market/com.bluefroggaming.popdat/hi-256-0-1ed15ffdb5fc6071b35ed137aa8f9fd53a9dd39d'
   end
 end
 

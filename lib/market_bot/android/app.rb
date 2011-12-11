@@ -5,7 +5,7 @@ module MarketBot
       MARKET_ATTRIBUTES = [:title, :rating, :updated, :current_version, :requires_android,
                           :category, :installs, :size, :price, :content_rating, :description,
                           :votes, :developer, :more_from_developer, :users_also_installed,
-                          :related]
+                          :related, :banner_icon_url]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
