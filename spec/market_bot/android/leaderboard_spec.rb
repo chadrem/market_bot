@@ -114,14 +114,13 @@ describe 'Leaderboard' do
         lb = Leaderboard.new('apps_editors_choice', nil, :hydra => hydra)
         lb.update
 
-        debugger
         lb.results.count.should == 37
 
         app = lb.results.last
 
         app[:title].should == 'WorldMate '
         app[:price_usd].should == nil
-        app[:developer].should == 'WorldMateWorldMate'
+        app[:developer].should == 'WorldMate'
         app[:market_id].should == 'com.worldmate'
         app[:market_url].should == 'https://market.android.com/details?id=com.worldmate'
       end

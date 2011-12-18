@@ -6,7 +6,7 @@ module MarketBot
       attr_reader :hydra
 
       def self.parse(html)
-        if html.include?('<title>Editor&#39;s Choice - Android Market</title>')
+        if html.include?('<title>Editor&#39;s Choice')
           parse_editors_choice_page(html)
         else
           parse_normal_page(html)
@@ -53,7 +53,7 @@ module MarketBot
 
           result[:title]      = snippet_node.css('.title').text
           result[:price_usd]  = nil
-          result[:developer]  = snippet_node.css('.goog-inline-block').text
+          result[:developer]  = snippet_node.css('.attribution').text
           result[:market_id]  = snippet_node.attributes['data-docid'].text
           result[:market_url] = "https://market.android.com/details?id=#{result[:market_id]}"
 
