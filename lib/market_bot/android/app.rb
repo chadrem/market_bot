@@ -45,7 +45,7 @@ module MarketBot
         end
 
         result[:description] = doc.css('#doc-original-text').first.inner_html
-        result[:title] = doc.title.gsub(/ - Android Market$/, '')
+        result[:title] = doc.css('.doc-banner-title').text
 
         rating_elem = doc.css('.average-rating-value')
         result[:rating] = rating_elem.first.text unless rating_elem.empty?
@@ -53,7 +53,7 @@ module MarketBot
         votes_elem = doc.css('.votes')
         result[:votes] = doc.css('.votes').first.text unless votes_elem.empty?
 
-        result[:developer] = doc.css('.doc-header-link').first.text
+        result[:developer] = doc.css('.doc-banner-title-container a').text
 
         result[:more_from_developer] = []
         result[:users_also_installed] = []

@@ -10,21 +10,21 @@ test_src_data3 = read_file(File.dirname(__FILE__), 'data', 'app_3.txt')
 def check_getters(app)
   it 'should populate the getters' do
     app.title.should == 'Pop Dat'
-    app.rating.should == '4.2'
+    app.rating.should == '4.4'
     app.updated.should == 'August 27, 2011'
     app.current_version.should == '1.0'
     app.requires_android.should == '2.2 and up'
     app.category.should == 'Arcade & Action'
-    app.installs.should == '50 - 100'
+    app.installs.should == '100 - 500'
     app.size.should == '9.0M'
     app.price.should == 'Free'
     app.content_rating.should == 'Everyone'
     app.description.should =~ /^Experience the next level of chain/
-    app.votes.should == '4'
+    app.votes.should == '5'
     app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
-    app.users_also_installed.should == [{:app_id=>"com.cyancanyon.blasted_lite"}, {:app_id=>"com.hackathon.androidandretta"}, {:app_id=>"com.slothenvy.hexadromefree"}, {:app_id=>"com.moongames.southsurfers112"}]
-    app.related.should == []
-    app.banner_icon_url.should == 'https://www.gstatic.com/android/market/com.bluefroggaming.popdat/hi-256-0-1ed15ffdb5fc6071b35ed137aa8f9fd53a9dd39d'
+    app.users_also_installed.should == [{:app_id=>"com.deadmansproductions.undecided"}, {:app_id=>"com.mudstuffingindustries.redneckjellyfish"}, {:app_id=>"com.jae.firestarter"}, {:app_id=>"com.lyote.blurt"}]
+    app.related.should == [{:app_id=>"jp.co.fsi.refills"}, {:app_id=>"net.hexage.radiant.hd"}, {:app_id=>"net.hexage.radiant"}, {:app_id=>"com.wpd.game.popstar"}]
+    app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
   end
 end
 
@@ -51,43 +51,43 @@ describe 'App' do
       result = App.parse(test_src_data)
 
       result[:title].should == 'Pop Dat'
-      result[:rating].should == '4.2'
+      result[:rating].should == '4.4'
       result[:updated].should == 'August 27, 2011'
       result[:current_version].should == '1.0'
       result[:requires_android].should == '2.2 and up'
       result[:category].should == 'Arcade & Action'
-      result[:installs].should == '50 - 100'
+      result[:installs].should == '100 - 500'
       result[:size].should == '9.0M'
       result[:price].should == 'Free'
       result[:content_rating].should == 'Everyone'
       result[:description].should =~ /^Experience the next level of chain/
-      result[:votes].should == '4'
+      result[:votes].should == '5'
       result[:developer].should == 'Blue Frog Gaming'
-      result[:banner_icon_url].should == 'https://www.gstatic.com/android/market/com.bluefroggaming.popdat/hi-256-0-1ed15ffdb5fc6071b35ed137aa8f9fd53a9dd39d'
+      result[:banner_icon_url].should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
 
       result
     end
 
-    it 'should populate a hash with the correct keys/values even when the installs field is missing' do
+    it 'should populate a hash with the correct keys/values' do
       result = App.parse(test_src_data2)
 
       result[:title].should == 'Evernote'
       result[:rating].should == '4.6'
-      result[:updated].should == 'October 13, 2011'
-      result[:current_version].should == '3.2.2'
+      result[:updated].should == 'December 15, 2011'
+      result[:current_version].should == '3.4'
       result[:requires_android].should == '1.6 and up'
       result[:category].should == 'Productivity'
-      result[:size].should == '5.0M'
+      result[:size].should == '7.5M'
       result[:price].should == 'Free'
       result[:content_rating].should == 'Low Maturity'
       result[:description].should =~ /^Evernote turns your Android device into an extension/
-      result[:votes].should == '173,307'
+      result[:votes].should == '205,385'
       result[:developer].should == 'Evernote Corp.'
-      result[:installs].should == nil
-      result[:banner_icon_url].should == 'https://g0.gstatic.com/android/market/com.evernote/hi-124-6'
+      result[:installs].should == '5,000,000 - 10,000,000'
+      result[:banner_icon_url].should == 'https://lh4.ggpht.com/YpRePJZ4TJUCdERkX-E0uUq6jhaofOS1szIejmo3DZm4oEq82AqcUpoj9FHOxFRvprU=w124'
     end
 
-    it 'should populate a hash with the correct keys/values even when rating and votes are missing' do
+    it 'should populate a hash with the correct keys/values' do
       result = App.parse(test_src_data3)
 
       result[:title].should == 'Thermometer HD'
@@ -102,7 +102,7 @@ describe 'App' do
       result[:developer].should == 'Kooistar Solutions'
       result[:rating].should == nil
       result[:votes].should == nil
-      result[:banner_icon_url].should == 'https://g1.gstatic.com/android/market/kooistar.solutions.Thermometer/hi-124-8'
+      result[:banner_icon_url].should == 'https://lh3.ggpht.com/XEJ1MZFUqXKDfTSwqpL8Apgo3qMAixdG3l_gt8FuFstGUd2vk7-qDIKH4fHRMi57-p4=w124'
     end
 
     it 'should populate the associated apps keys' do
@@ -112,7 +112,7 @@ describe 'App' do
       result[:users_also_installed].should be_a(Array)
       result[:more_from_developer].should be_a(Array)
 
-      result[:related].first[:app_id].should == 'com.intsig.camscanner'
+      result[:related].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
       result[:users_also_installed].first[:app_id].should == 'com.divnil.paintforevernote'
       result[:more_from_developer].first[:app_id].should == 'com.evernote.skitch'
     end

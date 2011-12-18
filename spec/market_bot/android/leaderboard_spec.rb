@@ -38,13 +38,13 @@ def check_results(results)
     end
   end
 
-  it 'should have Cut The Rope as the top ranking app with valid details' do
-    results.first[:developer].should == 'ZeptoLab'
-    results.first[:market_id].should == 'com.zeptolab.ctr.paid'
-    results.first[:market_url].should == 'https://market.android.com/details?id=com.zeptolab.ctr.paid'
-    results.first[:price_usd].should == '$0.99'
-    results.first[:stars].should == '4.6'
-    results.first[:title].should == 'Cut the Rope'
+  it 'should have the top ranking app with valid details' do
+    results.first[:developer].should == 'androidslide'
+    results.first[:market_id].should == 'slide.cameraZoom'
+    results.first[:market_url].should == 'https://market.android.com/details?id=slide.cameraZoom'
+    results.first[:price_usd].should == '$4.99'
+    results.first[:stars].should == '4.4'
+    results.first[:title].should == 'Camera ZOOM FX'
   end
 
 end
@@ -114,6 +114,7 @@ describe 'Leaderboard' do
         lb = Leaderboard.new('apps_editors_choice', nil, :hydra => hydra)
         lb.update
 
+        debugger
         lb.results.count.should == 37
 
         app = lb.results.last
