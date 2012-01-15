@@ -25,6 +25,8 @@ def check_getters(app)
     app.users_also_installed.should == [{:app_id=>"com.deadmansproductions.undecided"}, {:app_id=>"com.mudstuffingindustries.redneckjellyfish"}, {:app_id=>"com.jae.firestarter"}, {:app_id=>"com.lyote.blurt"}]
     app.related.should == [{:app_id=>"jp.co.fsi.refills"}, {:app_id=>"net.hexage.radiant.hd"}, {:app_id=>"net.hexage.radiant"}, {:app_id=>"com.wpd.game.popstar"}]
     app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
+    app.website_url.should == 'http://bluefroggaming.com'
+    app.email.should == 'support@hdgames.zendesk.com'
   end
 end
 
@@ -64,6 +66,8 @@ describe 'App' do
       result[:votes].should == '5'
       result[:developer].should == 'Blue Frog Gaming'
       result[:banner_icon_url].should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
+      result[:website_url].should == 'http://bluefroggaming.com'
+      result[:email].should == 'support@hdgames.zendesk.com'
 
       result
     end
@@ -85,6 +89,8 @@ describe 'App' do
       result[:developer].should == 'Evernote Corp.'
       result[:installs].should == '5,000,000 - 10,000,000'
       result[:banner_icon_url].should == 'https://lh4.ggpht.com/YpRePJZ4TJUCdERkX-E0uUq6jhaofOS1szIejmo3DZm4oEq82AqcUpoj9FHOxFRvprU=w124'
+      result[:website_url].should == 'http://www.evernote.com'
+      result[:email].should == nil
     end
 
     it 'should populate a hash with the correct keys/values' do
@@ -103,6 +109,8 @@ describe 'App' do
       result[:rating].should == nil
       result[:votes].should == nil
       result[:banner_icon_url].should == 'https://lh3.ggpht.com/XEJ1MZFUqXKDfTSwqpL8Apgo3qMAixdG3l_gt8FuFstGUd2vk7-qDIKH4fHRMi57-p4=w124'
+      result[:website_url].should == 'http://www.donothave.com'
+      result[:email].should == 'kooistar_solutions@hotmail.com'
     end
 
     it 'should populate the associated apps keys' do
