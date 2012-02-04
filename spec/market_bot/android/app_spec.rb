@@ -27,6 +27,7 @@ def check_getters(app)
     app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
     app.website_url.should == 'http://bluefroggaming.com'
     app.email.should == 'support@hdgames.zendesk.com'
+    app.youtube_video_ids.should == []
   end
 end
 
@@ -68,6 +69,7 @@ describe 'App' do
       result[:banner_icon_url].should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
       result[:website_url].should == 'http://bluefroggaming.com'
       result[:email].should == 'support@hdgames.zendesk.com'
+      result[:youtube_video_ids].should == []
 
       result
     end
@@ -91,6 +93,7 @@ describe 'App' do
       result[:banner_icon_url].should == 'https://lh4.ggpht.com/YpRePJZ4TJUCdERkX-E0uUq6jhaofOS1szIejmo3DZm4oEq82AqcUpoj9FHOxFRvprU=w124'
       result[:website_url].should == 'http://www.evernote.com'
       result[:email].should == nil
+      result[:youtube_video_ids].should == ['usUg-CdJEKo']
     end
 
     it 'should populate a hash with the correct keys/values' do
@@ -111,6 +114,7 @@ describe 'App' do
       result[:banner_icon_url].should == 'https://lh3.ggpht.com/XEJ1MZFUqXKDfTSwqpL8Apgo3qMAixdG3l_gt8FuFstGUd2vk7-qDIKH4fHRMi57-p4=w124'
       result[:website_url].should == 'http://www.donothave.com'
       result[:email].should == 'kooistar_solutions@hotmail.com'
+      result[:youtube_video_ids].should == []
     end
 
     it 'should populate the associated apps keys' do

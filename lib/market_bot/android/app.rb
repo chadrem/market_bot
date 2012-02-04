@@ -5,7 +5,7 @@ module MarketBot
       MARKET_ATTRIBUTES = [:title, :rating, :updated, :current_version, :requires_android,
                           :category, :installs, :size, :price, :content_rating, :description,
                           :votes, :developer, :more_from_developer, :users_also_installed,
-                          :related, :banner_icon_url, :website_url, :email]
+                          :related, :banner_icon_url, :website_url, :email, :youtube_video_ids]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -93,6 +93,13 @@ module MarketBot
 
         if email_elem = doc.css('a').select{ |l| l.text.include?("Email Developer")}.first
           result[:email] = email_elem.attribute('href').value.gsub(/^mailto:/, '')
+        end
+
+        unless (video_section_elem = doc.css('.doc-video-section')).empty?
+          urls = video_section_elem.children.css('embed').map{ |e| e.attribute('src').value }
+          result[:youtube_video_ids] = urls.map{ |u| /youtube\.com\/v\/(.*)\?/.match(u)[1] }
+        else
+          result[:youtube_video_ids] = []
         end
 
         result
