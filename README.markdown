@@ -1,6 +1,8 @@
 # Market Bot - High performance Ruby scraper for Google's Android Market
 
-Market Bot is a high performance Ruby scraper for Google's Android Market with a simple to use API.  It is built on top of Nokogiri and Typhoeus.
+Market Bot is a high performance Ruby scraper for Google's Android Market with a simple to use API.
+It is built on top of Nokogiri and Typhoeus.
+Used in production to power [www.droidmeter.com](http://www.droidmeter.com).
 
 ## Dependencies
 
