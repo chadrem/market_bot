@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "market_bot"
-  s.version = "0.4.0"
+  s.version = "0.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Chad Remesch"]
-  s.date = "2012-02-04"
+  s.date = "2012-03-07"
   s.description = "Market Bot is a high performance Ruby scraper for Google's Android Market with a simple to use API.  It is built on top of Nokogiri and Typhoeus."
   s.email = "chad@remesch.com"
   s.extra_rdoc_files = [
