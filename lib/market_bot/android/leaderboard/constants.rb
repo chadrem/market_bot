@@ -3,16 +3,16 @@ module MarketBot
 
     class Leaderboard
       IDENTIFIERS = [
-        :apps_editors_choice,
-        :apps_featured,
-        :apps_movers_shakers,
-        :apps_tablet_featured,
-        :apps_topgrossing,
-        :apps_topselling_free,
-        :apps_topselling_new_free,
-        :apps_topselling_new_paid,
-        :apps_topselling_paid,
-        :apps_topselling_paid_game
+        :editors_choice,
+        :featured,
+        :movers_shakers,
+        :tablet_featured,
+        :topgrossing,
+        :topselling_free,
+        :topselling_new_free,
+        :topselling_new_paid,
+        :topselling_paid,
+        :topselling_paid_game
       ]
 
       CATEGORIES = [
