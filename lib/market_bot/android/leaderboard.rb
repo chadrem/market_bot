@@ -32,8 +32,8 @@ module MarketBot
           result[:title] = details_node.css('.title').first.attributes['title'].to_s
           result[:price_usd] = details_node.css('.buy-button-price').children.first.text.gsub(' Buy', '')
           result[:developer] = details_node.css('.attribution').children.first.text
-          result[:market_id] = details_node.css('.title').first.attributes['href'].to_s.gsub('/details?id=', '').gsub(/&feature=.*$/, '')
-          result[:market_url] = "https://market.android.com/details?id=#{result[:market_id]}"
+          result[:market_id] = details_node.css('.title').first.attributes['href'].to_s.gsub('/store/apps/details?id=', '').gsub(/&feature=.*$/, '')
+          result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}"
 
           result[:price_usd] = '$0.00' if result[:price_usd] == 'Install'
 

@@ -62,28 +62,28 @@ namespace :spec do
 
     desc 'download the latest test data used by the specs'
     task :update do
-      download('https://market.android.com/details?id=com.bluefroggaming.popdat',
+      download('https://play.google.com/store/apps/details?id=com.bluefroggaming.popdat',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'app_1.txt'))
 
-      download('https://market.android.com/details?id=com.evernote',
+      download('https://play.google.com/store/apps/details?id=com.evernote',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'app_2.txt'))
 
-      download('https://market.android.com/details?id=kooistar.solutions.Thermometer',
+      download('https://play.google.com/store/apps/details?id=kooistar.solutions.Thermometer',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'app_3.txt'))
 
-      download('https://market.android.com/details?id=apps_topselling_paid',
+      download('https://play.google.com/store/apps/collection/topselling_paid',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page1.txt'))
 
-      download('https://market.android.com/details?id=apps_topselling_paid&start=24&num=24',
+      download('https://play.google.com/store/apps/collection/topselling_paid?start=24&amp;num=24',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page2.txt'))
 
-      download('https://market.android.com/details?id=apps_topselling_paid&start=48&num=24',
+      download('https://play.google.com/store/apps/collection/topselling_paid?start=48&amp;num=24',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page3.txt'))
 
-      download('https://market.android.com/details?id=apps_topselling_paid&cat=ARCADE&start=1000&num=24',
+      download('https://play.google.com/store/apps/collection/topselling_paid?start=456&num=24',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page4.txt'))
 
-      download('https://market.android.com/details?id=apps_editors_choice',
+      download('https://play.google.com/store/apps/collection/editors_choice',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_editors_choice.txt'))
     end
   end

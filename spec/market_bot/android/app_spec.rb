@@ -22,8 +22,8 @@ def check_getters(app)
     app.description.should =~ /^Experience the next level of chain/
     app.votes.should == '5'
     app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
-    app.users_also_installed.should == [{:app_id=>"com.deadmansproductions.undecided"}, {:app_id=>"com.mudstuffingindustries.redneckjellyfish"}, {:app_id=>"com.jae.firestarter"}, {:app_id=>"com.lyote.blurt"}]
-    app.related.should == [{:app_id=>"jp.co.fsi.refills"}, {:app_id=>"net.hexage.radiant.hd"}, {:app_id=>"net.hexage.radiant"}, {:app_id=>"com.wpd.game.popstar"}]
+    app.users_also_installed.should == [{:app_id=>"com.mudstuffingindustries.redneckjellyfish"}, {:app_id=>"com.loadcomplete.bumpingbears"}, {:app_id=>"com.jae.firestarter"}, {:app_id=>"com.donutman.rosham"}]
+    app.related.should == [{:app_id=>"com.iopixel.basketball2"}, {:app_id=>"com.flukedude.impossiblegame"}, {:app_id=>"com.lsgvgames.slideandflyfull"}, {:app_id=>"com.rubicon.dev.glwg"}]
     app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
     app.website_url.should == 'http://bluefroggaming.com'
     app.email.should == 'support@hdgames.zendesk.com'
@@ -46,7 +46,7 @@ describe 'App' do
   end
 
   it 'should generate market URLs' do
-   App.new(test_id).market_url.should == "https://market.android.com/details?id=#{test_id}"
+   App.new(test_id).market_url.should == "https://play.google.com/store/apps/details?id=#{test_id}"
   end
 
   context 'Parsing' do
@@ -79,17 +79,17 @@ describe 'App' do
 
       result[:title].should == 'Evernote'
       result[:rating].should == '4.6'
-      result[:updated].should == 'December 15, 2011'
-      result[:current_version].should == '3.4'
+      result[:updated].should == 'February 18, 2012'
+      result[:current_version].should == '3.5.3'
       result[:requires_android].should == '1.6 and up'
       result[:category].should == 'Productivity'
-      result[:size].should == '7.5M'
+      result[:size].should == '6.9M'
       result[:price].should == 'Free'
       result[:content_rating].should == 'Low Maturity'
       result[:description].should =~ /^Evernote turns your Android device into an extension/
-      result[:votes].should == '205,385'
+      result[:votes].should == '251,243'
       result[:developer].should == 'Evernote Corp.'
-      result[:installs].should == '5,000,000 - 10,000,000'
+      result[:installs].should == '10,000,000 - 50,000,000'
       result[:banner_icon_url].should == 'https://lh4.ggpht.com/YpRePJZ4TJUCdERkX-E0uUq6jhaofOS1szIejmo3DZm4oEq82AqcUpoj9FHOxFRvprU=w124'
       result[:website_url].should == 'http://www.evernote.com'
       result[:email].should == nil

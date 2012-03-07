@@ -28,7 +28,7 @@ end
 
 def check_results(results)
   it 'should return valid results' do
-    results.length.should == 72
+    results.length.should == 96
     results.each do |app|
       app.keys.sort.should == [:developer, :market_id, :market_url, :price_usd, :stars, :title]
       app[:market_url].should == App.new(app[:market_id]).market_url
@@ -39,12 +39,12 @@ def check_results(results)
   end
 
   it 'should have the top ranking app with valid details' do
-    results.first[:developer].should == 'androidslide'
-    results.first[:market_id].should == 'slide.cameraZoom'
-    results.first[:market_url].should == 'https://market.android.com/details?id=slide.cameraZoom'
-    results.first[:price_usd].should == '$4.99'
-    results.first[:stars].should == '4.4'
-    results.first[:title].should == 'Camera ZOOM FX'
+    results.first[:developer].should == 'OMGPOP'
+    results.first[:market_id].should == 'com.omgpop.dstpaid'
+    results.first[:market_url].should == 'https://play.google.com/store/apps/details?id=com.omgpop.dstpaid'
+    results.first[:price_usd].should == '$0.99'
+    results.first[:stars].should == '3.2'
+    results.first[:title].should == 'Draw Something by OMGPOP'
   end
 
 end

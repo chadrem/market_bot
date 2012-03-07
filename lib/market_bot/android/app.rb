@@ -113,7 +113,7 @@ module MarketBot
       end
 
       def market_url
-        "https://market.android.com/details?id=#{@app_id}"
+        "https://play.google.com/store/apps/details?id=#{@app_id}"
       end
 
       def update
