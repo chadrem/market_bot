@@ -25,6 +25,7 @@ def check_getters(app)
     app.users_also_installed.should == [{:app_id=>"com.mudstuffingindustries.redneckjellyfish"}, {:app_id=>"com.loadcomplete.bumpingbears"}, {:app_id=>"com.jae.firestarter"}, {:app_id=>"com.donutman.rosham"}]
     app.related.should == [{:app_id=>"com.iopixel.basketball2"}, {:app_id=>"com.flukedude.impossiblegame"}, {:app_id=>"com.lsgvgames.slideandflyfull"}, {:app_id=>"com.rubicon.dev.glwg"}]
     app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
+    app.banner_image_url.should == 'https://lh6.ggpht.com/hh-pkbt1mEbFg7CJt2DSum7WDtnKS8jWPYrMwPbE2LY_qvNQa6CZLpseQHX6PVJ1RA=w705'
     app.website_url.should == 'http://bluefroggaming.com'
     app.email.should == 'support@hdgames.zendesk.com'
     app.youtube_video_ids.should == []
@@ -87,10 +88,11 @@ describe 'App' do
       result[:price].should == 'Free'
       result[:content_rating].should == 'Low Maturity'
       result[:description].should =~ /^Evernote turns your Android device into an extension/
-      result[:votes].should == '251,243'
+      result[:votes].should == '251,575'
       result[:developer].should == 'Evernote Corp.'
       result[:installs].should == '10,000,000 - 50,000,000'
       result[:banner_icon_url].should == 'https://lh4.ggpht.com/YpRePJZ4TJUCdERkX-E0uUq6jhaofOS1szIejmo3DZm4oEq82AqcUpoj9FHOxFRvprU=w124'
+      result[:banner_image_url].should == 'https://lh5.ggpht.com/TlPZORLq1sFgdJhvySRCcmw2Ybd6gSlhGSQuPNZJvQWjG1yWemfAEC9HL1Q288mMUNjE=w705'
       result[:website_url].should == 'http://www.evernote.com'
       result[:email].should == nil
       result[:youtube_video_ids].should == ['usUg-CdJEKo']
@@ -112,6 +114,7 @@ describe 'App' do
       result[:rating].should == nil
       result[:votes].should == nil
       result[:banner_icon_url].should == 'https://lh3.ggpht.com/XEJ1MZFUqXKDfTSwqpL8Apgo3qMAixdG3l_gt8FuFstGUd2vk7-qDIKH4fHRMi57-p4=w124'
+      result[:banner_image_url].should == nil
       result[:website_url].should == 'http://www.donothave.com'
       result[:email].should == 'kooistar_solutions@hotmail.com'
       result[:youtube_video_ids].should == []

@@ -5,7 +5,8 @@ module MarketBot
       MARKET_ATTRIBUTES = [:title, :rating, :updated, :current_version, :requires_android,
                           :category, :installs, :size, :price, :content_rating, :description,
                           :votes, :developer, :more_from_developer, :users_also_installed,
-                          :related, :banner_icon_url, :website_url, :email, :youtube_video_ids]
+                          :related, :banner_icon_url, :banner_image_url, :website_url, :email,
+                          :youtube_video_ids]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -80,6 +81,11 @@ module MarketBot
 
         result[:banner_icon_url] = doc.css('.doc-banner-icon img').first.attributes['src'].value
 
+        if image_elem = doc.css('.doc-banner-image-container img').first
+          result[:banner_image_url] = image_elem.attributes['src'].value
+        else
+          result[:banner_image_url] = nil
+        end
 
         if website_elem = doc.css('a').select{ |l| l.text.include?("Visit Developer's Website")}.first
           redirect_url = website_elem.attribute('href').value

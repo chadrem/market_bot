@@ -1,8 +1,16 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rspec'
+
+begin
+  require 'debugger'
+rescue Exception => e
+end
+
+require 'simplecov'
+SimpleCov.start
+
 require 'market_bot'
-require 'ruby-debug' rescue nil
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
