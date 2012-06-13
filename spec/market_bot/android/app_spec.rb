@@ -10,7 +10,7 @@ test_src_data3 = read_file(File.dirname(__FILE__), 'data', 'app_3.txt')
 def check_getters(app)
   it 'should populate the getters' do
     app.title.should == 'Pop Dat'
-    app.rating.should == '4.4'
+    app.rating.should == '4.5'
     app.updated.should == 'August 27, 2011'
     app.current_version.should == '1.0'
     app.requires_android.should == '2.2 and up'
@@ -20,10 +20,10 @@ def check_getters(app)
     app.price.should == 'Free'
     app.content_rating.should == 'Everyone'
     app.description.should =~ /^Experience the next level of chain/
-    app.votes.should == '5'
+    app.votes.should == '6'
     app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
-    app.users_also_installed.should == [{:app_id=>"com.mudstuffingindustries.redneckjellyfish"}, {:app_id=>"com.loadcomplete.bumpingbears"}, {:app_id=>"com.jae.firestarter"}, {:app_id=>"com.donutman.rosham"}]
-    app.related.should == [{:app_id=>"com.iopixel.basketball2"}, {:app_id=>"com.flukedude.impossiblegame"}, {:app_id=>"com.lsgvgames.slideandflyfull"}, {:app_id=>"com.rubicon.dev.glwg"}]
+    app.users_also_installed.should == [{:app_id=>"com.mudstuffingindustries.redneckjellyfish"}, {:app_id=>"com.lyote.blurt"}, {:app_id=>"com.donutman.rosham"}, {:app_id=>"jscompany.games.separatetrash_lite"}]
+    app.related.should == [{:app_id=>"net.hexage.radiant.lite"}, {:app_id=>"com.popcasuals.bubblepop2"}, {:app_id=>"com.ezjoynetwork.jewelsmaniac"}, {:app_id=>"com.lsgvgames.slideandflyfull"}]
     app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
     app.banner_image_url.should == 'https://lh6.ggpht.com/hh-pkbt1mEbFg7CJt2DSum7WDtnKS8jWPYrMwPbE2LY_qvNQa6CZLpseQHX6PVJ1RA=w705'
     app.website_url.should == 'http://bluefroggaming.com'
@@ -55,7 +55,7 @@ describe 'App' do
       result = App.parse(test_src_data)
 
       result[:title].should == 'Pop Dat'
-      result[:rating].should == '4.4'
+      result[:rating].should == '4.5'
       result[:updated].should == 'August 27, 2011'
       result[:current_version].should == '1.0'
       result[:requires_android].should == '2.2 and up'
@@ -65,7 +65,7 @@ describe 'App' do
       result[:price].should == 'Free'
       result[:content_rating].should == 'Everyone'
       result[:description].should =~ /^Experience the next level of chain/
-      result[:votes].should == '5'
+      result[:votes].should == '6'
       result[:developer].should == 'Blue Frog Gaming'
       result[:banner_icon_url].should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
       result[:website_url].should == 'http://bluefroggaming.com'
@@ -79,31 +79,31 @@ describe 'App' do
       result = App.parse(test_src_data2)
 
       result[:title].should == 'Evernote'
-      result[:rating].should == '4.6'
-      result[:updated].should == 'February 18, 2012'
-      result[:current_version].should == '3.5.3'
+      result[:rating].should == '4.7'
+      result[:updated].should == 'June 10, 2012'
+      result[:current_version].should == '4.0.4'
       result[:requires_android].should == '1.6 and up'
       result[:category].should == 'Productivity'
-      result[:size].should == '6.9M'
+      result[:size].should == '7.7M'
       result[:price].should == 'Free'
       result[:content_rating].should == 'Low Maturity'
       result[:description].should =~ /^Evernote turns your Android device into an extension/
-      result[:votes].should == '251,575'
+      result[:votes].should == '323,774'
       result[:developer].should == 'Evernote Corp.'
       result[:installs].should == '10,000,000 - 50,000,000'
       result[:banner_icon_url].should == 'https://lh4.ggpht.com/YpRePJZ4TJUCdERkX-E0uUq6jhaofOS1szIejmo3DZm4oEq82AqcUpoj9FHOxFRvprU=w124'
       result[:banner_image_url].should == 'https://lh5.ggpht.com/TlPZORLq1sFgdJhvySRCcmw2Ybd6gSlhGSQuPNZJvQWjG1yWemfAEC9HL1Q288mMUNjE=w705'
       result[:website_url].should == 'http://www.evernote.com'
       result[:email].should == nil
-      result[:youtube_video_ids].should == ['usUg-CdJEKo']
+      result[:youtube_video_ids].should == ['Ag_IGEgAa9M']
     end
 
     it 'should populate a hash with the correct keys/values' do
       result = App.parse(test_src_data3)
 
       result[:title].should == 'Thermometer HD'
-      result[:updated].should == 'July 2, 2011'
-      result[:current_version].should == '1.5.1'
+      result[:updated].should == 'May 11, 2012'
+      result[:current_version].should == '1.5.2'
       result[:requires_android].should == '2.0 and up'
       result[:category].should == 'Weather'
       result[:size].should == '98k'
@@ -128,7 +128,7 @@ describe 'App' do
       result[:more_from_developer].should be_a(Array)
 
       result[:related].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
-      result[:users_also_installed].first[:app_id].should == 'com.divnil.paintforevernote'
+      result[:users_also_installed].first[:app_id].should == 'com.meshin.recall'
       result[:more_from_developer].first[:app_id].should == 'com.evernote.skitch'
     end
   end
