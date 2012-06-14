@@ -6,7 +6,7 @@ module MarketBot
                           :category, :installs, :size, :price, :content_rating, :description,
                           :votes, :developer, :more_from_developer, :users_also_installed,
                           :related, :banner_icon_url, :banner_image_url, :website_url, :email,
-                          :youtube_video_ids]
+                          :youtube_video_ids, :screenshot_urls]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -106,6 +106,14 @@ module MarketBot
           result[:youtube_video_ids] = urls.map{ |u| /youtube\.com\/v\/(.*)\?/.match(u)[1] }
         else
           result[:youtube_video_ids] = []
+        end
+
+        screenshots = doc.css('.screenshot-carousel-content-container img')
+
+        if screenshots && screenshots.length > 0
+          result[:screenshot_urls] = screenshots.map { |s| s.attributes['src'].value }
+        else
+          result[:screenshot_urls] = []
         end
 
         result
