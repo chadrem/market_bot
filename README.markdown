@@ -75,6 +75,6 @@ Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=gi
 
 ## Copyright
 
-Copyright (c) 2011 Chad Remesch. See LICENSE.txt for
+Copyright (c) 2011 - 2012 Chad Remesch. See LICENSE.txt for
 further details.
 
