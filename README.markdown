@@ -13,20 +13,41 @@ Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=gi
 
     gem install market_bot
 
-## Usage Examples (using batch API for downloading)
+## Basic Examples
 
     require 'rubygems'
     require 'market_bot'
 
-    # Create a hydra object with 20 http workers.
-    hydra = Typhoeus::Hydra.new(:max_concurrency => 20)
-
     # Download/parse the leaderboard.
-    lb = MarketBot::Android::Leaderboard.new(:apps_topselling_paid, :arcade, :hydra => hydra)
-    lb.enqueue_update
-    hydra.run
+    lb = MarketBot::Android::Leaderboard.new(:topselling_free, :game)
+    lb.update
 
     # Download/parse the details for the first and last entries of the leaderboard.
+    first_app = MarketBot::Android::App.new(lb.results.first[:market_id])
+    last_app = MarketBot::Android::App.new(lb.results.last[:market_id])
+    first_app.update
+    last_app.update
+    puts "First place app (#{first_app.title}) price: #{first_app.price}"
+    puts "Last place app (#{last_app.title}) price: #{last_app.price}"
+
+    # Search for apps.
+    sq = MarketBot::Android::SearchQuery.new('donkeys')
+    sq.update
+    puts "Results found: #{sq.results.count}"
+
+## Advanced Examples
+
+    require 'rubygems'
+    require 'market_bot'
+
+    # Create a reusable hydra object with 5 http workers.
+    hydra = Typhoeus::Hydra.new(:max_concurrency => 5)
+
+    # Download/parse the leaderboard.
+    lb = MarketBot::Android::Leaderboard.new(:topselling_free, :game, :hyda => hydra)
+    lb.update
+
+    # Download/parse the details for the first and last entries of the leaderboard using the batch API.
     first_app = MarketBot::Android::App.new(lb.results.first[:market_id], :hydra => hydra)
     last_app = MarketBot::Android::App.new(lb.results.last[:market_id], :hydra => hydra)
     first_app.enqueue_update
@@ -36,7 +57,7 @@ Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=gi
     end
     hydra.run
 
-    # Non-callback example.  Note that you must manually check if an error occurred during the hydra.run.
+    # You must manually check if an error occurred when using the batch API without callbacks.
     puts "First place app (#{first_app.title}) price: #{first_app.price}" unless first_app.error
     puts "Last place app (#{last_app.title}) price: #{last_app.price}" unless last_app.error
 

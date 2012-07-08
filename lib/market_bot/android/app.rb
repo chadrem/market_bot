@@ -121,7 +121,7 @@ module MarketBot
 
       def initialize(app_id, options={})
         @app_id = app_id
-        @hydra = options[:hydra] || Typhoeus::Hydra.hydra
+        @hydra = options[:hydra] || Typhoeus::Hydra.new(:max_concurrency => 5)
         @callback = nil
         @error = nil
       end
