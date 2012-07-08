@@ -145,6 +145,9 @@ module MarketBot
         request = Typhoeus::Request.new(market_url)
 
         request.on_complete do |response|
+          # HACK: Typhoeus <= 0.4.2 returns a response, 0.5.0pre returns the request.
+          response = response.response if response.is_a?(Typhoeus::Request)
+
           result = nil
 
           begin
