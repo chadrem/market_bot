@@ -13,7 +13,7 @@ Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=gi
 
     gem install market_bot
 
-## Basic Examples
+## Simple API Examples
 
     require 'rubygems'
     require 'market_bot'
@@ -35,7 +35,7 @@ Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=gi
     sq.update
     puts "Results found: #{sq.results.count}"
 
-## Advanced Examples
+## Advanced API Examples
 
     require 'rubygems'
     require 'market_bot'
@@ -60,23 +60,6 @@ Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=gi
     # You must manually check if an error occurred when using the batch API without callbacks.
     puts "First place app (#{first_app.title}) price: #{first_app.price}" unless first_app.error
     puts "Last place app (#{last_app.title}) price: #{last_app.price}" unless last_app.error
-
-## Benchmarks
-
-Below are fairly typical results using 20 http workers (Typhoeus::Hydra.new(:max_concurrency => 20).  The first benchmark downloads/parses a leaderboard containing 504 entries.  The second benchmark takes those 504 entries, converts them to MarketBot::Android::App objects and then downloads/parses their details.  Note that 20 workers are used to prevent DOSing the market servers.  Higher values may work, but I don't recommend it.
-
-    $ rake benchmark:android
-    ----------------------------------------------------
-    Benchmark Leaderboard: Top Selling Paid Apps
-    ----------------------------------------------------
-    app count: 504
-    time: 3.16 seconds
-
-    ----------------------------------------------------
-    Benchmark Apps: top Selling Paid Apps
-    ----------------------------------------------------
-    app count: 504
-    time: 35.685 seconds
 
 ## Contributing to Market Bot
 
