@@ -1,3 +1,5 @@
+require 'uri'
+
 require 'typhoeus'
 require 'nokogiri'
 
