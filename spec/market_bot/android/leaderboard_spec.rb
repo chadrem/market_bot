@@ -92,6 +92,7 @@ describe 'Leaderboard' do
     context 'Quick API' do
       stub_hydra(Typhoeus::Hydra.hydra)
       lb = Leaderboard.new(test_id, test_category)
+      lb.instance_variable_set('@hydra', Typhoeus::Hydra.hydra)
       lb.update(:min_rank => 1, :max_rank => 96)
 
       check_results(lb.results)
