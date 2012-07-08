@@ -66,7 +66,7 @@ module MarketBot
       def initialize(identifier, category=nil, options={})
         @identifier = identifier
         @category = category
-        @hydra = options[:hydra] || Typhoeus::Hydra.new(:max_concurrency => 5)
+        @hydra = options[:hydra] || MarketBot.hydra
         @parsed_results = []
       end
 
