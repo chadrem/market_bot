@@ -23,7 +23,7 @@ def check_getters(app)
     app.votes.should == '6'
     app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
     app.users_also_installed.should == [{:app_id=>"com.mudstuffingindustries.redneckjellyfish"}, {:app_id=>"com.lyote.blurt"}, {:app_id=>"com.donutman.rosham"}, {:app_id=>"jscompany.games.separatetrash_lite"}]
-    app.related.should == [{:app_id=>"net.hexage.radiant.lite"}, {:app_id=>"com.popcasuals.bubblepop2"}, {:app_id=>"com.ezjoynetwork.jewelsmaniac"}, {:app_id=>"com.lsgvgames.slideandflyfull"}]
+    app.related.should == [{:app_id=>"com.popcasuals.bubblepop2"}, {:app_id=>"com.lsgvgames.slideandflyfull"}, {:app_id=>"com.trendy.ddapp"}, {:app_id=>"com.rubicon.dev.glwg"}]
     app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
     app.banner_image_url.should == 'https://lh6.ggpht.com/hh-pkbt1mEbFg7CJt2DSum7WDtnKS8jWPYrMwPbE2LY_qvNQa6CZLpseQHX6PVJ1RA=w705'
     app.website_url.should == 'http://bluefroggaming.com'
@@ -90,7 +90,7 @@ describe 'App' do
       result[:price].should == 'Free'
       result[:content_rating].should == 'Low Maturity'
       result[:description].should =~ /^Evernote turns your Android device into an extension/
-      result[:votes].should == '323,774'
+      result[:votes].should == '342,274'
       result[:developer].should == 'Evernote Corp.'
       result[:installs].should == '10,000,000 - 50,000,000'
       result[:banner_icon_url].should == 'https://lh4.ggpht.com/YpRePJZ4TJUCdERkX-E0uUq6jhaofOS1szIejmo3DZm4oEq82AqcUpoj9FHOxFRvprU=w124'
@@ -131,7 +131,7 @@ describe 'App' do
       result[:more_from_developer].should be_a(Array)
 
       result[:related].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
-      result[:users_also_installed].first[:app_id].should == 'com.meshin.recall'
+      result[:users_also_installed].first[:app_id].should == 'com.acadoid.lecturenotes'
       result[:more_from_developer].first[:app_id].should == 'com.evernote.skitch'
     end
   end

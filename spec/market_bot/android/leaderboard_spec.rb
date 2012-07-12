@@ -39,12 +39,12 @@ def check_results(results)
   end
 
   it 'should have the top ranking app with valid details' do
-    results.first[:developer].should == 'ZeptoLab'
-    results.first[:market_id].should == 'com.zeptolab.ctr.paid'
-    results.first[:market_url].should == 'https://play.google.com/store/apps/details?id=com.zeptolab.ctr.paid'
+    results.first[:developer].should == 'Disney'
+    results.first[:market_id].should == 'com.disney.WMP'
+    results.first[:market_url].should == 'https://play.google.com/store/apps/details?id=com.disney.WMP'
     results.first[:price_usd].should == '$0.99'
-    results.first[:stars].should == '4.7'
-    results.first[:title].should == 'Cut the Rope'
+    results.first[:stars].should == '4.5'
+    results.first[:title].should == "Where's My Perry?"
   end
 
 end
@@ -119,11 +119,11 @@ describe 'Leaderboard' do
 
         app = lb.results.last
 
-        app[:title].should == 'World of Goo'
+        app[:title].should == 'Riptide GP'
         app[:price_usd].should == nil
-        app[:developer].should == '2D BOY'
-        app[:market_id].should == 'com.twodboy.worldofgoofull'
-        app[:market_url].should == 'https://play.google.com/store/apps/details?id=com.twodboy.worldofgoofull'
+        app[:developer].should == 'Vector Unit'
+        app[:market_id].should == 'com.vectorunit.blue'
+        app[:market_url].should == 'https://play.google.com/store/apps/details?id=com.vectorunit.blue'
       end
     end
   end
