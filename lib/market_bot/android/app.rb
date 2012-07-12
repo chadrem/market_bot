@@ -6,7 +6,7 @@ module MarketBot
                           :category, :installs, :size, :price, :content_rating, :description,
                           :votes, :developer, :more_from_developer, :users_also_installed,
                           :related, :banner_icon_url, :banner_image_url, :website_url, :email,
-                          :youtube_video_ids, :screenshot_urls]
+                          :youtube_video_ids, :screenshot_urls, :whats_new]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -115,6 +115,8 @@ module MarketBot
         else
           result[:screenshot_urls] = []
         end
+
+        result[:whats_new] = doc.css('.doc-whatsnew-container').inner_html
 
         result
       end

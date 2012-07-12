@@ -30,6 +30,7 @@ def check_getters(app)
     app.email.should == 'support@hdgames.zendesk.com'
     app.youtube_video_ids.should == []
     app.screenshot_urls.should == ["https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h230", "https://lh6.ggpht.com/kPGbJqu42Ukxoa_XZlWxo349y3zNKCayjBD35V2bbt26ZmgpHDegTf8sS5C1VOoAiw=h230", "https://lh3.ggpht.com/S9VMzKxAWSS3IxeUtLYPn-zDg9ojTpVxeHbd3RhHqtXazGRV6-S0jsuNh-GneV9eE2A=h230", "https://lh5.ggpht.com/G0U5k5PpvuEdflN58qzr3uKHGsXk3QqwwLIL_KxVfGNicR7Gn42smetbTBn9SRftnyk=h230", "https://lh6.ggpht.com/j03lPKqJss6066_Q6AbZikU33PWgoR07cPLFgoE5IoNyXwMG6QVX_3-SgI741vnaVnu7=h230", "https://lh3.ggpht.com/YBrG1Hjv7vgNLwp9PaR77gQHwdpInuluSnq9qPG4BwwU7LItCy4m6RQt9YM1sJH1hjdq=h230"]
+    app.whats_new.should == "<div class=\"doc-permissions\">No recent changes.</div>"
   end
 end
 
@@ -73,6 +74,7 @@ describe 'App' do
       result[:email].should == 'support@hdgames.zendesk.com'
       result[:youtube_video_ids].should == []
       result[:screenshot_urls].should == ["https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h230", "https://lh6.ggpht.com/kPGbJqu42Ukxoa_XZlWxo349y3zNKCayjBD35V2bbt26ZmgpHDegTf8sS5C1VOoAiw=h230", "https://lh3.ggpht.com/S9VMzKxAWSS3IxeUtLYPn-zDg9ojTpVxeHbd3RhHqtXazGRV6-S0jsuNh-GneV9eE2A=h230", "https://lh5.ggpht.com/G0U5k5PpvuEdflN58qzr3uKHGsXk3QqwwLIL_KxVfGNicR7Gn42smetbTBn9SRftnyk=h230", "https://lh6.ggpht.com/j03lPKqJss6066_Q6AbZikU33PWgoR07cPLFgoE5IoNyXwMG6QVX_3-SgI741vnaVnu7=h230", "https://lh3.ggpht.com/YBrG1Hjv7vgNLwp9PaR77gQHwdpInuluSnq9qPG4BwwU7LItCy4m6RQt9YM1sJH1hjdq=h230"]
+      result[:whats_new].should == "<div class=\"doc-permissions\">No recent changes.</div>"
 
       result
     end
@@ -99,6 +101,7 @@ describe 'App' do
       result[:email].should == nil
       result[:youtube_video_ids].should == ['Ag_IGEgAa9M']
       result[:screenshot_urls].should == ["https://lh3.ggpht.com/Q_vPAtKVUefD3znGi_8AnK3FHDf8XsegMnVrX2sImaFLKXOC__MWKXW2WY1avhlvF_aK=h230", "https://lh6.ggpht.com/nbz5tSvuuydrcQ5kl2PpaFuPBrEgXRPaEXXecLMNXEGVblUlDoTXCRH22GrM2RYFcA=h230", "https://lh3.ggpht.com/Oi0lpkA23XsHjg_cXyXkOaRtNw84_OR_YtzhZUCe8VhWRej8oCT28I0VD8Z5ixSuCyM=h230", "https://lh4.ggpht.com/EfNdIkRr5T0JQQlvPICl6m3gHCDBEnsMxqZMrXb0qMW9xBQCN10PaPdrKVI-07XzsXs=h230", "https://lh4.ggpht.com/Q4BDQRkuvHMglh5I0aG56Yy_29NnBWxXWTqkv21onHM41pnrHoLnkacQFmqr6SVtuUR4=h230", "https://lh3.ggpht.com/Uf4MqnyMPVEFATlkutnXVyBtUQEkJbBLQREXbBI633wHAeBxhAc2-XSuysMM5ZFC7f7j=h230", "https://lh5.ggpht.com/TFSxb_0qi1RcDLI6ezzpB5yYfk8rqYWvDjmE30z6AGdmeVSsmomlmGAW0aT8yCA0jpk0=h230", "https://lh4.ggpht.com/Zeet2wggJms4BpDTglJP0jW9M3EAjpn0zUWNKZk6YKM9Id4SPBID5LtKJAgd-krtXZ8=h230"]
+      result[:whats_new].should == "<p>What's in this version:</p>- Activate menu button in settings/other options. Use it to toggle the action bar.<br>- Performance improvement of list scrolling.<br>- Major other bug fixes and enhancements.<br>"
     end
 
     it 'should populate a hash with the correct keys/values' do
@@ -121,6 +124,7 @@ describe 'App' do
       result[:website_url].should == 'http://www.donothave.com'
       result[:email].should == 'kooistar_solutions@hotmail.com'
       result[:youtube_video_ids].should == []
+      result[:whats_new].should == "<p>What's in this version:</p>1.5.1: Bug fix: Exceptional case is catched now with an failure message + instruction.<br>1.5.2: Bug fix: Remove use of deprecated java funtion + catch null pointer -&gt; Better app<br>Thanks for reporting the bugs!<br>"
     end
 
     it 'should populate the associated apps keys' do
