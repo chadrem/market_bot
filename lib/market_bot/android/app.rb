@@ -6,7 +6,7 @@ module MarketBot
                           :category, :installs, :size, :price, :content_rating, :description,
                           :votes, :developer, :more_from_developer, :users_also_installed,
                           :related, :banner_icon_url, :banner_image_url, :website_url, :email,
-                          :youtube_video_ids, :screenshot_urls, :whats_new]
+                          :youtube_video_ids, :screenshot_urls, :whats_new, :permissions]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -117,6 +117,17 @@ module MarketBot
         end
 
         result[:whats_new] = doc.css('.doc-whatsnew-container').inner_html
+
+        result[:permissions] = permissions = []
+        perm_types = ['dangerous', 'safe']
+        perm_types.each do |type|
+          doc.css("#doc-permissions-#{type} .doc-permission-group").each do |group_elem|
+            title = group_elem.css('.doc-permission-group-title').text
+            group_elem.css('.doc-permission-description').each do |desc_elem|
+              permissions << { :security => type, :group => title, :description => desc_elem.text }
+            end
+          end
+        end
 
         result
       end
