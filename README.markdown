@@ -37,6 +37,11 @@ Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=gi
     sq.update
     puts "Results found: #{sq.results.count}"
 
+    # Download/parse developer pages.
+    developer = MarketBot::Android::Developer.new('Zynga')
+    developer.update
+    puts "Results found: #{developer.results.count}"
+
 ## Advanced API Examples
 
     require 'rubygems'
