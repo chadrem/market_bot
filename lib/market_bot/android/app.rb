@@ -124,7 +124,14 @@ module MarketBot
           doc.css("#doc-permissions-#{type} .doc-permission-group").each do |group_elem|
             title = group_elem.css('.doc-permission-group-title').text
             group_elem.css('.doc-permission-description').each do |desc_elem|
-              permissions << { :security => type, :group => title, :description => desc_elem.text }
+              #permissions << { :security => type, :group => title, :description => desc_elem.text }
+            end
+            descriptions = group_elem.css('.doc-permission-description').map { |e| e.text }
+            descriptions_full = group_elem.css('.doc-permission-description-full').map { |e| e.text }
+            (0...descriptions.length).each do |i|
+              desc = descriptions[i]
+              desc_full = descriptions_full[i]
+              permissions << { :security => type, :group => title, :description => desc, :description_full => desc_full }
             end
           end
         end
