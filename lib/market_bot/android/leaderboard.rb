@@ -67,6 +67,7 @@ module MarketBot
         @identifier = identifier
         @category = category
         @hydra = options[:hydra] || MarketBot.hydra
+        @request_opts = options[:request_opts] || {}
         @parsed_results = []
       end
 
@@ -129,7 +130,7 @@ module MarketBot
 
     private
       def process_page(url, page_num)
-        request = Typhoeus::Request.new(url)
+        request = Typhoeus::Request.new(url, @request_opts)
         request.on_complete do |response|
           # HACK: Typhoeus <= 0.4.2 returns a response, 0.5.0pre returns the request.
           response = response.response if response.is_a?(Typhoeus::Request)

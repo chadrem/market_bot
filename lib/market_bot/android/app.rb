@@ -142,6 +142,7 @@ module MarketBot
       def initialize(app_id, options={})
         @app_id = app_id
         @hydra = options[:hydra] || MarketBot.hydra
+        @request_opts = options[:request_opts] || {}
         @callback = nil
         @error = nil
       end
@@ -151,7 +152,7 @@ module MarketBot
       end
 
       def update
-        resp = Typhoeus::Request.get(market_url)
+        resp = Typhoeus::Request.get(market_url, @request_opts)
         result = App.parse(resp.body)
         update_callback(result)
 
@@ -162,7 +163,7 @@ module MarketBot
         @callback = block
         @error = nil
 
-        request = Typhoeus::Request.new(market_url)
+        request = Typhoeus::Request.new(market_url, @request_opts)
 
         request.on_complete do |response|
           # HACK: Typhoeus <= 0.4.2 returns a response, 0.5.0pre returns the request.
