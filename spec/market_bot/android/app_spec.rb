@@ -50,7 +50,7 @@ describe 'App' do
   end
 
   it 'should generate market URLs' do
-   App.new(test_id).market_url.should == "https://play.google.com/store/apps/details?id=#{test_id}"
+    App.new(test_id).market_url.should == "https://play.google.com/store/apps/details?id=#{test_id}&hl=en"
   end
 
   context 'Parsing' do
