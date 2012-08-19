@@ -41,7 +41,7 @@ def check_results(results)
   it 'should have the top ranking app with valid details' do
     results.first[:developer].should == 'LevelUp Studio'
     results.first[:market_id].should == 'com.levelup.beautifulwidgets'
-    results.first[:market_url].should == 'https://play.google.com/store/apps/details?id=com.levelup.beautifulwidgets'
+    results.first[:market_url].should == 'https://play.google.com/store/apps/details?id=com.levelup.beautifulwidgets&hl=en'
     results.first[:price_usd].should == '$2.79'
     results.first[:stars].should == '4.4'
     results.first[:title].should == "Beautiful Widgets"

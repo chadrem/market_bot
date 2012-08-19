@@ -33,7 +33,7 @@ module MarketBot
           result[:price_usd] = details_node.css('.buy-button-price').children.first.text.gsub(' Buy', '')
           result[:developer] = details_node.css('.attribution').children.first.text
           result[:market_id] = details_node.css('.title').first.attributes['href'].to_s.gsub('/store/apps/details?id=', '').gsub(/&feature=.*$/, '')
-          result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}"
+          result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}&hl=en"
 
           result[:price_usd] = '$0.00' if result[:price_usd] == 'Install'
 
