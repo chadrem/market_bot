@@ -15,14 +15,14 @@ def stub_hydra(hydra)
   (0...4).each do |i|
     start = i * 24
     response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_pages[i + 1])
-    url = "https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=#{start}&num=24"
+    url = "https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=#{start}&num=24&hl=en"
     hydra.stub(:get, url).and_return(response)
   end
 
   test_src_editors_choice = read_file(File.dirname(__FILE__), 'data', "leaderboard-apps_editors_choice.txt")
 
   response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_editors_choice)
-  url = "https://play.google.com/store/apps/collection/editors_choice"
+  url = "https://play.google.com/store/apps/collection/editors_choice?hl=en"
   hydra.stub(:get, url).and_return(response)
 end
 
@@ -74,9 +74,9 @@ describe 'Leaderboard' do
     lb = Leaderboard.new(test_id, test_category)
     urls = lb.market_urls(:min_page => 1, :max_page => 3)
     urls.should == [
-      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=0&num=24',
-      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=24&num=24',
-      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=48&num=24'
+      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=0&num=24&hl=en',
+      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=24&num=24&hl=en',
+      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=48&num=24&hl=en'
     ]
   end
 
@@ -123,7 +123,7 @@ describe 'Leaderboard' do
         app[:price_usd].should == nil
         app[:developer].should == 'Vector Unit'
         app[:market_id].should == 'com.vectorunit.blue'
-        app[:market_url].should == 'https://play.google.com/store/apps/details?id=com.vectorunit.blue'
+        app[:market_url].should == 'https://play.google.com/store/apps/details?id=com.vectorunit.blue&hl=en'
       end
     end
   end

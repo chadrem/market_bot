@@ -20,7 +20,7 @@ module MarketBot
           url = "https://play.google.com/store/search?"
           url << "q=#{URI.escape(identifier)}&"
           url << "c=apps&start=#{start_val}&"
-          url << "num=24"
+          url << "num=24&hl=en"
 
           results << url
         end

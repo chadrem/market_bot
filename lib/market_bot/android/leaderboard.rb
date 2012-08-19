@@ -55,7 +55,7 @@ module MarketBot
           result[:price_usd]  = nil
           result[:developer]  = snippet_node.css('.attribution').text
           result[:market_id]  = snippet_node.attributes['data-docid'].text
-          result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}"
+          result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}&hl=en"
 
           results << result
         end
@@ -84,7 +84,7 @@ module MarketBot
           url << "/category/#{category.to_s.upcase}" if category
           url << "/collection/#{identifier.to_s}?"
           url << "start=#{start_val}"
-          url << "&num=24"
+          url << "&num=24&hl=en"
 
           results << url
         end
@@ -94,7 +94,7 @@ module MarketBot
 
       def enqueue_update(options={})
         if @identifier.to_s.downcase == 'editors_choice' && category == nil
-          url = 'https://play.google.com/store/apps/collection/editors_choice'
+          url = 'https://play.google.com/store/apps/collection/editors_choice?&hl=en'
           process_page(url, 1)
         else
           min_rank = options[:min_rank] || 1
