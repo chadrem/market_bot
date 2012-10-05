@@ -6,7 +6,8 @@ module MarketBot
                           :category, :installs, :size, :price, :content_rating, :description,
                           :votes, :developer, :more_from_developer, :users_also_installed,
                           :related, :banner_icon_url, :banner_image_url, :website_url, :email,
-                          :youtube_video_ids, :screenshot_urls, :whats_new, :permissions]
+                          :youtube_video_ids, :screenshot_urls, :whats_new, :permissions,
+                          :rating_distribution]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -133,6 +134,16 @@ module MarketBot
               desc_full = descriptions_full[i]
               permissions << { :security => type, :group => title, :description => desc, :description_full => desc_full }
             end
+          end
+        end
+
+        result[:rating_distribution] = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil }
+
+        if (histogram = doc.css('div.histogram-table').first)
+          cur_index = 1
+          histogram.css('tr').each do |e|
+            result[:rating_distribution][cur_index] = e.children.last.inner_text.gsub(/[^0-9]/, '').to_i
+            cur_index += 1
           end
         end
 
