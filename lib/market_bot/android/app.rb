@@ -7,7 +7,7 @@ module MarketBot
                           :votes, :developer, :more_from_developer, :users_also_installed,
                           :related, :banner_icon_url, :banner_image_url, :website_url, :email,
                           :youtube_video_ids, :screenshot_urls, :whats_new, :permissions,
-                          :rating_distribution]
+                          :rating_distribution, :html]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -146,6 +146,8 @@ module MarketBot
             cur_index += 1
           end
         end
+
+        result[:html] = html
 
         result
       end
