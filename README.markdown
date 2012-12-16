@@ -68,6 +68,11 @@ Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=gi
     puts "First place app (#{first_app.title}) price: #{first_app.price}" unless first_app.error
     puts "Last place app (#{last_app.title}) price: #{last_app.price}" unless last_app.error
 
+## Excessive Use
+
+Google will block your IP address if you attempt to scrape large quantities of data.
+Please contact me if you are looking for commercial data solutions.
+
 ## Contributing to Market Bot
 
 1. Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
