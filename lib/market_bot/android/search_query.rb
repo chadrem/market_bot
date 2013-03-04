@@ -4,7 +4,7 @@ module MarketBot
     # Search query pages are extremely similar to leaderboard pages.
     # Amazingly, this inheritence hack works!
     class SearchQuery < MarketBot::Android::Leaderboard
-      def initialze(query, options={})
+      def initialize(query, options={})
         super(query, nil, options)
       end
 
