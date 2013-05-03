@@ -73,6 +73,7 @@ module MarketBot
         @hydra = options[:hydra] || MarketBot.hydra
         @request_opts = options[:request_opts] || {}
         @parsed_results = []
+        @pending_pages = []
       end
 
       def market_urls(options={})
@@ -96,7 +97,8 @@ module MarketBot
         results
       end
 
-      def enqueue_update(options={})
+      def enqueue_update(options={},&block)
+        @callback = block
         if @identifier.to_s.downcase == 'editors_choice' && category == nil
           url = 'https://play.google.com/store/apps/collection/editors_choice?&hl=en'
           process_page(url, 1)
@@ -134,6 +136,7 @@ module MarketBot
 
     private
       def process_page(url, page_num)
+        @pending_pages << page_num
         request = Typhoeus::Request.new(url, @request_opts)
         request.on_complete do |response|
           # HACK: Typhoeus <= 0.4.2 returns a response, 0.5.0pre returns the request.
@@ -147,6 +150,8 @@ module MarketBot
 
       def update_callback(result, page)
         @parsed_results[page] = result
+        @pending_pages.delete(page)
+        @callback.call(self) if @callback and @pending_pages.empty?
       end
     end
 
