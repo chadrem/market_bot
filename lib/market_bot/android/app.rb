@@ -107,19 +107,16 @@ module MarketBot
         doc.css('.screenshot').each do |node|
           result[:screenshot_urls] << node[:src]
         end
+
+        node = doc.css('.whatsnew').first
+        result[:whats_new] = node.inner_html.strip unless node.nil?
+
         #puts result
         return result
 
 
 
 
-        screenshots = doc.css('.screenshot-carousel-content-container img')
-
-        if screenshots && screenshots.length > 0
-          result[:screenshot_urls] = screenshots.map { |s| s.attributes['src'].value }
-        else
-          result[:screenshot_urls] = []
-        end
 
         result[:whats_new] = doc.css('.doc-whatsnew-container').inner_html
 
