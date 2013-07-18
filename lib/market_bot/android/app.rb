@@ -125,20 +125,6 @@ module MarketBot
 
         end
 
-        #puts result
-        return result
-
-
-
-
-        if (histogram = doc.css('div.histogram-table').first)
-          cur_index = 5
-          histogram.css('tr').each do |e|
-            result[:rating_distribution][cur_index] = e.children.last.inner_text.gsub(/[^0-9]/, '').to_i
-            cur_index -= 1
-          end
-        end
-
         result[:html] = html
 
         result
