@@ -19,34 +19,34 @@ module MarketBot
         result = {}
 
         doc = Nokogiri::HTML(html)
-
-        elements = doc.css('.doc-metadata').first.elements[2].elements
-        elem_count = elements.count
-
-        (3..(elem_count - 1)).select{ |n| n.odd? }.each do |i|
-          field_name  = elements[i].text
-
+        meta_info = doc.css('.meta-info')
+        meta_info.each do |info|
+          field_name = info.css('.title').text
+          puts "Field: #{field_name}"
           case field_name
-          when 'Updated:'
-            result[:updated] = elements[i + 1].text
-          when 'Current Version:'
-            result[:current_version] = elements[i + 1].text
-          when 'Requires Android:'
-            result[:requires_android] = elements[i + 1].text
-          when 'Category:'
-            result[:category] = elements[i + 1].text
-          when 'Installs:'
-            result[:installs] = elements[i + 1].children.first.text
-          when 'Size:'
-            result[:size] = elements[i + 1].text
-          when 'Price:'
-            result[:price] = elements[i + 1].text
-          when 'Content Rating:'
-            result[:content_rating] = elements[i + 1].text
+            when 'Updated'
+              result[:updated] = info.css('.content').text.strip
+            when 'Installs'
+              result[:installs] = info.css('.content').text.strip
+            when 'Size'
+              result[:size] = info.css('.content').text.strip
+            when 'Current Version'
+              result[:current_version] = info.css('.content').text.strip
+            when 'Requires Android'
+              result[:requires_android] = info.css('.content').text.strip
+            when 'Content Rating'
+              result[:content_rating] = info.css('.content').text.strip
           end
         end
 
-        result[:description] = doc.css('#doc-original-text').first.inner_html
+        price = doc.xpath("//meta[@itemprop='price']").first
+        result[:price] = price[:content].strip rescue 'Free'
+
+        result[:category] = doc.css('.category').first.text.strip rescue ''
+        result[:description] = doc.xpath("//div[@itemprop='description']").first.inner_html
+
+        puts result
+
         result[:title] = doc.css('.doc-banner-title').text
 
         rating_elem = doc.css('.average-rating-value')
