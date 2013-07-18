@@ -45,9 +45,11 @@ module MarketBot
         result[:category] = doc.css('.category').first.text.strip rescue ''
         result[:description] = doc.xpath("//div[@itemprop='description']").first.inner_html
 
+        result[:title] = doc.xpath("//div[@itemprop='name']").first.text.strip
+
         puts result
 
-        result[:title] = doc.css('.doc-banner-title').text
+
 
         rating_elem = doc.css('.average-rating-value')
         result[:rating] = rating_elem.first.text unless rating_elem.empty?
