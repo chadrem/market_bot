@@ -111,29 +111,13 @@ module MarketBot
         node = doc.css('.whatsnew').first
         result[:whats_new] = node.inner_html.strip unless node.nil?
 
+        # Stubbing out for now, can't find them in the redesigned page.
+        result[:permissions] = permissions = []
+
         #puts result
         return result
 
 
-
-
-        result[:permissions] = permissions = []
-        perm_types = ['dangerous', 'safe']
-        perm_types.each do |type|
-          doc.css("#doc-permissions-#{type} .doc-permission-group").each do |group_elem|
-            title = group_elem.css('.doc-permission-group-title').text
-            group_elem.css('.doc-permission-description').each do |desc_elem|
-              #permissions << { :security => type, :group => title, :description => desc_elem.text }
-            end
-            descriptions = group_elem.css('.doc-permission-description').map { |e| e.text }
-            descriptions_full = group_elem.css('.doc-permission-description-full').map { |e| e.text }
-            (0...descriptions.length).each do |i|
-              desc = descriptions[i]
-              desc_full = descriptions_full[i]
-              permissions << { :security => type, :group => title, :description => desc, :description_full => desc_full }
-            end
-          end
-        end
 
         result[:rating_distribution] = { 5 => nil, 4 => nil, 3 => nil, 2 => nil, 1 => nil }
 
