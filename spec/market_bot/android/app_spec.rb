@@ -10,17 +10,17 @@ test_src_data3 = read_file(File.dirname(__FILE__), 'data', 'app_3.txt')
 def check_getters(app)
   it 'should populate the getters' do
     app.title.should == 'Pop Dat'
-    app.rating.should == '4.5'
-    app.updated.should == 'August 27, 2011'
+    app.rating.should == '4.6'
+    app.updated.should == 'August 26, 2011'
     app.current_version.should == '1.0'
     app.requires_android.should == '2.2 and up'
     app.category.should == 'Arcade & Action'
-    app.installs.should == '100 - 500'
+    app.installs.should == '500 - 1,000'
     app.size.should == '9.0M'
     app.price.should == 'Free'
     app.content_rating.should == 'Everyone'
-    app.description.should =~ /^Experience the next level of chain/
-    app.votes.should == '6'
+    app.description.should =~ /^<div>An action-packed blend of split-second skill and luck-based gameplay!/
+    app.votes.should == '7'
     app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
     app.users_also_installed.should == [{:app_id=>"com.mudstuffingindustries.redneckjellyfish"}, {:app_id=>"com.lyote.blurt"}, {:app_id=>"com.donutman.rosham"}, {:app_id=>"jscompany.games.separatetrash_lite"}]
     app.related.should == [{:app_id=>"com.popcasuals.bubblepop2"}, {:app_id=>"com.jakyl.aftermathxhd"}, {:app_id=>"com.lsgvgames.slideandflyfull"}, {:app_id=>"com.rubicon.dev.glwg"}]
@@ -91,14 +91,14 @@ describe 'App' do
       result[:title].should == 'Evernote'
       result[:rating].should == '4.7'
       result[:updated].should == 'July 17, 2013'
-      result[:current_version].should == '4.1.1'
-      result[:requires_android].should == '1.6 and up'
+      result[:current_version].should == 'Varies with device'
+      result[:requires_android].should == 'Varies with device'
       result[:category].should == 'Productivity'
-      result[:size].should == '7.5M'
+      result[:size].should == 'Varies with device'
       result[:price].should == 'Free'
       result[:content_rating].should == 'Low Maturity'
-      result[:description].should =~ /^Evernote turns your Android device into an extension/
-      result[:votes].should == '355,716'
+      result[:description].should =~ /New York Times/
+      result[:votes].should == '630682'
       result[:developer].should == 'Evernote Corp.'
       result[:installs].should == '10,000,000 - 50,000,000'
       result[:banner_icon_url].should == 'https://lh4.ggpht.com/YpRePJZ4TJUCdERkX-E0uUq6jhaofOS1szIejmo3DZm4oEq82AqcUpoj9FHOxFRvprU=w124'
