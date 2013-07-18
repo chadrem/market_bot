@@ -147,7 +147,7 @@ describe 'App' do
       result[:more_from_developer].should be_a(Array)
 
       result[:related].first[:app_id].should == 'com.evernote.world'
-      result[:users_also_installed].first[:app_id].should == 'com.acadoid.lecturenotes'
+      result[:users_also_installed].first[:app_id].should == 'com.evernote.world'
       result[:more_from_developer].first[:app_id].should == 'com.evernote.skitch'
     end
   end

@@ -94,19 +94,20 @@ module MarketBot
           result[:banner_icon_url] = node[:src]
           result[:banner_image_url] = node[:src]
         end
+
+
+        result[:youtube_video_ids] = []
+        doc.css('.play-click-target').each do |node|
+          url = node['data-video-url']
+          unless url.nil?
+            result[:youtube_video_ids] << url.split('embed/').last.split('?').first
+          end
+        end
         #puts result
         return result
 
 
 
-
-
-        unless (video_section_elem = doc.css('.doc-video-section')).empty?
-          urls = video_section_elem.children.css('embed').map{ |e| e.attribute('src').value }
-          result[:youtube_video_ids] = urls.map{ |u| /youtube\.com\/v\/(.*)\?/.match(u)[1] }
-        else
-          result[:youtube_video_ids] = []
-        end
 
         screenshots = doc.css('.screenshot-carousel-content-container img')
 
