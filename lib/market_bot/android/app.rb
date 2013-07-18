@@ -21,7 +21,7 @@ module MarketBot
         doc = Nokogiri::HTML(html)
         meta_info = doc.css('.meta-info')
         meta_info.each do |info|
-          field_name = info.css('.title').text
+          field_name = info.css('.title').text.strip
 
           case field_name
             when 'Updated'
@@ -36,6 +36,20 @@ module MarketBot
               result[:requires_android] = info.css('.content').text.strip
             when 'Content Rating'
               result[:content_rating] = info.css('.content').text.strip
+            when 'Contact Developer'
+              puts 'Dev link'
+              node = info.css('.dev-link').first
+              unless node.nil?
+                redirect_url = node[:href]
+                puts redirect_url
+                if q_param = URI(redirect_url).query.split('&').select{ |p| p =~ /q=/ }.first
+                  actual_url = q_param.gsub('q=', '')
+                end
+
+                result[:website_url] = actual_url
+              end
+
+
           end
         end
 
@@ -85,24 +99,6 @@ module MarketBot
 
 
 
-
-        result[:banner_icon_url] = doc.css('.doc-banner-icon img').first.attributes['src'].value
-
-        if image_elem = doc.css('.doc-banner-image-container img').first
-          result[:banner_image_url] = image_elem.attributes['src'].value
-        else
-          result[:banner_image_url] = nil
-        end
-
-        if website_elem = doc.css('a').select{ |l| l.text.include?("Visit Developer's Website")}.first
-          redirect_url = website_elem.attribute('href').value
-
-          if q_param = URI(redirect_url).query.split('&').select{ |p| p =~ /q=/ }.first
-            actual_url = q_param.gsub('q=', '')
-          end
-
-          result[:website_url] = actual_url
-        end
 
         if email_elem = doc.css('a').select{ |l| l.text.include?("Email Developer")}.first
           result[:email] = email_elem.attribute('href').value.gsub(/^mailto:/, '')
