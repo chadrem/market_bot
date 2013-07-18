@@ -58,32 +58,28 @@ module MarketBot
         node = doc.xpath("//div[@itemprop='author']")
         result[:developer] = node.css('.primary').first.text.strip
 
-        #puts result
-        return result
-
-
         result[:more_from_developer] = []
         result[:users_also_installed] = []
         result[:related] = []
 
-        if similar_elem = doc.css('.doc-similar').first
-          similar_elem.children.each do |similar_elem_child|
-            assoc_app_type = similar_elem_child.attributes['data-analyticsid'].text
+        node = doc.css('.recommendation')
+        node.css('.rec-cluster').each do |recommended|
+          assoc_app_type = recommended.css('.heading').first.text.strip.eql?('Similar' ) ? :related : :more_from_developer
+          recommended.css('.card').each do |card|
+            assoc_app = {}
+            assoc_app[:app_id] = card['data-docid'].strip
 
-            next unless %w(more-from-developer users-also-installed related).include?(assoc_app_type)
-
-            assoc_app_type = assoc_app_type.gsub('-', '_').to_sym
-            result[assoc_app_type] ||= []
-
-            similar_elem_child.css('.app-left-column-related-snippet-container').each do |app_elem|
-              assoc_app = {}
-
-              assoc_app[:app_id] = app_elem.attributes['data-docid'].text
-
-              result[assoc_app_type] << assoc_app
-            end
+            result[assoc_app_type] << assoc_app
           end
         end
+        # Users also installed is no longer on the page, adding this for backwards compatibility, well, sort of....
+        result[:users_also_installed] = result[:related]
+
+        #puts result
+        return result
+
+
+
 
         result[:banner_icon_url] = doc.css('.doc-banner-icon img').first.attributes['src'].value
 
