@@ -24,8 +24,8 @@ def check_getters(app)
     app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
     app.users_also_installed.should == [{:app_id=>"com.coldbeamgames.beathazardultragooglefull"}, {:app_id=>"net.hexage.radiant.hd"}, {:app_id=>"net.hexage.radiant"}, {:app_id=>"com.androkera.brokenscreen"}, {:app_id=>"com.ninjakiwi.bloonstd5"}, {:app_id=>"com.lsgvgames.slideandflyfull"}, {:app_id=>"com.metamoki.Aquapop"}, {:app_id=>"org.lukeallen.bomberfull"}, {:app_id=>"com.fungamesforfree.snipershooter.free"}, {:app_id=>"com.rubicon.dev.glwg"}, {:app_id=>"net.hexage.defense"}, {:app_id=>"com.rubicon.dev.gbwg"}, {:app_id=>"com.ArtInGames.AirAttackHDPart2"}, {:app_id=>"net.hexage.radiant.lite"}, {:app_id=>"com.ecogame.eggshoot"}, {:app_id=>"com.yoyogames.droidtntbf"}]
     app.related.should == [{:app_id=>"com.coldbeamgames.beathazardultragooglefull"}, {:app_id=>"net.hexage.radiant.hd"}, {:app_id=>"net.hexage.radiant"}, {:app_id=>"com.androkera.brokenscreen"}, {:app_id=>"com.ninjakiwi.bloonstd5"}, {:app_id=>"com.lsgvgames.slideandflyfull"}, {:app_id=>"com.metamoki.Aquapop"}, {:app_id=>"org.lukeallen.bomberfull"}, {:app_id=>"com.fungamesforfree.snipershooter.free"}, {:app_id=>"com.rubicon.dev.glwg"}, {:app_id=>"net.hexage.defense"}, {:app_id=>"com.rubicon.dev.gbwg"}, {:app_id=>"com.ArtInGames.AirAttackHDPart2"}, {:app_id=>"net.hexage.radiant.lite"}, {:app_id=>"com.ecogame.eggshoot"}, {:app_id=>"com.yoyogames.droidtntbf"}]
-    app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
-    app.banner_image_url.should == 'https://lh6.ggpht.com/hh-pkbt1mEbFg7CJt2DSum7WDtnKS8jWPYrMwPbE2LY_qvNQa6CZLpseQHX6PVJ1RA=w705'
+    app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
+    app.banner_image_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
     app.website_url.should == 'http://bluefroggaming.com'
     app.email.should == 'support@hdgames.zendesk.com'
     app.youtube_video_ids.should == []
@@ -72,7 +72,7 @@ describe 'App' do
       result[:description].should =~ /An action-packed blend of split-second/
       result[:votes].should == '7'
       result[:developer].should == 'Blue Frog Gaming'
-      result[:banner_icon_url].should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
+      result[:banner_icon_url].should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
       result[:website_url].should == 'http://bluefroggaming.com'
       result[:email].should == 'support@hdgames.zendesk.com'
       result[:youtube_video_ids].should == []
@@ -101,8 +101,8 @@ describe 'App' do
       result[:votes].should == '630682'
       result[:developer].should == 'Evernote Corporation'
       result[:installs].should == '10,000,000 - 50,000,000'
-      result[:banner_icon_url].should == 'https://lh4.ggpht.com/YpRePJZ4TJUCdERkX-E0uUq6jhaofOS1szIejmo3DZm4oEq82AqcUpoj9FHOxFRvprU=w124'
-      result[:banner_image_url].should == 'https://lh5.ggpht.com/TlPZORLq1sFgdJhvySRCcmw2Ybd6gSlhGSQuPNZJvQWjG1yWemfAEC9HL1Q288mMUNjE=w705'
+      result[:banner_icon_url].should == 'https://lh3.ggpht.com/si0cgkp2rkVX5JhhBYrtZ4cy2I1hZcrx8aiz-v8MjvPykfhT7-YAM2B8MNi0OCF9AQ=w300'
+      result[:banner_image_url].should == 'https://lh3.ggpht.com/si0cgkp2rkVX5JhhBYrtZ4cy2I1hZcrx8aiz-v8MjvPykfhT7-YAM2B8MNi0OCF9AQ=w300'
       result[:website_url].should == 'http://www.evernote.com'
       result[:email].should == nil
       result[:youtube_video_ids].should == ['Ag_IGEgAa9M']

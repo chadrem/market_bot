@@ -75,6 +75,11 @@ module MarketBot
         # Users also installed is no longer on the page, adding this for backwards compatibility, well, sort of....
         result[:users_also_installed] = result[:related]
 
+        node = doc.css('.cover-image').first
+        unless node.nil?
+          result[:banner_icon_url] = node[:src]
+          result[:banner_image_url] = node[:src]
+        end
         #puts result
         return result
 
