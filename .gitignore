@@ -14,3 +14,5 @@ tmtags
 .redcar
 *.rbc
 .rvmrc
+vendor
+.idea
