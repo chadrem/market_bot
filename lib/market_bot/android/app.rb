@@ -117,9 +117,6 @@ module MarketBot
 
 
 
-
-        result[:whats_new] = doc.css('.doc-whatsnew-container').inner_html
-
         result[:permissions] = permissions = []
         perm_types = ['dangerous', 'safe']
         perm_types.each do |type|
