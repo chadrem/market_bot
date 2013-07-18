@@ -22,7 +22,7 @@ module MarketBot
         meta_info = doc.css('.meta-info')
         meta_info.each do |info|
           field_name = info.css('.title').text
-          puts "Field: #{field_name}"
+
           case field_name
             when 'Updated'
               result[:updated] = info.css('.content').text.strip
@@ -39,23 +39,25 @@ module MarketBot
           end
         end
 
-        price = doc.xpath("//meta[@itemprop='price']").first
-        result[:price] = price[:content].strip rescue 'Free'
+        node = doc.xpath("//meta[@itemprop='price']").first
+        result[:price] = node[:content].strip rescue 'Free'
 
         result[:category] = doc.css('.category').first.text.strip rescue ''
         result[:description] = doc.xpath("//div[@itemprop='description']").first.inner_html
 
         result[:title] = doc.xpath("//div[@itemprop='name']").first.text.strip
 
+        score = doc.css('.score-container').first
+        unless score.nil?
+          node  = score.css('.score').first
+          result[:rating] = node.text.strip
+          node = score.xpath("//meta[@itemprop='ratingCount']").first
+          result[:votes] = node[:content].strip
+        end
         puts result
+        return result
 
 
-
-        rating_elem = doc.css('.average-rating-value')
-        result[:rating] = rating_elem.first.text unless rating_elem.empty?
-
-        votes_elem = doc.css('.votes')
-        result[:votes] = doc.css('.votes').first.text unless votes_elem.empty?
 
         result[:developer] = doc.css('.doc-banner-title-container a').text
 

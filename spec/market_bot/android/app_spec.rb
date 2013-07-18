@@ -60,17 +60,17 @@ describe 'App' do
       result = App.parse(test_src_data)
 
       result[:title].should == 'Pop Dat'
-      result[:rating].should == '4.5'
-      result[:updated].should == 'August 27, 2011'
+      result[:rating].should == '4.6'
+      result[:updated].should == 'August 26, 2011'
       result[:current_version].should == '1.0'
       result[:requires_android].should == '2.2 and up'
       result[:category].should == 'Arcade & Action'
-      result[:installs].should == '100 - 500'
+      result[:installs].should == '500 - 1,000'
       result[:size].should == '9.0M'
       result[:price].should == 'Free'
       result[:content_rating].should == 'Everyone'
-      result[:description].should =~ /^Experience the next level of chain/
-      result[:votes].should == '6'
+      result[:description].should =~ /An action-packed blend of split-second/
+      result[:votes].should == '7'
       result[:developer].should == 'Blue Frog Gaming'
       result[:banner_icon_url].should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w124'
       result[:website_url].should == 'http://bluefroggaming.com'
@@ -90,7 +90,7 @@ describe 'App' do
 
       result[:title].should == 'Evernote'
       result[:rating].should == '4.7'
-      result[:updated].should == 'July 25, 2012'
+      result[:updated].should == 'July 17, 2013'
       result[:current_version].should == '4.1.1'
       result[:requires_android].should == '1.6 and up'
       result[:category].should == 'Productivity'
