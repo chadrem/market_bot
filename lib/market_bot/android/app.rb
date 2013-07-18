@@ -37,18 +37,18 @@ module MarketBot
             when 'Content Rating'
               result[:content_rating] = info.css('.content').text.strip
             when 'Contact Developer'
-              puts 'Dev link'
-              node = info.css('.dev-link').first
-              unless node.nil?
-                redirect_url = node[:href]
-                puts redirect_url
-                if q_param = URI(redirect_url).query.split('&').select{ |p| p =~ /q=/ }.first
-                  actual_url = q_param.gsub('q=', '')
+              info.css('.dev-link').each do |node|
+                if node.text.strip.eql? 'Email Developer'
+                  result[:email] = node[:href].gsub(/^mailto:/,'')
+                else
+                  redirect_url = node[:href]
+                  if q_param = URI(redirect_url).query.split('&').select{ |p| p =~ /q=/ }.first
+                    actual_url = q_param.gsub('q=', '')
+                  end
+
+                  result[:website_url] = actual_url
                 end
-
-                result[:website_url] = actual_url
               end
-
 
           end
         end
@@ -100,9 +100,6 @@ module MarketBot
 
 
 
-        if email_elem = doc.css('a').select{ |l| l.text.include?("Email Developer")}.first
-          result[:email] = email_elem.attribute('href').value.gsub(/^mailto:/, '')
-        end
 
         unless (video_section_elem = doc.css('.doc-video-section')).empty?
           urls = video_section_elem.children.css('embed').map{ |e| e.attribute('src').value }

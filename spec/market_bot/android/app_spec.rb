@@ -103,7 +103,7 @@ describe 'App' do
       result[:installs].should == '10,000,000 - 50,000,000'
       result[:banner_icon_url].should == 'https://lh3.ggpht.com/si0cgkp2rkVX5JhhBYrtZ4cy2I1hZcrx8aiz-v8MjvPykfhT7-YAM2B8MNi0OCF9AQ=w300'
       result[:banner_image_url].should == 'https://lh3.ggpht.com/si0cgkp2rkVX5JhhBYrtZ4cy2I1hZcrx8aiz-v8MjvPykfhT7-YAM2B8MNi0OCF9AQ=w300'
-      result[:website_url].should == 'http://www.evernote.com'
+      result[:website_url].should == 'http://evernote.com/privacy/'
       result[:email].should == nil
       result[:youtube_video_ids].should == ['Ag_IGEgAa9M']
       result[:screenshot_urls].should == ["https://lh3.ggpht.com/Q_vPAtKVUefD3znGi_8AnK3FHDf8XsegMnVrX2sImaFLKXOC__MWKXW2WY1avhlvF_aK=h230", "https://lh6.ggpht.com/nbz5tSvuuydrcQ5kl2PpaFuPBrEgXRPaEXXecLMNXEGVblUlDoTXCRH22GrM2RYFcA=h230", "https://lh3.ggpht.com/Oi0lpkA23XsHjg_cXyXkOaRtNw84_OR_YtzhZUCe8VhWRej8oCT28I0VD8Z5ixSuCyM=h230", "https://lh4.ggpht.com/EfNdIkRr5T0JQQlvPICl6m3gHCDBEnsMxqZMrXb0qMW9xBQCN10PaPdrKVI-07XzsXs=h230", "https://lh4.ggpht.com/Q4BDQRkuvHMglh5I0aG56Yy_29NnBWxXWTqkv21onHM41pnrHoLnkacQFmqr6SVtuUR4=h230", "https://lh3.ggpht.com/Uf4MqnyMPVEFATlkutnXVyBtUQEkJbBLQREXbBI633wHAeBxhAc2-XSuysMM5ZFC7f7j=h230", "https://lh4.ggpht.com/02wkEgVmPPLwcMJc_YPnXpiYf3v3obz9yf2SIC7WwLVYjjYHJB48DFioTyAbbS1xiw=h230", "https://lh5.ggpht.com/k6LCn2yoTQH3ofLr4uycKRnhDZTvB9RcPlyIrUIaIpFSgHcAz4_2LKQfSZPC44YFxw=h230"]
@@ -146,7 +146,7 @@ describe 'App' do
       result[:users_also_installed].should be_a(Array)
       result[:more_from_developer].should be_a(Array)
 
-      result[:related].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
+      result[:related].first[:app_id].should == 'com.evernote.world'
       result[:users_also_installed].first[:app_id].should == 'com.acadoid.lecturenotes'
       result[:more_from_developer].first[:app_id].should == 'com.evernote.skitch'
     end
