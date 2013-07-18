@@ -114,12 +114,22 @@ module MarketBot
         # Stubbing out for now, can't find them in the redesigned page.
         result[:permissions] = permissions = []
 
+        result[:rating_distribution] = { 5 => nil, 4 => nil, 3 => nil, 2 => nil, 1 => nil }
+
+        histogram = doc.css('div.rating-histogram')
+        cur_index = 5
+        %w(five four three two one).each do |slot|
+          node = histogram.css(".#{slot.to_s}")
+          result[:rating_distribution][cur_index] = node.css('.bar-number').text.to_i
+          cur_index -= 1
+
+        end
+
         #puts result
         return result
 
 
 
-        result[:rating_distribution] = { 5 => nil, 4 => nil, 3 => nil, 2 => nil, 1 => nil }
 
         if (histogram = doc.css('div.histogram-table').first)
           cur_index = 5
