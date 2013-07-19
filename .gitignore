@@ -16,3 +16,5 @@ tmtags
 .rvmrc
 vendor
 .idea
+.ruby-version
+.ruby-gemset
