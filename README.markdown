@@ -6,6 +6,10 @@ Books, music, movies, etc aren't currently supported.
 It is built on top of Nokogiri and Typhoeus.
 Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=github).
 
+**This project is currently seeking developers to help maintain it.
+Please send pull requests or contact me if you are able to help out.
+The app scraper is known to work, but leader board functionality is currently broken**
+
 ## Dependencies
 
 * Nokogiri
