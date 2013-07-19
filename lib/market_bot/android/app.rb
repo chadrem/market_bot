@@ -58,7 +58,6 @@ module MarketBot
 
         result[:category] = doc.css('.category').first.text.strip rescue ''
         result[:description] = doc.xpath("//div[@itemprop='description']").first.inner_html.strip
-
         result[:title] = doc.xpath("//div[@itemprop='name']").first.text.strip
 
         score = doc.css('.score-container').first

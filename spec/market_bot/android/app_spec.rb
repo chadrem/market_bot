@@ -123,28 +123,28 @@ describe 'App' do
     it 'should populate a hash with the correct keys/values' do
       result = App.parse(test_src_data3)
 
-      result[:title].should == 'Thermometer HD'
-      result[:updated].should == 'May 11, 2012'
-      result[:current_version].should == '1.5.2'
-      result[:requires_android].should == '2.0 and up'
+      result[:title].should == 'WeatherPro'
+      result[:updated].should == 'June 27, 2013'
+      result[:current_version].should == '2.5'
+      result[:requires_android].should == '2.1 and up'
       result[:category].should == 'Weather'
-      result[:size].should == '98k'
-      result[:price].should == '$0.99'
+      result[:size].should == '5.4M'
+      result[:price].should == '$2.99'
       result[:content_rating].should == 'Low Maturity'
-      result[:description].should =~ /^Want to know the up-to-date temperature and other weather/
-      result[:developer].should == 'Kooistar Solutions'
-      result[:rating].should == nil
-      result[:votes].should == nil
-      result[:banner_icon_url].should == 'https://lh3.ggpht.com/XEJ1MZFUqXKDfTSwqpL8Apgo3qMAixdG3l_gt8FuFstGUd2vk7-qDIKH4fHRMi57-p4=w124'
-      result[:banner_image_url].should == nil
-      result[:website_url].should == 'http://www.donothave.com'
-      result[:email].should == 'kooistar_solutions@hotmail.com'
+      result[:description].should =~ /^<div>\"WeatherPro answers the question - what's the best Android Weather/
+      result[:developer].should == 'MeteoGroup'
+      result[:rating].should == "4.4"
+      result[:votes].should == "17504"
+      result[:banner_icon_url].should == 'https://lh4.ggpht.com/kYFmcFWBWg_XfhKTk7WaXk9y4JNO2mIe3TkT6MqR-mjoiNgy8zj-EZY6ADjJBKKA=w300-rw'
+      result[:banner_image_url].should == 'https://lh4.ggpht.com/kYFmcFWBWg_XfhKTk7WaXk9y4JNO2mIe3TkT6MqR-mjoiNgy8zj-EZY6ADjJBKKA=w300-rw'
+      result[:website_url].should == 'http://www.weatherpro.eu/privacy-policy.html'
+      result[:email].should == 'support@android.weatherpro.de'
       result[:youtube_video_ids].should == []
-      result[:whats_new].should == "<p>What's in this version:</p>1.5.1: Bug fix: Exceptional case is catched now with an failure message + instruction.<br>1.5.2: Bug fix: Remove use of deprecated java funtion + catch null pointer -&gt; Better app<br>Thanks for reporting the bugs!<br>"
+      result[:whats_new].should =~ /Connect to MeteoEarth/
       #result[:permissions].should == [{:security=>"dangerous", :group=>"Your location", :description=>"fine (GPS) location", :description_full=>"Access fine location sources such as the Global Positioning System on the tablet, where available. Malicious apps may use this to determine where you are, and may consume additional battery power. Access fine location sources such as the Global Positioning System on the phone, where available. Malicious apps may use this to determine where you are, and may consume additional battery power."}, {:security=>"dangerous", :group=>"Network communication", :description=>"full Internet access", :description_full=>"Allows the app to create network sockets."}, {:security=>"safe", :group=>"Network communication", :description=>"view network state", :description_full=>"Allows the app to view the state of all networks."}]
       # Stubbing out for now, can't find them in the redesigned page.
-      result[:permissions].should == nil
-      result[:rating_distribution].should == {1=>nil, 2=>nil, 3=>nil, 4=>nil, 5=>nil}
+      result[:permissions].should == []
+      result[:rating_distribution].should == {1=>782, 2=>361, 3=>893, 4=>4, 5=>10}
       result[:html].should == test_src_data3
     end
 
