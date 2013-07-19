@@ -19,132 +19,109 @@ module MarketBot
         result = {}
 
         doc = Nokogiri::HTML(html)
-
-        elements = doc.css('.doc-metadata').first.elements[2].elements
-        elem_count = elements.count
-
-        (3..(elem_count - 1)).select{ |n| n.odd? }.each do |i|
-          field_name  = elements[i].text
+        meta_info = doc.css('.meta-info')
+        meta_info.each do |info|
+          field_name = info.css('.title').text.strip
 
           case field_name
-          when 'Updated:'
-            result[:updated] = elements[i + 1].text
-          when 'Current Version:'
-            result[:current_version] = elements[i + 1].text
-          when 'Requires Android:'
-            result[:requires_android] = elements[i + 1].text
-          when 'Category:'
-            result[:category] = elements[i + 1].text
-          when 'Installs:'
-            result[:installs] = elements[i + 1].children.first.text
-          when 'Size:'
-            result[:size] = elements[i + 1].text
-          when 'Price:'
-            result[:price] = elements[i + 1].text
-          when 'Content Rating:'
-            result[:content_rating] = elements[i + 1].text
+            when 'Updated'
+              result[:updated] = info.css('.content').text.strip
+            when 'Installs'
+              result[:installs] = info.css('.content').text.strip
+            when 'Size'
+              result[:size] = info.css('.content').text.strip
+            when 'Current Version'
+              result[:current_version] = info.css('.content').text.strip
+            when 'Requires Android'
+              result[:requires_android] = info.css('.content').text.strip
+            when 'Content Rating'
+              result[:content_rating] = info.css('.content').text.strip
+            when 'Contact Developer'
+              info.css('.dev-link').each do |node|
+                if node.text.strip.eql? 'Email Developer'
+                  result[:email] = node[:href].gsub(/^mailto:/,'')
+                else
+                  redirect_url = node[:href]
+                  if q_param = URI(redirect_url).query.split('&').select{ |p| p =~ /q=/ }.first
+                    actual_url = q_param.gsub('q=', '')
+                  end
+
+                  result[:website_url] = actual_url
+                end
+              end
+
           end
         end
 
-        result[:description] = doc.css('#doc-original-text').first.inner_html
-        result[:title] = doc.css('.doc-banner-title').text
+        node = doc.xpath("//meta[@itemprop='price']").first
+        result[:price] = node[:content].strip rescue 'Free'
 
-        rating_elem = doc.css('.average-rating-value')
-        result[:rating] = rating_elem.first.text unless rating_elem.empty?
+        result[:category] = doc.css('.category').first.text.strip rescue ''
+        result[:description] = doc.xpath("//div[@itemprop='description']").first.inner_html.strip
+        result[:title] = doc.xpath("//div[@itemprop='name']").first.text.strip
 
-        votes_elem = doc.css('.votes')
-        result[:votes] = doc.css('.votes').first.text unless votes_elem.empty?
+        score = doc.css('.score-container').first
+        unless score.nil?
+          node  = score.css('.score').first
+          result[:rating] = node.text.strip
+          node = score.xpath("//meta[@itemprop='ratingCount']").first
+          result[:votes] = node[:content].strip
+        end
 
-        result[:developer] = doc.css('.doc-banner-title-container a').text
+        node = doc.xpath("//div[@itemprop='author']")
+        result[:developer] = node.css('.primary').first.text.strip
 
         result[:more_from_developer] = []
         result[:users_also_installed] = []
         result[:related] = []
 
-        if similar_elem = doc.css('.doc-similar').first
-          similar_elem.children.each do |similar_elem_child|
-            assoc_app_type = similar_elem_child.attributes['data-analyticsid'].text
+        node = doc.css('.recommendation')
+        node.css('.rec-cluster').each do |recommended|
+          assoc_app_type = recommended.css('.heading').first.text.strip.eql?('Similar' ) ? :related : :more_from_developer
+          recommended.css('.card').each do |card|
+            assoc_app = {}
+            assoc_app[:app_id] = card['data-docid'].strip
 
-            next unless %w(more-from-developer users-also-installed related).include?(assoc_app_type)
+            result[assoc_app_type] << assoc_app
+          end
+        end
+        # Users also installed is no longer on the page, adding this for backwards compatibility, well, sort of....
+        result[:users_also_installed] = result[:related]
 
-            assoc_app_type = assoc_app_type.gsub('-', '_').to_sym
-            result[assoc_app_type] ||= []
+        node = doc.css('.cover-image').first
+        unless node.nil?
+          result[:banner_icon_url] = node[:src]
+          result[:banner_image_url] = node[:src]
+        end
 
-            similar_elem_child.css('.app-left-column-related-snippet-container').each do |app_elem|
-              assoc_app = {}
-
-              assoc_app[:app_id] = app_elem.attributes['data-docid'].text
-
-              result[assoc_app_type] << assoc_app
-            end
+        result[:youtube_video_ids] = []
+        doc.css('.play-click-target').each do |node|
+          url = node['data-video-url']
+          unless url.nil?
+            result[:youtube_video_ids] << url.split('embed/').last.split('?').first
           end
         end
 
-        result[:banner_icon_url] = doc.css('.doc-banner-icon img').first.attributes['src'].value
-
-        if image_elem = doc.css('.doc-banner-image-container img').first
-          result[:banner_image_url] = image_elem.attributes['src'].value
-        else
-          result[:banner_image_url] = nil
+        result[:screenshot_urls] = []
+        doc.css('.screenshot').each do |node|
+          result[:screenshot_urls] << node[:src]
         end
 
-        if website_elem = doc.css('a').select{ |l| l.text.include?("Visit Developer's Website")}.first
-          redirect_url = website_elem.attribute('href').value
+        node = doc.css('.whatsnew').first
+        result[:whats_new] = node.inner_html.strip unless node.nil?
 
-          if q_param = URI(redirect_url).query.split('&').select{ |p| p =~ /q=/ }.first
-            actual_url = q_param.gsub('q=', '')
-          end
-
-          result[:website_url] = actual_url
-        end
-
-        if email_elem = doc.css('a').select{ |l| l.text.include?("Email Developer")}.first
-          result[:email] = email_elem.attribute('href').value.gsub(/^mailto:/, '')
-        end
-
-        unless (video_section_elem = doc.css('.doc-video-section')).empty?
-          urls = video_section_elem.children.css('embed').map{ |e| e.attribute('src').value }
-          result[:youtube_video_ids] = urls.map{ |u| /youtube\.com\/v\/(.*)\?/.match(u)[1] }
-        else
-          result[:youtube_video_ids] = []
-        end
-
-        screenshots = doc.css('.screenshot-carousel-content-container img')
-
-        if screenshots && screenshots.length > 0
-          result[:screenshot_urls] = screenshots.map { |s| s.attributes['src'].value }
-        else
-          result[:screenshot_urls] = []
-        end
-
-        result[:whats_new] = doc.css('.doc-whatsnew-container').inner_html
-
+        # Stubbing out for now, can't find them in the redesigned page.
         result[:permissions] = permissions = []
-        perm_types = ['dangerous', 'safe']
-        perm_types.each do |type|
-          doc.css("#doc-permissions-#{type} .doc-permission-group").each do |group_elem|
-            title = group_elem.css('.doc-permission-group-title').text
-            group_elem.css('.doc-permission-description').each do |desc_elem|
-              #permissions << { :security => type, :group => title, :description => desc_elem.text }
-            end
-            descriptions = group_elem.css('.doc-permission-description').map { |e| e.text }
-            descriptions_full = group_elem.css('.doc-permission-description-full').map { |e| e.text }
-            (0...descriptions.length).each do |i|
-              desc = descriptions[i]
-              desc_full = descriptions_full[i]
-              permissions << { :security => type, :group => title, :description => desc, :description_full => desc_full }
-            end
-          end
-        end
 
         result[:rating_distribution] = { 5 => nil, 4 => nil, 3 => nil, 2 => nil, 1 => nil }
 
-        if (histogram = doc.css('div.histogram-table').first)
-          cur_index = 5
-          histogram.css('tr').each do |e|
-            result[:rating_distribution][cur_index] = e.children.last.inner_text.gsub(/[^0-9]/, '').to_i
-            cur_index -= 1
-          end
+        histogram = doc.css('div.rating-histogram')
+        cur_index = 5
+        %w(five four three two one).each do |slot|
+          node = histogram.css(".#{slot.to_s}")
+          result[:rating_distribution][cur_index] = node.css('.bar-number').text.to_i
+          cur_index -= 1
+
         end
 
         result[:html] = html
