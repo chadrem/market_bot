@@ -19,8 +19,6 @@ require 'market_bot'
 # in ./support/ and its subdirectories.
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
-Typhoeus::Hydra.allow_net_connect = false
-
 RSpec.configure do |config|
 end
 
