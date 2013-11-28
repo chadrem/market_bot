@@ -7,8 +7,11 @@ begin
 rescue Exception => e
 end
 
-require 'simplecov'
-SimpleCov.start
+begin
+  require 'simplecov'
+  SimpleCov.start
+rescue Exception => e
+end
 
 require 'market_bot'
 
@@ -19,7 +22,6 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 Typhoeus::Hydra.allow_net_connect = false
 
 RSpec.configure do |config|
-
 end
 
 def read_file(*path)

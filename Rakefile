@@ -1,29 +1,4 @@
-# encoding: utf-8
-
-require 'rubygems'
-require 'bundler'
-begin
-  Bundler.setup(:default, :development)
-rescue Bundler::BundlerError => e
-  $stderr.puts e.message
-  $stderr.puts "Run `bundle install` to install missing gems"
-  exit e.status_code
-end
-require 'rake'
-
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "market_bot"
-  gem.homepage = "http://github.com/chadrem/market_bot"
-  gem.license = "MIT"
-  gem.summary = %Q{Market Bot: High performance Ruby scraper for Google's Android Market}
-  gem.description = %Q{Market Bot is a high performance Ruby scraper for Google's Android Market with a simple to use API.  It is built on top of Nokogiri and Typhoeus.}
-  gem.email = "chad@remesch.com"
-  gem.authors = ["Chad Remesch"]
-  # dependencies defined in Gemfile
-end
-Jeweler::RubygemsDotOrgTasks.new
+require 'bundler/gem_tasks'
 
 require 'rspec/core'
 require 'rspec/core/rake_task'
@@ -33,17 +8,17 @@ end
 
 task :default => :spec
 
-require 'rdoc/task'
-RDoc::Task.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+desc 'Start an IRB console with Workers loaded'
+task :console do
+  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "market_bot #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+  require 'market_bot'
+  require 'irb'
+
+  ARGV.clear
+
+  IRB.start
 end
-
-require 'typhoeus'
 
 namespace :spec do
   namespace :data do
