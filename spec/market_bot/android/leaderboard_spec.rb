@@ -39,12 +39,12 @@ def check_results(results)
   end
 
   it 'should have the top ranking app with valid details' do
-    results.first[:developer].should == 'LevelUp Studio'
-    results.first[:market_id].should == 'com.levelup.beautifulwidgets'
-    results.first[:market_url].should == 'https://play.google.com/store/apps/details?id=com.levelup.beautifulwidgets&hl=en'
-    results.first[:price_usd].should == '$2.79'
-    results.first[:stars].should == '4.4'
-    results.first[:title].should == "Beautiful Widgets"
+    results.first[:developer].should == 'Mojang'
+    results.first[:market_id].should == 'com.mojang.minecraftpe'
+    results.first[:market_url].should == 'https://play.google.com/store/apps/details?id=com.mojang.minecraftpe&hl=en'
+    results.first[:price_usd].should == '$6.99'
+    results.first[:stars].should == '4.5'
+    results.first[:title].should == "Minecraft - Pocket Edition"
   end
 
 end
@@ -115,15 +115,15 @@ describe 'Leaderboard' do
         lb = Leaderboard.new('editors_choice', nil, :hydra => hydra)
         lb.update
 
-        lb.results.count.should == 42
+        lb.results.count.should == 45
 
         app = lb.results.last
 
-        app[:title].should == 'Riptide GP'
-        app[:price_usd].should == nil
-        app[:developer].should == 'Vector Unit'
-        app[:market_id].should == 'com.vectorunit.blue'
-        app[:market_url].should == 'https://play.google.com/store/apps/details?id=com.vectorunit.blue&hl=en'
+        app[:title].should == 'Kingdom Rush'
+        app[:price_usd].should == "$1.99"
+        app[:developer].should == 'Ironhide Game Studio'
+        app[:market_id].should == 'com.ironhidegames.android.kingdomrush'
+        app[:market_url].should == 'https://play.google.com/store/apps/details?id=com.ironhidegames.android.kingdomrush&hl=en'
       end
     end
   end

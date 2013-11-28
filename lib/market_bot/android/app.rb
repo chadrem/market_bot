@@ -95,7 +95,7 @@ module MarketBot
         end
 
         result[:youtube_video_ids] = []
-        doc.css('.play-click-target').each do |node|
+        doc.css('.play-action-container').each do |node|
           url = node['data-video-url']
           unless url.nil?
             result[:youtube_video_ids] << url.split('embed/').last.split('?').first
@@ -119,7 +119,7 @@ module MarketBot
         cur_index = 5
         %w(five four three two one).each do |slot|
           node = histogram.css(".#{slot.to_s}")
-          result[:rating_distribution][cur_index] = node.css('.bar-number').text.to_i
+          result[:rating_distribution][cur_index] = node.css('.bar-number').text.gsub(/,/,'').to_i
           cur_index -= 1
 
         end

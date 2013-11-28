@@ -5,6 +5,9 @@ module MarketBot
       attr_reader :identifier, :category
       attr_reader :hydra
 
+      MAX_STARS = 5
+      PERCENT_DENOM = 100
+
       def self.parse(html)
         if html.include?('<title>Editor&#39;s Choice')
           parse_editors_choice_page(html)
@@ -17,25 +20,26 @@ module MarketBot
         results = []
         doc = Nokogiri::HTML(html)
 
-        doc.css('.snippet').each do |snippet_node|
+        doc.css('.card').each do |snippet_node|
           result = {}
 
           details_node = snippet_node.css('.details')
 
-          unless snippet_node.css('.ratings').empty?
-            stars_text = snippet_node.css('.ratings').first.attributes['title'].value
-            result[:stars] = /Rating: (.+) stars .*/.match(stars_text)[1]
+          unless snippet_node.css('.current-rating').empty?
+            stars_style = snippet_node.css('.current-rating').first.attributes['style'].value
+            stars_width_percent = stars_style[/width:\s+([0-9.]+)%/, 1].to_f
+            result[:stars] = (MAX_STARS * stars_width_percent/PERCENT_DENOM).round(1).to_s
           else
             result[:stars] = nil
           end
 
           result[:title] = details_node.css('.title').first.attributes['title'].to_s
 
-          if (price_elem = details_node.css('.buy-button-price').children.first)
-            result[:price_usd] = price_elem.text.gsub(' Buy', '')
+          if (price_elem = details_node.css('.buy span').first)
+            result[:price_usd] = price_elem.text
           end
 
-          result[:developer] = details_node.css('.attribution').children.first.text
+          result[:developer] = details_node.css('.subtitle').first.attributes['title'].to_s
           result[:market_id] = details_node.css('.title').first.attributes['href'].to_s.gsub('/store/apps/details?id=', '').gsub(/&feature=.*$/, '')
           result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}&hl=en"
 
