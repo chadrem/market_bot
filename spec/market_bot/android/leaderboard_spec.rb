@@ -21,7 +21,7 @@ def stub_hydra(hydra)
   test_src_editors_choice = read_file(File.dirname(__FILE__), 'data', "leaderboard-apps_editors_choice.txt")
 
   response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_editors_choice)
-  url = "https://play.google.com/store/apps/collection/editors_choice?hl=en"
+  url = "https://play.google.com/store/apps/collection/editors_choice?&hl=en"
   Typhoeus.stub(url).and_return(response)
 end
 

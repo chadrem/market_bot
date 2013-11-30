@@ -22,6 +22,10 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 RSpec.configure do |config|
 end
 
+Typhoeus.configure do |config|
+  config.block_connection = true
+end
+
 def read_file(*path)
   data = nil
   File.open(File.join(path), 'r') { |f| data = f.read }
