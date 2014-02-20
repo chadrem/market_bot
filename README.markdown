@@ -45,6 +45,20 @@ The app, leaderboard, and app search features are known to work, but the develop
     developer = MarketBot::Android::Developer.new('Zynga')
     developer.update
     puts "Results found: #{developer.results.count}"
+    
+    # Print the rating for an app.
+    puts MarketBot::Android::App.new('com.king.candycrushsaga').update.rating
+
+    # Check if an app exists and has a title.
+    def app_exists?(app_id)
+      begin
+        return !!MarketBot::Android::App.new(app_id).update.title
+      rescue
+        return false
+      end
+    end
+    app_exists?('com.king.candycrushsaga')  # Return's true.
+    app_exists?('com.some.fake.app.that.does.not.exist')  # Return's false.
 
 ## Advanced API Examples
 
