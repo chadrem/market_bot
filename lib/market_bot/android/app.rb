@@ -56,8 +56,9 @@ module MarketBot
         node = doc.xpath("//meta[@itemprop='price']").first
         result[:price] = node[:content].strip rescue 'Free'
 
-        result[:category] = doc.css('.category').first.text.strip rescue ''
-        cat_link = doc.css('.category')[0]["href"]
+        category_div = doc.css('.category').first
+        result[:category] = category_div.text.strip rescue ''
+        cat_link = category_div["href"]
         path, cat_name = File.split(cat_link)
         result[:category_url] = cat_name
 
