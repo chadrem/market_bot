@@ -22,6 +22,8 @@ end
 
 namespace :spec do
   namespace :data do
+    require 'typhoeus'
+
     def download(url, save_path)
       resp = Typhoeus::Request.get(url)
       File.open(save_path, "w") do |file|
@@ -41,16 +43,16 @@ namespace :spec do
       download('https://play.google.com/store/apps/details?id=com.mg.android',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'app_3.txt'))
 
-      download('https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?num=24',
+      download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?num=24',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page1.txt'))
 
-      download('https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=24&num=24',
+      download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=24&num=24',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page2.txt'))
 
-      download('https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=48&num=24',
+      download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=48&num=24',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page3.txt'))
 
-      download('https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=96&num=24',
+      download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=96&num=24',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page4.txt'))
 
       download('https://play.google.com/store/apps/collection/editors_choice',
