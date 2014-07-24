@@ -7,7 +7,7 @@ module MarketBot
                           :votes, :developer, :more_from_developer, :users_also_installed,
                           :related, :banner_icon_url, :banner_image_url, :website_url, :email,
                           :youtube_video_ids, :screenshot_urls, :whats_new, :permissions,
-                          :rating_distribution, :html]
+                          :rating_distribution, :html, :category_url]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -56,7 +56,12 @@ module MarketBot
         node = doc.xpath("//meta[@itemprop='price']").first
         result[:price] = node[:content].strip rescue 'Free'
 
-        result[:category] = doc.css('.category').first.text.strip rescue ''
+        category_div = doc.css('.category').first
+        result[:category] = category_div.text.strip rescue ''
+        cat_link = category_div["href"]
+        path, cat_name = File.split(cat_link)
+        result[:category_url] = cat_name
+
         result[:description] = doc.xpath("//div[@itemprop='description']").first.inner_html.strip
         result[:title] = doc.xpath("//div[@itemprop='name']").first.text.strip
 
