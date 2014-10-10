@@ -71,6 +71,66 @@ module MarketBot
         results
       end
 
+      # This is the initializer method for the Leaderboard class.
+      #
+      # Leaderboard gets initialized by default with a specified identifier, an optional app category, along with optional
+      # request options.
+      #
+      # * *Args*    :
+      #   - +identifier+ -> The identifier is used to get the results for distinct leaderboards.
+      #                     Valid identifiers include:
+      #                           :topselling_paid
+      #                           :topselling_free
+      #                           :topselling_new_free
+      #                           :topselling_new_paid
+      #                           :editors_choice
+      #                           :topselling_paid_game
+      #                           :movers_shakers
+      #                           :featured
+      #                           :tablet_featured
+      #                           :topgrossing
+      #   - +category+ -> The category switches between the actual categories, or genres, of apps within a given leaderboard.
+      #                   Valid categories include:
+      #                           :game
+      #                           :arcade
+      #                           :brain
+      #                           :cards
+      #                           :casual
+      #                           :game_wallpaper
+      #                           :racing
+      #                           :sports_games
+      #                           :game_widgets
+      #                           :application
+      #                           :books_and_reference
+      #                           :business
+      #                           :comics
+      #                           :communication
+      #                           :education
+      #                           :entertainment
+      #                           :finance
+      #                           :health_and_fitness
+      #                           :libraries_and_demo
+      #                           :lifestyle
+      #                           :app_wallpaper
+      #                           :media_and_video
+      #                           :medical
+      #                           :music_and_audio
+      #                           :news_and_magazines
+      #                           :personalization
+      #                           :photography
+      #                           :productivity
+      #                           :shopping
+      #                           :social
+      #                           :sports
+      #                           :tools
+      #                           :transportation
+      #                           :travel_and_local
+      #                           :weather
+      #                           :app_widgets
+      #   - +options+ -> The optional options Hash contains keys :hydra and :request_opts. :hydra can be used to specify
+      #                   a custom Hydra instance, while :request_opts is a Hash containing further options for the Play
+      #                   Store HTTP request.
+      #
       def initialize(identifier, category=nil, options={})
         @identifier = identifier
         @category = category
