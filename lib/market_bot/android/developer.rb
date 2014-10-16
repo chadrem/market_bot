@@ -3,29 +3,25 @@ module MarketBot
 
     # Developer pages are extremely similar to leaderboard pages.
     # Amazingly, this inheritence hack works!
+    #
+    # BUG: This code only retrieves the first page of results.
+    #      This means you will only get the first 24 apps for a developer.
+    #      Some developers have hundreds of apps so this needs fixed!!!
     class Developer < MarketBot::Android::Leaderboard
-      def initialze(developer, options={})
-        super(query, nil, options)
+      def initialize(developer, options={})
+        super(developer, nil, options)
       end
 
       def market_urls(options={})
         results = []
 
-        min_page = options[:min_page] || 1
-        max_page = options[:max_page] || 25
+        url = "https://play.google.com/store/apps/developer?"
+        url << "id=#{URI.escape(identifier)}&"
+        url << "hl=en"
 
-        (min_page..max_page).each do |page|
-          start_val = (page - 1) * 12
+        results << url
 
-          url = "https://play.google.com/store/apps/developer?"
-          url << "id=#{URI.escape(identifier)}&"
-          url << "start=#{start_val}&"
-          url << "num=12&hl=en"
-
-          results << url
-        end
-
-        results
+        return results
       end
     end
 

@@ -57,6 +57,9 @@ namespace :spec do
 
       download('https://play.google.com/store/apps/collection/editors_choice',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_editors_choice.txt'))
+
+      download('https://play.google.com/store/apps/developer?id=Zynga',
+               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'developer-zynga.txt'))
     end
   end
 end
