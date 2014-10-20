@@ -8,7 +8,6 @@ Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=gi
 
 **This project is currently seeking developers to help maintain it.
 Please send pull requests or contact me if you are able to help out.
-The app, leaderboard, and app search features are known to work, but the developer scraper is currently broken.**
 
 ## Dependencies
 
