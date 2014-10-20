@@ -7,7 +7,7 @@ It is built on top of Nokogiri and Typhoeus.
 Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=github).
 
 **This project is currently seeking developers to help maintain it.
-Please send pull requests or contact me if you are able to help out.
+Please send pull requests or contact me if you are able to help out.**
 
 ## Dependencies
 
