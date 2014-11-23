@@ -36,14 +36,14 @@ module MarketBot
           result[:title] = details_node.css('.title').first.attributes['title'].to_s
 
           if (price_elem = details_node.css('.buy span').first)
-            result[:price_usd] = price_elem.text
+            result[:price] = price_elem.text
           end
 
           result[:developer] = details_node.css('.subtitle').first.attributes['title'].to_s
           result[:market_id] = details_node.css('.title').first.attributes['href'].to_s.gsub('/store/apps/details?id=', '').gsub(/&feature=.*$/, '')
           result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}&hl=en"
 
-          result[:price_usd] = '$0.00' if result[:price_usd] == 'Install'
+          result[:price] = '$0.00' if result[:price] == 'Install'
 
           results << result
         end
@@ -60,7 +60,7 @@ module MarketBot
           result = {}
 
           result[:title]      = snippet_node.css('.title').text
-          result[:price_usd]  = nil
+          result[:price]      = nil
           result[:developer]  = snippet_node.css('.attribution').text
           result[:market_id]  = snippet_node.attributes['data-docid'].text
           result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}&hl=en"
