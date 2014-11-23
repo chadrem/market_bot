@@ -2,12 +2,12 @@ module MarketBot
   module Android
 
     class App
-      MARKET_ATTRIBUTES = [:title, :rating, :updated, :current_version, :requires_android,
+      MARKET_ATTRIBUTES = [:title, :stars, :updated, :current_version, :requires_android,
                           :category, :installs, :size, :price, :content_rating, :description,
                           :votes, :developer, :more_from_developer, :users_also_installed,
                           :related, :banner_icon_url, :banner_image_url, :website_url, :email,
                           :youtube_video_ids, :screenshot_urls, :whats_new, :permissions,
-                          :rating_distribution, :html, :category_url]
+                          :stars_distribution, :html, :category_url]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -68,7 +68,7 @@ module MarketBot
         score = doc.css('.score-container').first
         unless score.nil?
           node  = score.css('.score').first
-          result[:rating] = node.text.strip
+          result[:stars] = node.text.strip
           node = score.xpath("//meta[@itemprop='ratingCount']").first
           result[:votes] = node[:content].strip
         end
@@ -118,13 +118,13 @@ module MarketBot
         # Stubbing out for now, can't find them in the redesigned page.
         result[:permissions] = permissions = []
 
-        result[:rating_distribution] = { 5 => nil, 4 => nil, 3 => nil, 2 => nil, 1 => nil }
+        result[:stars_distribution] = { 5 => nil, 4 => nil, 3 => nil, 2 => nil, 1 => nil }
 
         histogram = doc.css('div.rating-histogram')
         cur_index = 5
         %w(five four three two one).each do |slot|
           node = histogram.css(".#{slot.to_s}")
-          result[:rating_distribution][cur_index] = node.css('.bar-number').text.gsub(/,/,'').to_i
+          result[:stars_distribution][cur_index] = node.css('.bar-number').text.gsub(/,/,'').to_i
           cur_index -= 1
 
         end
