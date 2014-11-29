@@ -7,7 +7,7 @@ module MarketBot
                           :votes, :developer, :more_from_developer, :users_also_installed,
                           :related, :banner_icon_url, :banner_image_url, :website_url, :email,
                           :youtube_video_ids, :screenshot_urls, :whats_new, :permissions,
-                          :rating_distribution, :html, :category_url]
+                          :rating_distribution, :html, :category_url, :full_screenshot_urls]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -111,6 +111,11 @@ module MarketBot
         doc.css('.screenshot').each do |node|
           result[:screenshot_urls] << node[:src]
         end
+
+        result[:full_screenshot_urls] = []
+        doc.css('.full-screenshot').each do |node|
+          result[:full_screenshot_urls] << node[:src]
+        end        
 
         node = doc.css('.whatsnew').first
         result[:whats_new] = node.inner_html.strip unless node.nil?
