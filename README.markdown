@@ -17,6 +17,29 @@ Please send pull requests or contact me if you are able to help out.**
 ## Installation
 
     gem install market_bot
+    
+## Getting Started Example
+
+    require 'rubygems'
+    require 'market_bot'
+    
+    # Download all the data for the Facebook app.
+    app = MarketBot::Android::App.new('com.facebook.katana')
+    app.update
+    
+    # Here we will print out the title of the app.
+    puts app.title
+    
+    # Here we will print out the rating of the app.
+    puts app.rating
+    
+    # And the price...
+    puts app.price
+    
+    # market_bot has many other attributes than the simple ones above.
+    # You can see what attributes are available in your version of
+    # market_bot by printing a simple constant included in the gem.
+    puts MarketBot::Android::App::MARKET_ATTRIBUTES.inspect
 
 ## Simple API Examples
 
