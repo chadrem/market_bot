@@ -36,7 +36,7 @@ Please send pull requests or contact me if you are able to help out.**
     # And the price...
     puts app.price
     
-    # market_bot has many other attributes than the simple ones above.
+    # market_bot has many other attributes for each app.
     # You can see what attributes are available in your version of
     # market_bot by printing a simple constant included in the gem.
     puts MarketBot::Android::App::MARKET_ATTRIBUTES.inspect
