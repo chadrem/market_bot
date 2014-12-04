@@ -7,7 +7,7 @@ module MarketBot
                           :votes, :developer, :more_from_developer, :users_also_installed,
                           :related, :banner_icon_url, :banner_image_url, :website_url, :email,
                           :youtube_video_ids, :screenshot_urls, :whats_new, :permissions,
-                          :rating_distribution, :html, :category_url]
+                          :rating_distribution, :html, :category_url, :full_screenshot_urls]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -36,13 +36,13 @@ module MarketBot
               result[:requires_android] = info.css('.content').text.strip
             when 'Content Rating'
               result[:content_rating] = info.css('.content').text.strip
-            when 'Contact Developer'
+            when 'Contact Developer', 'Developer'
               info.css('.dev-link').each do |node|
-                if node.text.strip.eql? 'Email Developer'
-                  result[:email] = node[:href].gsub(/^mailto:/,'')
+                node_href = node[:href]
+                if node_href =~ /^mailto:/
+                  result[:email] = node_href.gsub(/^mailto:/,'')
                 else
-                  redirect_url = node[:href]
-                  if q_param = URI(redirect_url).query.split('&').select{ |p| p =~ /q=/ }.first
+                  if q_param = URI(node_href).query.split('&').select{ |p| p =~ /q=/ }.first
                     actual_url = q_param.gsub('q=', '')
                   end
 
@@ -111,6 +111,11 @@ module MarketBot
         doc.css('.screenshot').each do |node|
           result[:screenshot_urls] << node[:src]
         end
+
+        result[:full_screenshot_urls] = []
+        doc.css('.full-screenshot').each do |node|
+          result[:full_screenshot_urls] << node[:src]
+        end        
 
         node = doc.css('.whatsnew').first
         result[:whats_new] = node.inner_html.strip unless node.nil?
