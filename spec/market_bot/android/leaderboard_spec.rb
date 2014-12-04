@@ -114,15 +114,15 @@ describe 'Leaderboard' do
         lb = Leaderboard.new('editors_choice', nil, :hydra => hydra)
         lb.update
 
-        lb.results.count.should == 51
+        lb.results.count.should == 61
 
         app = lb.results.last
 
-        app[:title].should == 'Into the Dead'
-        app[:price_usd].should == "Free"
-        app[:developer].should == 'PIKPOK'
-        app[:market_id].should == 'com.sidheinteractive.sif.DR'
-        app[:market_url].should == 'https://play.google.com/store/apps/details?id=com.sidheinteractive.sif.DR&hl=en'
+        app[:title].should == '10000000'
+        app[:price_usd].should == "$2.89"
+        app[:developer].should == 'EightyEight Games'
+        app[:market_id].should == 'com.eightyeightgames.tenmillion'
+        app[:market_url].should == 'https://play.google.com/store/apps/details?id=com.eightyeightgames.tenmillion&hl=en'
       end
     end
   end
