@@ -36,13 +36,13 @@ module MarketBot
               result[:requires_android] = info.css('.content').text.strip
             when 'Content Rating'
               result[:content_rating] = info.css('.content').text.strip
-            when 'Contact Developer'
+            when 'Contact Developer', 'Developer'
               info.css('.dev-link').each do |node|
-                if node.text.strip.eql? 'Email Developer'
-                  result[:email] = node[:href].gsub(/^mailto:/,'')
+                node_href = node[:href]
+                if node_href =~ /^mailto:/
+                  result[:email] = node_href.gsub(/^mailto:/,'')
                 else
-                  redirect_url = node[:href]
-                  if q_param = URI(redirect_url).query.split('&').select{ |p| p =~ /q=/ }.first
+                  if q_param = URI(node_href).query.split('&').select{ |p| p =~ /q=/ }.first
                     actual_url = q_param.gsub('q=', '')
                   end
 
