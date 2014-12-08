@@ -43,6 +43,8 @@ module MarketBot
           result[:market_id] = details_node.css('.title').first.attributes['href'].to_s.gsub('/store/apps/details?id=', '').gsub(/&feature=.*$/, '')
           result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}&hl=en"
 
+          result[:icon_url] = snippet_node.css('.cover-image').first.attributes['data-cover-large'].to_s
+
           result[:price] = '$0.00' if result[:price] == 'Install'
 
           results << result
