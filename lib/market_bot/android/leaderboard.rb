@@ -172,8 +172,8 @@ module MarketBot
           min_rank = options[:min_rank] || 1
           max_rank = options[:max_rank] || 500
 
-          min_page = rank_to_page(min_rank)
-          max_page = rank_to_page(max_rank)
+          min_page = options[:min_page] || rank_to_page(min_rank)
+          max_page = options[:max_page] || rank_to_page(max_rank)
 
           @parsed_results = []
 
