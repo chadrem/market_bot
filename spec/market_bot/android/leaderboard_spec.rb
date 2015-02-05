@@ -51,26 +51,26 @@ end
 describe 'Leaderboard' do
   context 'Construction' do
     it 'should copy params' do
-      lb = Leaderboard.new(test_id, test_category)
+      lb =MarketBot::Android::Leaderboard.new(test_id, test_category)
       lb.identifier.should == test_id
       lb.category.should == test_category
     end
 
     it 'should copy optional params' do
       hydra = Typhoeus::Hydra.new
-      lb = Leaderboard.new(test_id, test_category, :hydra => hydra)
+      lb = MarketBot::Android::Leaderboard.new(test_id, test_category, :hydra => hydra)
       lb.hydra.should equal(hydra)
     end
 
     it 'should have an optional category parameter' do
-      lb = Leaderboard.new(test_id)
+      lb = MarketBot::Android::Leaderboard.new(test_id)
       lb.identifier.should == test_id
       lb.category.should == nil
     end
   end
 
   it 'should generate URLs using min and max page ranges' do
-    lb = Leaderboard.new(test_id, test_category)
+    lb = MarketBot::Android::Leaderboard.new(test_id, test_category)
     urls = lb.market_urls(:min_page => 1, :max_page => 3)
     urls.should == [
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=0&num=24&hl=en',
@@ -80,7 +80,7 @@ describe 'Leaderboard' do
   end
 
   it 'should convert ranks to market leaderboard pages (24 apps per page)' do
-    app = Leaderboard.new(test_id, test_category)
+    app = MarketBot::Android::Leaderboard.new(test_id, test_category)
     app.rank_to_page(1).should == 1
     app.rank_to_page(24).should == 1
     app.rank_to_page(25).should == 2
@@ -90,7 +90,7 @@ describe 'Leaderboard' do
   describe 'Updating' do
     context 'Quick API' do
       stub_hydra(Typhoeus::Hydra.hydra)
-      lb = Leaderboard.new(test_id, test_category)
+      lb = MarketBot::Android::Leaderboard.new(test_id, test_category)
       lb.instance_variable_set('@hydra', Typhoeus::Hydra.hydra)
       lb.update(:min_rank => 1, :max_rank => 96)
 
@@ -100,7 +100,7 @@ describe 'Leaderboard' do
     context 'Batch API' do
       hydra = Typhoeus::Hydra.new
       stub_hydra(hydra)
-      lb = Leaderboard.new(test_id, test_category, :hydra => hydra)
+      lb = MarketBot::Android::Leaderboard.new(test_id, test_category, :hydra => hydra)
       lb.enqueue_update(:min_rank => 1, :max_rank => 96)
       hydra.run
 
@@ -111,7 +111,7 @@ describe 'Leaderboard' do
       it 'should properly parse the page and turn them into results' do
         hydra = Typhoeus::Hydra.new
         stub_hydra(hydra)
-        lb = Leaderboard.new('editors_choice', nil, :hydra => hydra)
+        lb = MarketBot::Android::Leaderboard.new('editors_choice', nil, :hydra => hydra)
         lb.update
 
         lb.results.count.should == 61
