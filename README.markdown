@@ -1,10 +1,8 @@
 # Market Bot - Ruby scraper for Google Play (Android Market)
 
 Market Bot is a high performance Ruby scraper for Google's Android Market with a simple to use API.
-Currently it supports scraping apps, leaderboards, and app searches.
-Books, music, movies, etc aren't currently supported.
+Currently it can: scrape apps, app leaderboards, movies, and tv shows.  It can also search for apps.
 It is built on top of Nokogiri and Typhoeus.
-Used in production to power [www.droidmeter.com](http://www.droidmeter.com/?t=github).
 
 **This project is currently seeking developers to help maintain it.
 Please send pull requests or contact me if you are able to help out.**
@@ -17,25 +15,25 @@ Please send pull requests or contact me if you are able to help out.**
 ## Installation
 
     gem install market_bot
-    
+
 ## Getting Started Example
 
     require 'rubygems'
     require 'market_bot'
-    
+
     # Download all the data for the Facebook app.
     app = MarketBot::Android::App.new('com.facebook.katana')
     app.update
-    
+
     # Here we will print out the title of the app.
     puts app.title
-    
+
     # Here we will print out the rating of the app.
     puts app.rating
-    
+
     # And the price...
     puts app.price
-    
+
     # market_bot has many other attributes for each app.
     # You can see what attributes are available in your version of
     # market_bot by printing a simple constant included in the gem.
@@ -67,7 +65,7 @@ Please send pull requests or contact me if you are able to help out.**
     developer = MarketBot::Android::Developer.new('Zynga')
     developer.update
     puts "Results found: #{developer.results.count}"
-    
+
     # Print the rating for an app.
     puts MarketBot::Android::App.new('com.king.candycrushsaga').update.rating
 
