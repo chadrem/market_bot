@@ -5,7 +5,10 @@ Currently it can: scrape apps, app leaderboards, movies, and tv shows.  It can a
 It is built on top of Nokogiri and Typhoeus.
 
 **This project is currently seeking developers to help maintain it.
-Please send pull requests or contact me if you are able to help out.**
+Please send pull requests or contact me if you are able to help out.
+The best ways to get started are to fix bugs, improve documentation,
+and merge in any useful changes from any public forks.  By working
+together we can make the best scraper for the Google Play Store!**
 
 ## Dependencies
 
