@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    market_bot (0.12.2)
+    market_bot (0.13.0)
       nokogiri
       typhoeus (>= 0.6.0)
 
