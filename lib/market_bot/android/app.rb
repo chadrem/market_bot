@@ -153,7 +153,7 @@ module MarketBot
 
       def update
         resp = Typhoeus::Request.get(market_url, @request_opts)
-        result = App.parse(resp.body)
+        result = handle_response(resp)
         update_callback(result)
 
         self
@@ -172,7 +172,7 @@ module MarketBot
           result = nil
 
           begin
-            result = App.parse(response.body)
+            result = handle_response(response)
           rescue Exception => e
             @error = e
           end
@@ -186,6 +186,15 @@ module MarketBot
       end
 
     private
+
+      def handle_response(response)
+        if response.success?
+          App.parse(response.body)
+        else
+          raise MarketBot::ResponseError.new("Got unexpected response code: #{response.code}")
+        end
+      end
+
       def update_callback(result)
         unless @error
           MARKET_ATTRIBUTES.each do |a|

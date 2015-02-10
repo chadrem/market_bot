@@ -179,6 +179,27 @@ describe 'App' do
       check_getters(app)
     end
 
+    context "Quick API not found" do
+      let(:app) { App.new(test_id) }
+
+      before do
+        response = Typhoeus::Response.new(:code => 404)
+        Typhoeus.stub(app.market_url).and_return(response)
+      end
+
+      it "doesn't raise a generic NoMethodError" do
+        expect {
+          app.update
+        }.to_not raise_error(NoMethodError)
+      end
+
+      it "raises a ResponseError" do
+        expect {
+          app.update
+        }.to raise_error(MarketBot::ResponseError)
+      end
+    end
+
     context 'Batch API' do
       hydra = Typhoeus::Hydra.new
       app = App.new(test_id, :hydra => hydra)
