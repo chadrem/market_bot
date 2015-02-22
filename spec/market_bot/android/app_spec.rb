@@ -187,12 +187,6 @@ describe 'App' do
         Typhoeus.stub(app.market_url).and_return(response)
       end
 
-      it "doesn't raise a generic NoMethodError" do
-        expect {
-          app.update
-        }.to_not raise_error(NoMethodError)
-      end
-
       it "raises a ResponseError" do
         expect {
           app.update
