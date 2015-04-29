@@ -29,7 +29,7 @@ def check_results(results)
   it 'should return valid results' do
     results.length.should == 96
     results.each do |app|
-      app.keys.sort.should == [:developer, :market_id, :market_url, :price_usd, :stars, :title]
+      app.keys.sort.should == [:developer, :icon_url, :market_id, :market_url, :price_usd, :stars, :title]
       app[:market_url].should == App.new(app[:market_id]).market_url
       app[:price_usd].should =~ /^\$\d+\.\d{2}$/
       app[:stars].to_f.should > 0.0
