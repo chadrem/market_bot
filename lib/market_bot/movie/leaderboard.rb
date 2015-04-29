@@ -91,6 +91,7 @@ module MarketBot
 
         min_page = options[:min_page] || 1
         max_page = options[:max_page] || 25
+        country  = options[:country]  || 'us'
 
         (min_page..max_page).each do |page|
           start_val = (page - 1) * 24
@@ -98,8 +99,9 @@ module MarketBot
           url = 'https://play.google.com/store/movies'
           url << "/category/#{category.to_s.upcase}" if category
           url << "/collection/#{identifier.to_s}?"
-          url << "start=#{start_val}"
-          url << "&num=24&hl=en"
+          url << "start=#{start_val}&"
+          url << "gl=#{country}&"
+          url << "num=24&hl=en"
 
           results << url
         end
@@ -111,13 +113,14 @@ module MarketBot
         @callback = block
         min_rank = options[:min_rank] || 1
         max_rank = options[:max_rank] || 500
+        country  = options[:country]  || 'us'
 
         min_page = rank_to_page(min_rank)
         max_page = rank_to_page(max_rank)
 
         @parsed_results = []
 
-        urls = market_urls(:min_page => min_page, :max_page => max_page)
+        urls = market_urls(:min_page => min_page, :max_page => max_page, :country => country)
         urls.each_index{ |i| process_page(urls[i], i+1) }
 
         self
