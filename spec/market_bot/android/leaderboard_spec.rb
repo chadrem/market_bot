@@ -14,7 +14,7 @@ def stub_hydra(hydra)
   (0...4).each do |i|
     start = i * 24
     response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_pages[i + 1])
-    url = "https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=#{start}&num=24&hl=en"
+    url = "https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=#{start}&gl=us&num=24&hl=en"
     Typhoeus.stub(url).and_return(response)
   end
 
@@ -73,11 +73,22 @@ describe 'Leaderboard' do
     lb = MarketBot::Android::Leaderboard.new(test_id, test_category)
     urls = lb.market_urls(:min_page => 1, :max_page => 3)
     urls.should == [
-      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=0&num=24&hl=en',
-      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=24&num=24&hl=en',
-      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=48&num=24&hl=en'
+      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=0&gl=us&num=24&hl=en',
+      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=24&gl=us&num=24&hl=en',
+      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=48&gl=us&num=24&hl=en'
     ]
   end
+
+  it 'should generate URLs using country' do
+    lb = MarketBot::Android::Leaderboard.new(test_id, test_category)
+    urls = lb.market_urls(:min_page => 1, :max_page => 3, :country => 'au')
+    urls.should == [
+      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=0&gl=au&num=24&hl=en',
+      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=24&gl=au&num=24&hl=en',
+      'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=48&gl=au&num=24&hl=en'
+    ]
+  end
+
 
   it 'should convert ranks to market leaderboard pages (24 apps per page)' do
     app = MarketBot::Android::Leaderboard.new(test_id, test_category)

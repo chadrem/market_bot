@@ -10,6 +10,7 @@ module MarketBot
 
         min_page = options[:min_page] || 1
         max_page = options[:max_page] || 25
+        country  = options[:country]  || 'us'
 
         (min_page..max_page).each do |page|
           start_val = (page - 1) * 24
@@ -17,6 +18,7 @@ module MarketBot
           url = "https://play.google.com/store/search?"
           url << "q=#{URI.escape(identifier)}&"
           url << "c=movies&start=#{start_val}&"
+          url << "gl=#{country}&"
           url << "num=24&hl=en"
 
           results << url

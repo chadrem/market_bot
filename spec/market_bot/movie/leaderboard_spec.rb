@@ -8,7 +8,7 @@ test_category = :comedy
 def stub_hydra(hydra)
   test_src_page = read_file(File.dirname(__FILE__), 'data', 'leaderboard-movies_comedy_topselling_paid.txt')
   response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_page)
-  url = 'https://play.google.com/store/movies/category/COMEDY/collection/topselling_paid?start=0&num=24&hl=en'
+  url = 'https://play.google.com/store/movies/category/COMEDY/collection/topselling_paid?start=0&gl=us&num=24&hl=en'
   Typhoeus.stub(url).and_return(response)
 end
 

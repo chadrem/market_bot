@@ -9,7 +9,7 @@ def stub_hydra(hydra)
   test_src_pages[0] = read_file(File.dirname(__FILE__), 'data', "developer-zynga.txt")
 
   response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_pages[0])
-  url = "https://play.google.com/store/apps/developer?id=Zynga&hl=en"
+  url = "https://play.google.com/store/apps/developer?id=Zynga&gl=us&hl=en"
   Typhoeus.stub(url).and_return(response)
 end
 
