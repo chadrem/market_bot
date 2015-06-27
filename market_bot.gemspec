@@ -19,5 +19,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency('typhoeus', '>= 0.6.0')
   gem.add_dependency('nokogiri', '>= 0')
 
+  gem.add_development_dependency('bundler', '~> 1.10')
+  gem.add_development_dependency('rake', '~> 10.0')
   gem.add_development_dependency('rspec', '= 2.8.0')
 end
