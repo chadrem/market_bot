@@ -1,4 +1,5 @@
 # Market Bot - Ruby scraper for Google Play (Android Market)
+[![Build Status](https://travis-ci.org/chadrem/market_bot.svg?branch=master)](https://travis-ci.org/chadrem/market_bot)
 
 Market Bot is a high performance Ruby scraper for Google's Android Market with a simple to use API.
 Currently it can: scrape apps, app leaderboards, movies, and tv shows.  It can also search for apps.
