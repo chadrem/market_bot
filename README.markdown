@@ -1,6 +1,6 @@
 # Market Bot - [![Build Status](https://travis-ci.org/chadrem/market_bot.svg?branch=master)](https://travis-ci.org/chadrem/market_bot) [![Coverage Status](https://coveralls.io/repos/chadrem/market_bot/badge.svg?branch=master&service=github)](https://coveralls.io/github/chadrem/market_bot?branch=master)
 
-Market Bot is a high performance Ruby scraper for Google's Android Market with a simple to use API.
+Market Bot is a high performance Ruby scraper for Google's (Google Play) Android Market with a simple to use API.
 Currently it can: scrape apps, app leaderboards, movies, and tv shows.  It can also search for apps.
 It is built on top of Nokogiri and Typhoeus.
 
