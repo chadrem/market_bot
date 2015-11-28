@@ -7,11 +7,13 @@ module MarketBot
                           :votes, :developer, :more_from_developer, :users_also_installed,
                           :related, :banner_icon_url, :banner_image_url, :website_url, :email,
                           :youtube_video_ids, :screenshot_urls, :whats_new, :permissions,
-                          :rating_distribution, :html, :category_url, :full_screenshot_urls]
+                          :rating_distribution, :html, :category_url, :full_screenshot_urls,
+                          :reviews]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
       attr_reader :hydra
+      attr_reader :lang
       attr_reader :callback
       attr_reader :error
 
@@ -123,6 +125,29 @@ module MarketBot
         # Stubbing out for now, can't find them in the redesigned page.
         result[:permissions] = permissions = []
 
+        result[:reviews] = []
+        doc.css('.single-review').each do |node|
+          review = {}
+          review[:author_name] = node.css('.author-name').text.strip if node.css('.author-name')
+          raw_tag = node.css('.current-rating').to_s
+          if raw_tag.match(/100%;/i)
+            review[:review_score] = 5
+          elsif raw_tag.match(/80%;/i)
+            review[:review_score] = 4
+          elsif raw_tag.match(/60%;/i)
+            review[:review_score] = 3
+          elsif raw_tag.match(/40%;/i)
+            review[:review_score] = 2
+          elsif raw_tag.match(/20%;/i)
+            review[:review_score] = 1
+          end
+          review[:review_title] = node.css('.review-title').text.strip if node.css('.review-title')
+          review[:review_text] = node.css('.review-body').text.strip if node.css('.review-body')
+          if review
+            result[:reviews] << review
+          end
+        end
+
         result[:rating_distribution] = { 5 => nil, 4 => nil, 3 => nil, 2 => nil, 1 => nil }
 
         histogram = doc.css('div.rating-histogram')
@@ -142,13 +167,14 @@ module MarketBot
       def initialize(app_id, options={})
         @app_id = app_id
         @hydra = options[:hydra] || MarketBot.hydra
+        @lang = options[:lang] || 'en'
         @request_opts = options[:request_opts] || {}
         @callback = nil
         @error = nil
       end
 
       def market_url
-        "https://play.google.com/store/apps/details?id=#{@app_id}&hl=en"
+        "https://play.google.com/store/apps/details?id=#{@app_id}&hl=#{lang}"
       end
 
       def update
@@ -203,6 +229,7 @@ module MarketBot
 
         @callback.call(self) if @callback
       end
+
     end
 
   end

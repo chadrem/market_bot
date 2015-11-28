@@ -6,6 +6,7 @@ test_id = 'com.bluefroggaming.popdat'
 test_src_data = read_file(File.dirname(__FILE__), 'data', 'app_1.txt')
 test_src_data2 = read_file(File.dirname(__FILE__), 'data', 'app_2.txt')
 test_src_data3 = read_file(File.dirname(__FILE__), 'data', 'app_3.txt')
+test_src_data4 = read_file(File.dirname(__FILE__), 'data', 'app_4.txt')
 
 def check_getters(app)
   it 'should populate the getters' do
@@ -166,6 +167,16 @@ describe 'App' do
       result[:users_also_installed].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
       result[:more_from_developer].first[:app_id].should == 'com.evernote.widget'
     end
+
+    it 'should populate the reviews' do
+      result = App.parse(test_src_data4)
+
+      result[:reviews].should be_a(Array)
+      puts result[:reviews]
+      result[:reviews].size == 9
+
+    end
+
   end
 
   context 'Updating' do
