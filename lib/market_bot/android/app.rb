@@ -141,8 +141,15 @@ module MarketBot
           elsif raw_tag.match(/20%;/i)
             review[:review_score] = 1
           end
-          review[:review_title] = node.css('.review-title').text.strip if node.css('.review-title')
-          review[:review_text] = node.css('.review-body').text.strip if node.css('.review-body')
+          if node.css('.review-title')
+            review[:review_title] = node.css('.review-title').text.strip
+          end
+          if node.css('.review-body')
+            review[:review_text] = node.css('.review-body').text
+              .sub!(review[:review_title],'')
+              .sub!(node.css('.review-link').text,'')
+              .strip
+          end
           if review
             result[:reviews] << review
           end

@@ -170,11 +170,12 @@ describe 'App' do
 
     it 'should populate the reviews' do
       result = App.parse(test_src_data4)
-
       result[:reviews].should be_a(Array)
-      puts result[:reviews]
       result[:reviews].size == 9
-
+      result[:reviews][2][:author_name].should == 'sidi Gueye'
+      result[:reviews][2][:review_title].should  == 'Trop cool'
+      result[:reviews][2][:review_text].should  == "J'ai vraiment adoré l'appli c trop cool !!"
+      result[:reviews][2][:review_score].should  == 5
     end
 
   end
