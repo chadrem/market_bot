@@ -64,7 +64,7 @@ module MarketBot
         path, cat_name = File.split(cat_link)
         result[:category_url] = cat_name
 
-        result[:description] = doc.xpath("//div[@itemprop='description']").first.inner_html.strip
+        result[:description] = doc.xpath("//div[@itemprop='description']").first.text.strip
         result[:title] = doc.xpath("//div[@itemprop='name']").first.text.strip
 
         score = doc.css('.score-container').first
