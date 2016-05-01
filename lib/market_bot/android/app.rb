@@ -117,7 +117,7 @@ module MarketBot
         result[:full_screenshot_urls] = []
         doc.css('.full-screenshot').each do |node|
           result[:full_screenshot_urls] << node[:src]
-        end        
+        end
 
         node = doc.css('.whatsnew').first
         result[:whats_new] = node.inner_html.strip unless node.nil?
@@ -185,8 +185,9 @@ module MarketBot
       end
 
       def update
-        resp = Typhoeus::Request.get(market_url, @request_opts)
-        result = handle_response(resp)
+        req = Typhoeus::Request.new(market_url, @request_opts)
+        req.run
+        result = handle_response(req.response)
         update_callback(result)
 
         self
