@@ -175,9 +175,11 @@ module MarketBot
         @app_id = app_id
         @hydra = options[:hydra] || MarketBot.hydra
         @lang = options[:lang] || 'en'
-        @request_opts = options[:request_opts] || {}
         @callback = nil
         @error = nil
+        @request_opts = options[:request_opts] || {}
+        @request_opts[:timeout] ||= MarketBot.timeout
+        @request_opts[:connecttimeout] ||= MarketBot.connecttimeout
       end
 
       def market_url
@@ -222,7 +224,13 @@ module MarketBot
         if response.success?
           App.parse(response.body)
         else
-          raise MarketBot::ResponseError.new("Got unexpected response code: #{response.code}")
+          codes = "code=#{response.code}, return_code=#{response.return_code}"
+          case response.code
+          when 404
+            raise MarketBot::AppNotFoundError.new("Unable to find app in store: #{codes}")
+          else
+            raise MarketBot::ResponseError.new("Unhandled response: #{codes}")
+          end
         end
       end
 

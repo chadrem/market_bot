@@ -139,9 +139,11 @@ module MarketBot
         @identifier = identifier
         @category = category
         @hydra = options[:hydra] || MarketBot.hydra
-        @request_opts = options[:request_opts] || {}
         @parsed_results = []
         @pending_pages = []
+        @request_opts = options[:request_opts] || {}
+        @request_opts[:timeout] ||= MarketBot.timeout
+        @request_opts[:connecttimeout] ||= MarketBot.connecttimeout
       end
 
       def market_urls(options={})

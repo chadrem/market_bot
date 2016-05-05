@@ -1,4 +1,5 @@
 module MarketBot
-  # Exception raised when an unsuccessful response is indicated by Typhoeus
-  class ResponseError < StandardError; end
+  class MarketBotError < StandardError; end
+  class ResponseError < MarketBotError; end
+  class AppNotFoundError < ResponseError; end
 end
