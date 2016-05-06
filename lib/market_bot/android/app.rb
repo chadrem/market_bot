@@ -2,13 +2,36 @@ module MarketBot
   module Android
 
     class App
-      MARKET_ATTRIBUTES = [:title, :rating, :updated, :current_version, :requires_android,
-                          :category, :installs, :size, :price, :content_rating, :description,
-                          :votes, :developer, :more_from_developer, :users_also_installed,
-                          :related, :banner_icon_url, :banner_image_url, :website_url, :email,
-                          :youtube_video_ids, :screenshot_urls, :whats_new, :permissions,
-                          :rating_distribution, :html, :category_url, :full_screenshot_urls,
-                          :reviews]
+      MARKET_ATTRIBUTES = [
+        :title,
+        :rating,
+        :updated,
+        :current_version,
+        :requires_android,
+        :category,
+        :installs,
+        :size,
+        :price,
+        :content_rating,
+        :description,
+        :votes,
+        :developer,
+        :more_from_developer,
+        :users_also_installed,
+        :related,
+        :banner_icon_url,
+        :banner_image_url,
+        :website_url,
+        :email,
+        :screenshot_urls,
+        :whats_new,
+        :permissions,
+        :rating_distribution,
+        :html,
+        :category_url,
+        :full_screenshot_urls,
+        :reviews,
+      ]
 
       attr_reader :app_id
       attr_reader *MARKET_ATTRIBUTES
@@ -27,34 +50,34 @@ module MarketBot
           field_name = info.css('.title').text.strip
 
           case field_name
-            when 'Updated'
-              result[:updated] = info.css('.content').text.strip
-            when 'Installs'
-              result[:installs] = info.css('.content').text.strip
-            when 'Size'
-              result[:size] = info.css('.content').text.strip
-            when 'Current Version'
-              result[:current_version] = info.css('.content').text.strip
-            when 'Requires Android'
-              result[:requires_android] = info.css('.content').text.strip
-            when 'Content Rating'
-              result[:content_rating] = info.css('.content').text.strip
-            when 'Contact Developer', 'Developer'
-              info.css('.dev-link').each do |node|
-                node_href = node[:href]
-                if node_href =~ /^mailto:/
-                  result[:email] = node_href.gsub(/^mailto:/,'')
-                else
-                  if q_param = URI(node_href).query.split('&').select{ |p| p =~ /q=/ }.first
-                    actual_url = q_param.gsub('q=', '')
-                  end
-
-                  result[:website_url] = actual_url
+          when 'Updated'
+            result[:updated] = info.css('.content').text.strip
+          when 'Installs'
+            result[:installs] = info.css('.content').text.strip
+          when 'Size'
+            result[:size] = info.css('.content').text.strip
+          when 'Current Version'
+            result[:current_version] = info.css('.content').text.strip
+          when 'Requires Android'
+            result[:requires_android] = info.css('.content').text.strip
+          when 'Contact Developer', 'Developer'
+            info.css('.dev-link').each do |node|
+              node_href = node[:href]
+              if node_href =~ /^mailto:/
+                result[:email] = node_href.gsub(/^mailto:/,'')
+              else
+                if q_param = URI(node_href).query.split('&').select{ |p| p =~ /q=/ }.first
+                  actual_url = q_param.gsub('q=', '')
                 end
+
+                result[:website_url] = actual_url
               end
+            end
 
           end
         end
+
+        result[:content_rating] = doc.css("div.content[itemprop='contentRating']").text
 
         node = doc.xpath("//meta[@itemprop='price']").first
         result[:price] = node[:content].strip rescue 'Free'
@@ -67,6 +90,7 @@ module MarketBot
 
         result[:description] = doc.xpath("//div[@itemprop='description']").first.inner_html.strip
         result[:title] = doc.xpath("//div[@itemprop='name']").first.text.strip
+        result[:title] = doc.css('div.id-app-title').text
 
         score = doc.css('.score-container').first
         unless score.nil?
@@ -98,26 +122,19 @@ module MarketBot
 
         node = doc.css('.cover-image').first
         unless node.nil?
-          result[:banner_icon_url] = node[:src]
-          result[:banner_image_url] = node[:src]
-        end
-
-        result[:youtube_video_ids] = []
-        doc.css('.play-action-container').each do |node|
-          url = node['data-video-url']
-          unless url.nil?
-            result[:youtube_video_ids] << url.split('embed/').last.split('?').first
-          end
+          url = fix_content_url(node[:src])
+          result[:banner_icon_url] = url
+          result[:banner_image_url] = url
         end
 
         result[:screenshot_urls] = []
         doc.css('.screenshot').each do |node|
-          result[:screenshot_urls] << node[:src]
+          result[:screenshot_urls] << fix_content_url(node[:src])
         end
 
         result[:full_screenshot_urls] = []
         doc.css('.full-screenshot').each do |node|
-          result[:full_screenshot_urls] << node[:src]
+          result[:full_screenshot_urls] << fix_content_url(node[:src])
         end
 
         node = doc.css('.whatsnew').first
@@ -219,7 +236,11 @@ module MarketBot
         self
       end
 
-    private
+      private
+
+      def self.fix_content_url(url)
+        url =~ /\A\/\// ? "https:#{url}" : url
+      end
 
       def handle_response(response)
         if response.success?
@@ -248,8 +269,6 @@ module MarketBot
 
         @callback.call(self) if @callback
       end
-
     end
-
   end
 end

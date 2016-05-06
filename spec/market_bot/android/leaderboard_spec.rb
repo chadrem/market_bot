@@ -43,7 +43,7 @@ def check_results(results)
     results.first[:market_url].should == 'https://play.google.com/store/apps/details?id=com.mojang.minecraftpe&hl=en'
     results.first[:price_usd].should == '$6.99'
     results.first[:stars].should == '4.5'
-    results.first[:title].should == "Minecraft - Pocket Edition"
+    results.first[:title].should == "Minecraft: Pocket Edition"
   end
 
 end
@@ -125,15 +125,15 @@ describe 'Leaderboard' do
         lb = MarketBot::Android::Leaderboard.new('editors_choice', nil, :hydra => hydra)
         lb.update
 
-        lb.results.count.should == 61
+        lb.results.count.should == 60
 
         app = lb.results.last
 
-        app[:title].should == '10000000'
-        app[:price_usd].should == "$2.89"
-        app[:developer].should == 'EightyEight Games'
-        app[:market_id].should == 'com.eightyeightgames.tenmillion'
-        app[:market_url].should == 'https://play.google.com/store/apps/details?id=com.eightyeightgames.tenmillion&hl=en'
+        app[:title].should == "Instacart: Grocery Delivery"
+        app[:price_usd].should == "Free"
+        app[:developer].should == "Instacart"
+        app[:market_id].should == "com.instacart.client"
+        app[:market_url].should == "https://play.google.com/store/apps/details?id=com.instacart.client&hl=en"
       end
     end
   end

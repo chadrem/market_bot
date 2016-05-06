@@ -20,17 +20,16 @@ def check_getters(app)
     app.installs.should == '500 - 1,000'
     app.size.should == '9.0M'
     app.price.should == '0'
-    app.content_rating.should == 'Everyone'
+    app.content_rating.should == 'Unrated'
     app.description.should =~ /^<div.*?>An action-packed blend of split-second skill and luck-based gameplay!/
-    app.votes.should == '9'
+    app.votes.should == '11'
     app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
-    app.users_also_installed.should == [{:app_id=>"com.mac.warzonepaid"}, {:app_id=>"com.caresilabs.wheeljoy.paid"}, {:app_id=>"com.blazingsoft.crosswolf"}, {:app_id=>"org.vladest.Popcorn"}, {:app_id=>"com.mtb.dds"}, {:app_id=>"com.hdl.datbom"}, {:app_id=>"cz.dejvice.rc.Marvin"}, {:app_id=>"com.spectaculator.spectaculator"}, {:app_id=>"com.seleuco.xpectrum"}, {:app_id=>"app.usp"}, {:app_id=>"com.fms.speccy"}, {:app_id=>"com.reynoldssoft.sampler"}, {:app_id=>"com.dylanpdx.blockybird"}]
-    app.related.should == [{:app_id=>"com.mac.warzonepaid"}, {:app_id=>"com.caresilabs.wheeljoy.paid"}, {:app_id=>"com.blazingsoft.crosswolf"}, {:app_id=>"org.vladest.Popcorn"}, {:app_id=>"com.mtb.dds"}, {:app_id=>"com.hdl.datbom"}, {:app_id=>"cz.dejvice.rc.Marvin"}, {:app_id=>"com.spectaculator.spectaculator"}, {:app_id=>"com.seleuco.xpectrum"}, {:app_id=>"app.usp"}, {:app_id=>"com.fms.speccy"}, {:app_id=>"com.reynoldssoft.sampler"}, {:app_id=>"com.dylanpdx.blockybird"}]
+    app.users_also_installed.should == [{:app_id=>"si.custom.snake"}]
+    app.related.should == [{:app_id=>"si.custom.snake"}]
     app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
     app.banner_image_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
     app.website_url.should == 'http://bluefroggaming.com'
     app.email.should == 'support@hdgames.zendesk.com'
-    app.youtube_video_ids.should == []
     app.screenshot_urls.should == ["https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h310", "https://lh6.ggpht.com/kPGbJqu42Ukxoa_XZlWxo349y3zNKCayjBD35V2bbt26ZmgpHDegTf8sS5C1VOoAiw=h310", "https://lh3.ggpht.com/S9VMzKxAWSS3IxeUtLYPn-zDg9ojTpVxeHbd3RhHqtXazGRV6-S0jsuNh-GneV9eE2A=h310", "https://lh5.ggpht.com/G0U5k5PpvuEdflN58qzr3uKHGsXk3QqwwLIL_KxVfGNicR7Gn42smetbTBn9SRftnyk=h310", "https://lh6.ggpht.com/j03lPKqJss6066_Q6AbZikU33PWgoR07cPLFgoE5IoNyXwMG6QVX_3-SgI741vnaVnu7=h310", "https://lh3.ggpht.com/YBrG1Hjv7vgNLwp9PaR77gQHwdpInuluSnq9qPG4BwwU7LItCy4m6RQt9YM1sJH1hjdq=h310"]
     app.full_screenshot_urls.should == ["https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h900", "https://lh6.ggpht.com/kPGbJqu42Ukxoa_XZlWxo349y3zNKCayjBD35V2bbt26ZmgpHDegTf8sS5C1VOoAiw=h900", "https://lh3.ggpht.com/S9VMzKxAWSS3IxeUtLYPn-zDg9ojTpVxeHbd3RhHqtXazGRV6-S0jsuNh-GneV9eE2A=h900", "https://lh5.ggpht.com/G0U5k5PpvuEdflN58qzr3uKHGsXk3QqwwLIL_KxVfGNicR7Gn42smetbTBn9SRftnyk=h900", "https://lh6.ggpht.com/j03lPKqJss6066_Q6AbZikU33PWgoR07cPLFgoE5IoNyXwMG6QVX_3-SgI741vnaVnu7=h900", "https://lh3.ggpht.com/YBrG1Hjv7vgNLwp9PaR77gQHwdpInuluSnq9qPG4BwwU7LItCy4m6RQt9YM1sJH1hjdq=h900"]
     app.whats_new.should == nil
@@ -38,7 +37,7 @@ def check_getters(app)
     # Stubbing out for now, can't find them in the redesigned page.
     app.permissions.should == []
 
-    app.rating_distribution.should == {5=>8, 4=>0, 3=>0, 2=>1, 1=>0}
+    app.rating_distribution.should == {5=>10, 4=>0, 3=>0, 2=>1, 1=>0}
     app.html.class.should == String
   end
 end
@@ -75,21 +74,20 @@ describe 'App' do
       result[:installs].should == '500 - 1,000'
       result[:size].should == '9.0M'
       result[:price].should == '0'
-      result[:content_rating].should == 'Everyone'
+      result[:content_rating].should == 'Unrated'
       result[:description].should =~ /An action-packed blend of split-second/
-      result[:votes].should == '9'
+      result[:votes].should == '11'
       result[:developer].should == 'Blue Frog Gaming'
       result[:banner_icon_url].should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
       result[:website_url].should == 'http://bluefroggaming.com'
       result[:email].should == 'support@hdgames.zendesk.com'
-      result[:youtube_video_ids].should == []
       result[:screenshot_urls].should == ["https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h310", "https://lh6.ggpht.com/kPGbJqu42Ukxoa_XZlWxo349y3zNKCayjBD35V2bbt26ZmgpHDegTf8sS5C1VOoAiw=h310", "https://lh3.ggpht.com/S9VMzKxAWSS3IxeUtLYPn-zDg9ojTpVxeHbd3RhHqtXazGRV6-S0jsuNh-GneV9eE2A=h310", "https://lh5.ggpht.com/G0U5k5PpvuEdflN58qzr3uKHGsXk3QqwwLIL_KxVfGNicR7Gn42smetbTBn9SRftnyk=h310", "https://lh6.ggpht.com/j03lPKqJss6066_Q6AbZikU33PWgoR07cPLFgoE5IoNyXwMG6QVX_3-SgI741vnaVnu7=h310", "https://lh3.ggpht.com/YBrG1Hjv7vgNLwp9PaR77gQHwdpInuluSnq9qPG4BwwU7LItCy4m6RQt9YM1sJH1hjdq=h310"]
-      result[:full_screenshot_urls].should == ["https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h900", "https://lh6.ggpht.com/kPGbJqu42Ukxoa_XZlWxo349y3zNKCayjBD35V2bbt26ZmgpHDegTf8sS5C1VOoAiw=h900", "https://lh3.ggpht.com/S9VMzKxAWSS3IxeUtLYPn-zDg9ojTpVxeHbd3RhHqtXazGRV6-S0jsuNh-GneV9eE2A=h900", "https://lh5.ggpht.com/G0U5k5PpvuEdflN58qzr3uKHGsXk3QqwwLIL_KxVfGNicR7Gn42smetbTBn9SRftnyk=h900", "https://lh6.ggpht.com/j03lPKqJss6066_Q6AbZikU33PWgoR07cPLFgoE5IoNyXwMG6QVX_3-SgI741vnaVnu7=h900", "https://lh3.ggpht.com/YBrG1Hjv7vgNLwp9PaR77gQHwdpInuluSnq9qPG4BwwU7LItCy4m6RQt9YM1sJH1hjdq=h900"]      
+      result[:full_screenshot_urls].should == ["https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h900", "https://lh6.ggpht.com/kPGbJqu42Ukxoa_XZlWxo349y3zNKCayjBD35V2bbt26ZmgpHDegTf8sS5C1VOoAiw=h900", "https://lh3.ggpht.com/S9VMzKxAWSS3IxeUtLYPn-zDg9ojTpVxeHbd3RhHqtXazGRV6-S0jsuNh-GneV9eE2A=h900", "https://lh5.ggpht.com/G0U5k5PpvuEdflN58qzr3uKHGsXk3QqwwLIL_KxVfGNicR7Gn42smetbTBn9SRftnyk=h900", "https://lh6.ggpht.com/j03lPKqJss6066_Q6AbZikU33PWgoR07cPLFgoE5IoNyXwMG6QVX_3-SgI741vnaVnu7=h900", "https://lh3.ggpht.com/YBrG1Hjv7vgNLwp9PaR77gQHwdpInuluSnq9qPG4BwwU7LItCy4m6RQt9YM1sJH1hjdq=h900"]
       result[:whats_new].should == nil
       #result[:permissions].should == [{:security=>"dangerous", :group=>"Network communication", :description=>"full Internet access", :description_full=>"Allows the app to create network sockets."}, {:security=>"dangerous", :group=>"Phone calls", :description=>"read phone state and identity", :description_full=>"Allows the app to access the phone features of the device. An app with this permission can determine the phone number and serial number of this phone, whether a call is active, the number that call is connected to and the like."}, {:security=>"safe", :group=>"Network communication", :description=>"view network state", :description_full=>"Allows the app to view the state of all networks."}]
       # Stubbing out for now, can't find them in the redesigned page.
       result[:permissions].should == []
-      result[:rating_distribution].should == {5=>8, 4=>0, 3=>0, 2=>1, 1=>0}
+      result[:rating_distribution].should == {5=>10, 4=>0, 3=>0, 2=>1, 1=>0}
       result[:html].should == test_src_data
 
       result
@@ -98,32 +96,31 @@ describe 'App' do
     it 'should populate a hash with the correct keys/values' do
       result = App.parse(test_src_data2)
 
-      result[:title].should == 'Evernote'
+      result[:title].should == 'Evernote - stay organized.'
       result[:rating].should == '4.6'
-      result[:updated].should == 'November 26, 2014'
+      result[:updated].should == 'May 5, 2016'
       result[:current_version].should == 'Varies with device'
       result[:requires_android].should == 'Varies with device'
       result[:category].should == 'Productivity'
       result[:category_url].should == 'PRODUCTIVITY'
       result[:size].should == 'Varies with device'
       result[:price].should == '0'
-      result[:content_rating].should == 'Low Maturity'
+      result[:content_rating].should == 'Everyone'
       result[:description].should =~ /New York Times/
-      result[:votes].should == '1134111'
+      result[:votes].should == '1390801'
       result[:developer].should == 'Evernote Corporation'
-      result[:installs].should == '50,000,000 - 100,000,000'
-      result[:banner_icon_url].should == 'https://lh5.ggpht.com/u_ZwBnOs3s7nHA2v4XDCrJknAAVVHQIzK4mVF8tbx1n62-_LrDSopwHviqeNuDIFigc=w300'
-      result[:banner_image_url].should == 'https://lh5.ggpht.com/u_ZwBnOs3s7nHA2v4XDCrJknAAVVHQIzK4mVF8tbx1n62-_LrDSopwHviqeNuDIFigc=w300'
+      result[:installs].should == "100,000,000 - 500,000,000"
+      result[:banner_icon_url].should == 'https://lh3.googleusercontent.com/atqaMgabx_ZXVi4AJUcDiHTy-G3nwMAGsjoCsfpebwPjXMV_QXTPefko7Wbwen-EnUo=w300'
+      result[:banner_image_url].should == 'https://lh3.googleusercontent.com/atqaMgabx_ZXVi4AJUcDiHTy-G3nwMAGsjoCsfpebwPjXMV_QXTPefko7Wbwen-EnUo=w300'
       result[:website_url].should == 'http://evernote.com/privacy/'
       result[:email].should == 'appstore-evernote-android@evernote.com'
-      result[:youtube_video_ids].should == ['UnpUIVO8Lmo']
-      result[:screenshot_urls].should == ["https://lh5.ggpht.com/PVFHj_lDlc52wwNu0by2CLmUrSHaAx6NINjbe9qmk-NPo-S5UUA8oghVARMBHEWgXDU=h310", "https://lh5.ggpht.com/KvbOit3FFnfbOZ6rG23sDEVuC4ALtLGV0Q0zwu6vMKDCO4u69_zI-IhmD3jOGuJLEj4=h310", "https://lh5.ggpht.com/TEWuyLgIH6_514_1xpcqpcjFPSxu82Sak2RPuwbtexRqe-kJuW81DF5IRdS4Lis1KJQ=h310", "https://lh4.ggpht.com/KeGMsBnchmH9gywdjA1x7fqUpQX0UrMA_cMZbvr2hYHLiYTsCKOescqniEO4DItuHxU=h310", "https://lh5.ggpht.com/zWJ3VVV-sjT0mSADljAMyecO3QmcoFBtLBs8bETznU49X8avDRv3_iF5TkJkzVlu8qU=h310", "https://lh5.ggpht.com/3DqrNu-AHqGQQTDper8eTzpm9XEUNq605BxNSCkx4yGopa9u0TD2jBPHXdgwEPp08A=h310", "https://lh6.ggpht.com/9h0D2tvXlf6oLsylnNaaSdxjmm6rJuWeHvML-8zg5xoTp4akAjSXRCylxvF_dNTfoTU=h310", "https://lh5.ggpht.com/ugk2h_v0RrvAdzL7FfqD4jBONrfzboL6eAuFmkqvWg7zQiJUvkz6GThCU5pnKzCmRA=h310", "https://lh4.ggpht.com/3QUx47b-R9ex02vhUDH8h2hN3VDgS7e7rNAP7JCPaxaXr-GClb7jsZEsAyIr5iiwzw=h310", "https://lh5.ggpht.com/1LW-N8yEdwS1s-ZuvQSzqNMLaLldL8wBdLHhDY9TvPV8NnxBWIUjVaDZuat8I7V5uh4=h310", "https://lh4.ggpht.com/hIueHCJKvvAUrTrQQSSv6-2zpKMV-fdTIITHhMGfrulky5fEAR6KM1cpyUFD_9_kqw=h310", "https://lh4.ggpht.com/l-rQJVY9d2ZYZXWXnKfLUkTk6gGCE79Xopb__YlFeVZ974PBgfF4lK8olU67TvK3-g=h310", "https://lh4.ggpht.com/Q_2sTO9l0OIdDv801S2mlJI-vugeKROHHyPcWf7Hvavs5d-MU2v2RWS6sUOrF79gH1Hn=h310", "https://lh5.ggpht.com/1O17OJEpW3qZcyEyfljRcIHUIIAOiBlCc5SxHPghyv0evV4h2g-ZooBAL3xkog-kZYU=h310", "https://lh6.ggpht.com/nyn0trJ4OTdpb3SkH7ItJu8W4DdFNNW9P2AAr0OBA9q0H7y8KLxtc144tlSZXQIVKjE=h310", "https://lh6.ggpht.com/Yo4DN_K0v27ltrEEmJxI9XHn_BtGIgH6kLkxG3hG8Q0PeCJPpDv0FzDXLxbK2gkx0wY=h310"]
-      result[:full_screenshot_urls].should == ["https://lh5.ggpht.com/PVFHj_lDlc52wwNu0by2CLmUrSHaAx6NINjbe9qmk-NPo-S5UUA8oghVARMBHEWgXDU=h900", "https://lh5.ggpht.com/KvbOit3FFnfbOZ6rG23sDEVuC4ALtLGV0Q0zwu6vMKDCO4u69_zI-IhmD3jOGuJLEj4=h900", "https://lh5.ggpht.com/TEWuyLgIH6_514_1xpcqpcjFPSxu82Sak2RPuwbtexRqe-kJuW81DF5IRdS4Lis1KJQ=h900", "https://lh4.ggpht.com/KeGMsBnchmH9gywdjA1x7fqUpQX0UrMA_cMZbvr2hYHLiYTsCKOescqniEO4DItuHxU=h900", "https://lh5.ggpht.com/zWJ3VVV-sjT0mSADljAMyecO3QmcoFBtLBs8bETznU49X8avDRv3_iF5TkJkzVlu8qU=h900", "https://lh5.ggpht.com/3DqrNu-AHqGQQTDper8eTzpm9XEUNq605BxNSCkx4yGopa9u0TD2jBPHXdgwEPp08A=h900", "https://lh6.ggpht.com/9h0D2tvXlf6oLsylnNaaSdxjmm6rJuWeHvML-8zg5xoTp4akAjSXRCylxvF_dNTfoTU=h900", "https://lh5.ggpht.com/ugk2h_v0RrvAdzL7FfqD4jBONrfzboL6eAuFmkqvWg7zQiJUvkz6GThCU5pnKzCmRA=h900", "https://lh4.ggpht.com/3QUx47b-R9ex02vhUDH8h2hN3VDgS7e7rNAP7JCPaxaXr-GClb7jsZEsAyIr5iiwzw=h900", "https://lh5.ggpht.com/1LW-N8yEdwS1s-ZuvQSzqNMLaLldL8wBdLHhDY9TvPV8NnxBWIUjVaDZuat8I7V5uh4=h900", "https://lh4.ggpht.com/hIueHCJKvvAUrTrQQSSv6-2zpKMV-fdTIITHhMGfrulky5fEAR6KM1cpyUFD_9_kqw=h900", "https://lh4.ggpht.com/l-rQJVY9d2ZYZXWXnKfLUkTk6gGCE79Xopb__YlFeVZ974PBgfF4lK8olU67TvK3-g=h900", "https://lh4.ggpht.com/Q_2sTO9l0OIdDv801S2mlJI-vugeKROHHyPcWf7Hvavs5d-MU2v2RWS6sUOrF79gH1Hn=h900", "https://lh5.ggpht.com/1O17OJEpW3qZcyEyfljRcIHUIIAOiBlCc5SxHPghyv0evV4h2g-ZooBAL3xkog-kZYU=h900", "https://lh6.ggpht.com/nyn0trJ4OTdpb3SkH7ItJu8W4DdFNNW9P2AAr0OBA9q0H7y8KLxtc144tlSZXQIVKjE=h900", "https://lh6.ggpht.com/Yo4DN_K0v27ltrEEmJxI9XHn_BtGIgH6kLkxG3hG8Q0PeCJPpDv0FzDXLxbK2gkx0wY=h900"]
+      result[:screenshot_urls].should == ["https://lh3.googleusercontent.com/AkEKnkvCyM6e-FS5RT5DExb56uCUDc1S0cc3sI4IORrJAT-HTLQz-jPu8whw-BL5oA=h310", "https://lh3.googleusercontent.com/qGb8MRDdS4T5pCepmVDWUy7si-fNddvsGLaF3rPYXlB89FjYa_on4VBp-8xPIKq5Qk9C=h310", "https://lh3.googleusercontent.com/N2IqJKGd9-pgW0HgRQhoSA9UNXZFV4OYVIv7l8mhyNmZESVGEywiXviU4OoMbeDqPg=h310", "https://lh3.googleusercontent.com/FfN8xU2ePAfgOCWIyBf-qkYKWk-ALKOwq0Y3F65NutRLF6YrrV-K2udP6xXP2k5PIRE=h310", "https://lh3.googleusercontent.com/9npD1H7xz7NwtyfM9cCOTaYSpqaXQMAWJGYh13q4_F1Kz1TfyWkz9ba0yWc6r6Wwbi8=h310", "https://lh3.googleusercontent.com/InW32sC2LFGHK3gqMT4rTYvu0XqR3ZBPE21Gsp2HAu3O5ilYG1Gi2t3klF_8_OPwQYM=h310", "https://lh3.googleusercontent.com/FX59DjcMqjEj01oGatPAQPZxXuD8A8xVYtpeArc1ECRcLueVJNHykTKw4TgnJSMPpzI=h310", "https://lh3.googleusercontent.com/fYrp0ou-qf5P-LXmUx6w54buL_WO3P4zaa68ULGP98zQirZr68PDdICQfq8bxmRoAA=h310", "https://lh3.googleusercontent.com/fg_VM5xXZqfr8npJm7Cc64Tf5N2Pb-lNkt88y2kjb_gObfXh1vbB9LA_jFYpyi2nxvFa=h310", "https://lh3.googleusercontent.com/-sYE4X1Ua6hM0TwBeZJf6OqT-8OZTI8lZx9TEbgnBlpIdoomaBORAoOqYii2a7FV6g=h310", "https://lh3.googleusercontent.com/pI8Gcd_S3gyVRlztODJ8rdZYD6sD1k36tbrvd4yY0n3vCU6_GCKIn-XyNiE3l1oDf-A=h310", "https://lh3.googleusercontent.com/GoDuyxtSwVzL6GAtT8O9JzV2ulaOFbUTHV0fQtMCrpLrxek4dsUzahnPs0eAd0-YC05z=h310", "https://lh3.googleusercontent.com/pGAi_1d2FlXhwJggTJFm_23pmhRmiGdBngjxmIiHUAwFYzrPizkZyxE7Srq_WzBs-Fpy=h310", "https://lh3.googleusercontent.com/85hsOFhv0fTSTxLmgRTEIdg5m8jFFnbMVcwWKzkeHxQ7MxaTpvdBkEcobteiEnZbGwI=h310", "https://lh3.googleusercontent.com/yNsucoQ93ZCDHSocqcPbvKL9J1KHruCvkzgpbqZwoXFX_cWQsHc81PR2kNemT6hBlw=h310", "https://lh3.googleusercontent.com/aIOqnxGnBOrJGqrSNFpay91nRdwcDXjbX1iQiY4Oepf3VUwqxFyCgD6GKauJ5LD0VA=h310", "https://lh3.googleusercontent.com/Ve7cJfhPpwMxeK350SAfYqCX9wbjdvtTgFb51cJI_IIBy-ciqrSh12XA3BAB-zWmaX4=h310", "https://lh3.googleusercontent.com/JKxZgzgcMX6B2UjuwHU3fFH20aqM6oBjdaugW_NRPinu1VL28Zsb0tOFmRLcg3hI2U8=h310", "https://lh3.googleusercontent.com/Y5V6rb-0fib5I4hufNdY5sSUE_ygvQNy2KO-PcGAR2xh5ciPrcbc3yLoWe-2blIQvw=h310", "https://lh3.googleusercontent.com/Onf1DjVvgdpmue7R8TtZ56wM3SNOD_VCxGshZX1hPnLHpMA7l6n3fQWXva7U7qjdy5ya=h310", "https://lh3.googleusercontent.com/gZCFLqggz9SCqzObmTQw_xXfBv9N7iXiEqUp2iHYwaqFBmpmgTYOaRllCF5VVGLkg0g=h310", "https://lh3.googleusercontent.com/VAYeCD2aIkR-EcF1-48ViOg0ZdYVAC-YU3wIVnDkp7GtxZh3tnv7rDRh_Fvtj-jM098g=h310", "https://lh3.googleusercontent.com/yj50UFheAT_1ZOvZGUOs8VjL6499391RB_x5LUNfpPW2enUcm_Lt95Bcih_AJ8VzpHI=h310", "https://lh3.googleusercontent.com/JO_h9TGYQOqyzCLhIWlLVkzF2DZc1Ib1kIOxg0WVIcH0tOuKPLQApxMxTywChqCa2A=h310"]
+      result[:full_screenshot_urls].should == ["https://lh3.googleusercontent.com/AkEKnkvCyM6e-FS5RT5DExb56uCUDc1S0cc3sI4IORrJAT-HTLQz-jPu8whw-BL5oA=h900", "https://lh3.googleusercontent.com/qGb8MRDdS4T5pCepmVDWUy7si-fNddvsGLaF3rPYXlB89FjYa_on4VBp-8xPIKq5Qk9C=h900", "https://lh3.googleusercontent.com/N2IqJKGd9-pgW0HgRQhoSA9UNXZFV4OYVIv7l8mhyNmZESVGEywiXviU4OoMbeDqPg=h900", "https://lh3.googleusercontent.com/FfN8xU2ePAfgOCWIyBf-qkYKWk-ALKOwq0Y3F65NutRLF6YrrV-K2udP6xXP2k5PIRE=h900", "https://lh3.googleusercontent.com/9npD1H7xz7NwtyfM9cCOTaYSpqaXQMAWJGYh13q4_F1Kz1TfyWkz9ba0yWc6r6Wwbi8=h900", "https://lh3.googleusercontent.com/InW32sC2LFGHK3gqMT4rTYvu0XqR3ZBPE21Gsp2HAu3O5ilYG1Gi2t3klF_8_OPwQYM=h900", "https://lh3.googleusercontent.com/FX59DjcMqjEj01oGatPAQPZxXuD8A8xVYtpeArc1ECRcLueVJNHykTKw4TgnJSMPpzI=h900", "https://lh3.googleusercontent.com/fYrp0ou-qf5P-LXmUx6w54buL_WO3P4zaa68ULGP98zQirZr68PDdICQfq8bxmRoAA=h900", "https://lh3.googleusercontent.com/fg_VM5xXZqfr8npJm7Cc64Tf5N2Pb-lNkt88y2kjb_gObfXh1vbB9LA_jFYpyi2nxvFa=h900", "https://lh3.googleusercontent.com/-sYE4X1Ua6hM0TwBeZJf6OqT-8OZTI8lZx9TEbgnBlpIdoomaBORAoOqYii2a7FV6g=h900", "https://lh3.googleusercontent.com/pI8Gcd_S3gyVRlztODJ8rdZYD6sD1k36tbrvd4yY0n3vCU6_GCKIn-XyNiE3l1oDf-A=h900", "https://lh3.googleusercontent.com/GoDuyxtSwVzL6GAtT8O9JzV2ulaOFbUTHV0fQtMCrpLrxek4dsUzahnPs0eAd0-YC05z=h900", "https://lh3.googleusercontent.com/pGAi_1d2FlXhwJggTJFm_23pmhRmiGdBngjxmIiHUAwFYzrPizkZyxE7Srq_WzBs-Fpy=h900", "https://lh3.googleusercontent.com/85hsOFhv0fTSTxLmgRTEIdg5m8jFFnbMVcwWKzkeHxQ7MxaTpvdBkEcobteiEnZbGwI=h900", "https://lh3.googleusercontent.com/yNsucoQ93ZCDHSocqcPbvKL9J1KHruCvkzgpbqZwoXFX_cWQsHc81PR2kNemT6hBlw=h900", "https://lh3.googleusercontent.com/aIOqnxGnBOrJGqrSNFpay91nRdwcDXjbX1iQiY4Oepf3VUwqxFyCgD6GKauJ5LD0VA=h900", "https://lh3.googleusercontent.com/Ve7cJfhPpwMxeK350SAfYqCX9wbjdvtTgFb51cJI_IIBy-ciqrSh12XA3BAB-zWmaX4=h900", "https://lh3.googleusercontent.com/JKxZgzgcMX6B2UjuwHU3fFH20aqM6oBjdaugW_NRPinu1VL28Zsb0tOFmRLcg3hI2U8=h900", "https://lh3.googleusercontent.com/Y5V6rb-0fib5I4hufNdY5sSUE_ygvQNy2KO-PcGAR2xh5ciPrcbc3yLoWe-2blIQvw=h900", "https://lh3.googleusercontent.com/Onf1DjVvgdpmue7R8TtZ56wM3SNOD_VCxGshZX1hPnLHpMA7l6n3fQWXva7U7qjdy5ya=h900", "https://lh3.googleusercontent.com/gZCFLqggz9SCqzObmTQw_xXfBv9N7iXiEqUp2iHYwaqFBmpmgTYOaRllCF5VVGLkg0g=h900", "https://lh3.googleusercontent.com/VAYeCD2aIkR-EcF1-48ViOg0ZdYVAC-YU3wIVnDkp7GtxZh3tnv7rDRh_Fvtj-jM098g=h900", "https://lh3.googleusercontent.com/yj50UFheAT_1ZOvZGUOs8VjL6499391RB_x5LUNfpPW2enUcm_Lt95Bcih_AJ8VzpHI=h900", "https://lh3.googleusercontent.com/JO_h9TGYQOqyzCLhIWlLVkzF2DZc1Ib1kIOxg0WVIcH0tOuKPLQApxMxTywChqCa2A=h900"]
       result[:whats_new].should =~ /What's New/
       #result[:permissions].should == [{:security=>"dangerous", :group=>"Hardware controls", :description=>"record audio", :description_full=>"Allows the app to access the audio record path."}, {:security=>"dangerous", :group=>"Hardware controls", :description=>"take pictures and videos", :description_full=>"Allows the app to take pictures and videos with the camera. This allows the app at any time to collect images the camera is seeing."}, {:security=>"dangerous", :group=>"Your location", :description=>"coarse (network-based) location", :description_full=>"Access coarse location sources such as the cellular network database to determine an approximate tablet location, where available. Malicious apps may use this to determine approximately where you are. Access coarse location sources such as the cellular network database to determine an approximate phone location, where available. Malicious apps may use this to determine approximately where you are."}, {:security=>"dangerous", :group=>"Your location", :description=>"fine (GPS) location", :description_full=>"Access fine location sources such as the Global Positioning System on the tablet, where available. Malicious apps may use this to determine where you are, and may consume additional battery power. Access fine location sources such as the Global Positioning System on the phone, where available. Malicious apps may use this to determine where you are, and may consume additional battery power."}, {:security=>"dangerous", :group=>"Network communication", :description=>"full Internet access", :description_full=>"Allows the app to create network sockets."}, {:security=>"dangerous", :group=>"Your personal information", :description=>"read contact data", :description_full=>"Allows the app to read all of the contact (address) data stored on your tablet. Malicious apps may use this to send your data to other people. Allows the app to read all of the contact (address) data stored on your phone. Malicious apps may use this to send your data to other people."}, {:security=>"dangerous", :group=>"Your personal information", :description=>"read sensitive log data", :description_full=>"Allows the app to read from the system's various log files. This allows it to discover general information about what you are doing with the tablet, potentially including personal or private information. Allows the app to read from the system's various log files. This allows it to discover general information about what you are doing with the phone, potentially including personal or private information."}, {:security=>"dangerous", :group=>"Your personal information", :description=>"read calendar events plus confidential information", :description_full=>"Allows the app to read all calendar events stored on your tablet, including those of friends or coworkers. Malicious apps may extract personal information from these calendars without the owners' knowledge. Allows the app to read all calendar events stored on your phone, including those of friends or coworkers. Malicious apps may extract personal information from these calendars without the owners' knowledge."}, {:security=>"dangerous", :group=>"Phone calls", :description=>"read phone state and identity", :description_full=>"Allows the app to access the phone features of the device. An app with this permission can determine the phone number and serial number of this phone, whether a call is active, the number that call is connected to and the like."}, {:security=>"dangerous", :group=>"Storage", :description=>"modify/delete USB storage contents modify/delete SD card contents", :description_full=>"Allows the app to write to the USB storage. Allows the app to write to the SD card."}, {:security=>"dangerous", :group=>"System tools", :description=>"prevent tablet from sleeping prevent phone from sleeping", :description_full=>"Allows the app to prevent the tablet from going to sleep. Allows the app to prevent the phone from going to sleep."}, {:security=>"safe", :group=>"Your accounts", :description=>"discover known accounts", :description_full=>"Allows the app to get the list of accounts known by the tablet. Allows the app to get the list of accounts known by the phone."}, {:security=>"safe", :group=>"Hardware controls", :description=>"control vibrator", :description_full=>"Allows the app to control the vibrator."}, {:security=>"safe", :group=>"Network communication", :description=>"view network state", :description_full=>"Allows the app to view the state of all networks."}, {:security=>"safe", :group=>"Network communication", :description=>"view Wi-Fi state", :description_full=>"Allows the app to view the information about the state of Wi-Fi."}, {:security=>"safe", :group=>"Default", :description=>"Market billing service", :description_full=>"Allows the user to purchase items through Market from within this application"}]
       # Stubbing out for now, can't find them in the redesigned page.
       result[:permissions].should == []
-      result[:rating_distribution].should == {5=>833055, 4=>229395, 3=>39241, 2=>12003, 1=>20202}
+      result[:rating_distribution].should == {5=>1009112, 4=>280079, 3=>51367, 2=>17062, 1=>32966}
       result[:html].should == test_src_data2
     end
 
@@ -131,28 +128,27 @@ describe 'App' do
       result = App.parse(test_src_data3)
 
       result[:title].should == 'WeatherPro'
-      result[:updated].should == 'October 1, 2014'
-      result[:current_version].should == '3.5.2'
+      result[:updated].should == "March 4, 2016"
+      result[:current_version].should == "4.5.1"
       result[:requires_android].should == '2.3 and up'
       result[:category].should == 'Weather'
       result[:category_url].should == 'WEATHER'
-      result[:size].should == '9.1M'
+      result[:size].should == '11M'
       result[:price].should == '$2.99'
-      result[:content_rating].should == 'Low Maturity'
-      result[:description].should =~ /^.*WeatherPro answers the question - what's the best Android Weather app/
+      result[:content_rating].should == 'Everyone'
+      result[:description].should =~ /^.*WeatherPro has been created by MeteoGroup,/
       result[:developer].should == 'MeteoGroup'
-      result[:rating].should == "4.4"
-      result[:votes].should == "32543"
+      result[:rating].should == '4.3'
+      result[:votes].should == '44121'
       result[:banner_icon_url].should == 'https://lh5.ggpht.com/gEwuqrqo9Hu2qRNfBi8bLs0XByBQEmhvBhyNXJLuPmrT47GNfljir8ddam-Plzhovrg=w300'
       result[:banner_image_url].should == 'https://lh5.ggpht.com/gEwuqrqo9Hu2qRNfBi8bLs0XByBQEmhvBhyNXJLuPmrT47GNfljir8ddam-Plzhovrg=w300'
       result[:website_url].should == 'http://www.meteogroup.com/en/gb/about-meteogroup/privacy-policy-and-cookies.html'
       result[:email].should == 'support@android.weatherpro.de'
-      result[:youtube_video_ids].should == []
-      result[:whats_new].should =~ /Access to WeatherPro app via car infotainment screen/
+      result[:whats_new].should =~ /We have fixed bugs which can be reported via our help center/
       #result[:permissions].should == [{:security=>"dangerous", :group=>"Your location", :description=>"fine (GPS) location", :description_full=>"Access fine location sources such as the Global Positioning System on the tablet, where available. Malicious apps may use this to determine where you are, and may consume additional battery power. Access fine location sources such as the Global Positioning System on the phone, where available. Malicious apps may use this to determine where you are, and may consume additional battery power."}, {:security=>"dangerous", :group=>"Network communication", :description=>"full Internet access", :description_full=>"Allows the app to create network sockets."}, {:security=>"safe", :group=>"Network communication", :description=>"view network state", :description_full=>"Allows the app to view the state of all networks."}]
       # Stubbing out for now, can't find them in the redesigned page.
       result[:permissions].should == []
-      result[:rating_distribution].should == {5=>20184, 4=>8344, 3=>1749, 2=>801, 1=>1454}
+      result[:rating_distribution].should == {5=>26367, 4=>11216, 3=>2613, 2=>1455, 1=>2460}
       result[:html].should == test_src_data3
     end
 
@@ -165,7 +161,7 @@ describe 'App' do
 
       result[:related].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
       result[:users_also_installed].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
-      result[:more_from_developer].first[:app_id].should == 'com.evernote.widget'
+      result[:more_from_developer].first[:app_id].should == 'com.evernote.wear'
     end
 
     it 'should populate the reviews' do

@@ -6,7 +6,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rspec'
 
 begin
-  require 'debugger'
+  require 'byebug'
 rescue Exception => e
 end
 

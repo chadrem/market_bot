@@ -16,7 +16,7 @@ end
 def check_results(results)
   it 'should return valid results' do
     results.length.should == 24
-    results[0][:title].should == "New Words With Friends"
+    results[0][:title].should == 'Words With Friends – Play Free'
   end
 end
 
