@@ -16,6 +16,7 @@ module MarketBot
       attr_reader :lang
       attr_reader :callback
       attr_reader :error
+      attr_reader :result
 
       def self.parse(html)
         result = {}
@@ -236,6 +237,8 @@ module MarketBot
 
       def update_callback(result)
         unless @error
+          @result = result
+
           MARKET_ATTRIBUTES.each do |a|
             attr_name = "@#{a}"
             attr_value = result[a]
