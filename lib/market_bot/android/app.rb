@@ -89,7 +89,6 @@ module MarketBot
         result[:category_url] = cat_name
 
         result[:description] = doc.xpath("//div[@itemprop='description']").first.inner_html.strip
-        result[:title] = doc.xpath("//div[@itemprop='name']").first.text.strip
         result[:title] = doc.css('div.id-app-title').text
 
         score = doc.css('.score-container').first
