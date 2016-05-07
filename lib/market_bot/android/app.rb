@@ -248,7 +248,9 @@ module MarketBot
           codes = "code=#{response.code}, return_code=#{response.return_code}"
           case response.code
           when 404
-            raise MarketBot::AppNotFoundError.new("Unable to find app in store: #{codes}")
+            raise MarketBot::NotFoundError.new("Unable to find app in store: #{codes}")
+          when 403
+            raise MarketBot::UnavailableError.new("Unavailable app (country restriction?): #{codes}")
           else
             raise MarketBot::ResponseError.new("Unhandled response: #{codes}")
           end

@@ -1,5 +1,6 @@
 module MarketBot
   class MarketBotError < StandardError; end
   class ResponseError < MarketBotError; end
-  class AppNotFoundError < ResponseError; end
+  class NotFoundError < ResponseError; end
+  class UnavailableError < ResponseError; end
 end
