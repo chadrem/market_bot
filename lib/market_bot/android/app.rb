@@ -41,7 +41,7 @@ module MarketBot
       attr_reader :error
       attr_reader :result
 
-      def self.parse(html)
+      def self.parse(html, options={})
         result = {}
 
         doc = Nokogiri::HTML(html)
@@ -143,32 +143,34 @@ module MarketBot
         result[:permissions] = permissions = []
 
         result[:reviews] = []
-        doc.css('.single-review').each do |node|
-          review = {}
-          review[:author_name] = node.css('.author-name').text.strip if node.css('.author-name')
-          raw_tag = node.css('.current-rating').to_s
-          if raw_tag.match(/100%;/i)
-            review[:review_score] = 5
-          elsif raw_tag.match(/80%;/i)
-            review[:review_score] = 4
-          elsif raw_tag.match(/60%;/i)
-            review[:review_score] = 3
-          elsif raw_tag.match(/40%;/i)
-            review[:review_score] = 2
-          elsif raw_tag.match(/20%;/i)
-            review[:review_score] = 1
-          end
-          if node.css('.review-title')
-            review[:review_title] = node.css('.review-title').text.strip
-          end
-          if node.css('.review-body')
-            review[:review_text] = node.css('.review-body').text
-              .sub!(review[:review_title],'')
-              .sub!(node.css('.review-link').text,'')
-              .strip
-          end
-          if review
-            result[:reviews] << review
+        unless options[:skip_reviews] # Review parsing is CPU intensive.
+          doc.css('.single-review').each do |node|
+            review = {}
+            review[:author_name] = node.css('.author-name').text.strip if node.css('.author-name')
+            raw_tag = node.css('.current-rating').to_s
+            if raw_tag.match(/100%;/i)
+              review[:review_score] = 5
+            elsif raw_tag.match(/80%;/i)
+              review[:review_score] = 4
+            elsif raw_tag.match(/60%;/i)
+              review[:review_score] = 3
+            elsif raw_tag.match(/40%;/i)
+              review[:review_score] = 2
+            elsif raw_tag.match(/20%;/i)
+              review[:review_score] = 1
+            end
+            if node.css('.review-title')
+              review[:review_title] = node.css('.review-title').text.strip
+            end
+            if node.css('.review-body')
+              review[:review_text] = node.css('.review-body').text
+                .sub!(review[:review_title],'')
+                .sub!(node.css('.review-link').text,'')
+                .strip
+            end
+            if review
+              result[:reviews] << review
+            end
           end
         end
 

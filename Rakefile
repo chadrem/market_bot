@@ -99,7 +99,25 @@ namespace :benchmark do
     end
 
     task :app_parser do
-      html = File.read()
+      loops = 5
+      #test_files = %w{app_1.txt app_2.txt app_3.txt}
+      test_files = %w{app_3.txt}
+      test_files.each do |test_file|
+        puts '----------------------------------------------------'
+        puts "Benchmark #{test_file} parsing"
+        puts '----------------------------------------------------'
+        file_path = File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', test_file)
+        html = File.read(file_path)
+
+        total = 0.0
+        loops.times do
+          total += Benchmark.realtime { MarketBot::Android::App.parse(html) }
+        end
+        average = total.to_f / loops.to_f
+
+        puts "average: #{average} seconds"
+      end
+
     end
   end
 end
