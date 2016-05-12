@@ -3,10 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + '../../../spec_helper')
 include MarketBot::Android
 
 test_id = 'com.bluefroggaming.popdat'
-test_src_data = read_file(File.dirname(__FILE__), 'data', 'app_1.txt')
+test_src_data1 = read_file(File.dirname(__FILE__), 'data', 'app_1.txt')
 test_src_data2 = read_file(File.dirname(__FILE__), 'data', 'app_2.txt')
 test_src_data3 = read_file(File.dirname(__FILE__), 'data', 'app_3.txt')
-test_src_data4 = read_file(File.dirname(__FILE__), 'data', 'app_4.txt')
 
 def check_getters(app)
   it 'should populate the getters' do
@@ -62,7 +61,7 @@ describe 'App' do
 
   context 'Parsing' do
     it 'should populate a hash with the correct keys/values' do
-      result = App.parse(test_src_data)
+      result = App.parse(test_src_data1)
 
       result[:title].should == 'Pop Dat'
       result[:rating].should == '4.7'
@@ -88,7 +87,7 @@ describe 'App' do
       # Stubbing out for now, can't find them in the redesigned page.
       result[:permissions].should == []
       result[:rating_distribution].should == {5=>10, 4=>0, 3=>0, 2=>1, 1=>0}
-      result[:html].should == test_src_data
+      result[:html].should == test_src_data1
 
       result
     end
@@ -165,13 +164,13 @@ describe 'App' do
     end
 
     it 'should populate the reviews' do
-      result = App.parse(test_src_data4)
+      result = App.parse(test_src_data3)
       result[:reviews].should be_a(Array)
       result[:reviews].size == 9
-      result[:reviews][2][:author_name].should == 'sidi Gueye'
-      result[:reviews][2][:review_title].should  == 'Trop cool'
-      result[:reviews][2][:review_text].should  == "J'ai vraiment adoré l'appli c trop cool !!"
-      result[:reviews][2][:review_score].should  == 5
+      result[:reviews][2][:author_name].should == 'Mark Kell'
+      result[:reviews][2][:review_title].should  == 'It is the best... But not for an S7 Edge'
+      result[:reviews][2][:review_text].should  =~ /developers of this app had a good understanding of Android for the S6 Edge/
+      result[:reviews][2][:review_score].should  == 2
     end
 
   end
@@ -180,7 +179,7 @@ describe 'App' do
     context 'Quick API' do
       app = App.new(test_id)
 
-      response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_data)
+      response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_data1)
       Typhoeus.stub(app.market_url).and_return(response)
 
       app.update
@@ -206,7 +205,7 @@ describe 'App' do
       hydra = Typhoeus::Hydra.new
       app = App.new(test_id, :hydra => hydra)
 
-      response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_data)
+      response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_data1)
       Typhoeus.stub(app.market_url).and_return(response)
 
       callback_flag = false

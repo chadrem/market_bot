@@ -65,35 +65,41 @@ namespace :spec do
 end
 
 namespace :benchmark do
-  task :android do
-    require 'market_bot'
-    require 'benchmark'
+  require 'market_bot'
+  require 'benchmark'
 
-    hydra = Typhoeus::Hydra.new(:max_concurrency => 20)
+  namespace :android do
+    task :overall do
+      hydra = Typhoeus::Hydra.new(:max_concurrency => 20)
 
-    leaderboard = nil
-    leaderboard_ms = Benchmark.realtime {
-      leaderboard = MarketBot::Android::Leaderboard.new(:apps_topselling_paid, nil, :hydra => hydra)
-      leaderboard.update
-    }
+      leaderboard = nil
+      leaderboard_ms = Benchmark.realtime {
+        leaderboard = MarketBot::Android::Leaderboard.new(:apps_topselling_paid, nil, :hydra => hydra)
+        leaderboard.update
+      }
 
-    puts '----------------------------------------------------'
-    puts 'Benchmark Leaderboard: Top Selling Paid Apps'
-    puts '----------------------------------------------------'
-    puts "app count: #{leaderboard.results.length}"
-    puts "time: #{leaderboard_ms.round(3)} seconds"
-    puts
+      puts '----------------------------------------------------'
+      puts 'Benchmark Leaderboard: Top Selling Paid Apps'
+      puts '----------------------------------------------------'
+      puts "app count: #{leaderboard.results.length}"
+      puts "time: #{leaderboard_ms.round(3)} seconds"
+      puts
 
-    apps = nil
-    apps_ms = Benchmark.realtime {
-      apps = leaderboard.results.map{ |r| MarketBot::Android::App.new(r[:market_id], :hydra => hydra).enqueue_update }
-      hydra.run
-    }
+      apps = nil
+      apps_ms = Benchmark.realtime {
+        apps = leaderboard.results.map{ |r| MarketBot::Android::App.new(r[:market_id], :hydra => hydra).enqueue_update }
+        hydra.run
+      }
 
-    puts '----------------------------------------------------'
-    puts 'Benchmark Apps: top Selling Paid Apps'
-    puts '----------------------------------------------------'
-    puts "app count: #{apps.length}"
-    puts "time: #{apps_ms.round(3)} seconds"
+      puts '----------------------------------------------------'
+      puts 'Benchmark Apps: top Selling Paid Apps'
+      puts '----------------------------------------------------'
+      puts "app count: #{apps.length}"
+      puts "time: #{apps_ms.round(3)} seconds"
+    end
+
+    task :app_parser do
+      html = File.read()
+    end
   end
 end
