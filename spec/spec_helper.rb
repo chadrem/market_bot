@@ -7,13 +7,13 @@ require 'rspec'
 
 begin
   require 'byebug'
-rescue Exception => e
+rescue Exception
 end
 
 begin
   require 'simplecov'
   SimpleCov.start
-rescue Exception => e
+rescue Exception
 end
 
 require 'market_bot'
