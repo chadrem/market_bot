@@ -25,7 +25,6 @@ module MarketBot
         :email,
         :screenshot_urls,
         :whats_new,
-        :permissions,
         :rating_distribution,
         :html,
         :category_url,
@@ -134,9 +133,6 @@ module MarketBot
 
         node = doc.at_css('.whatsnew')
         result[:whats_new] = node.inner_html.strip unless node.nil?
-
-        # Stubbing out for now, can't find them in the redesigned page.
-        result[:permissions] = permissions = []
 
         result[:reviews] = []
         unless options[:skip_reviews] # Review parsing is CPU intensive.
