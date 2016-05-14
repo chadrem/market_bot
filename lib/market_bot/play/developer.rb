@@ -1,13 +1,6 @@
 module MarketBot
-  module Android
-
-    # Developer pages are extremely similar to leaderboard pages.
-    # Amazingly, this inheritence hack works!
-    #
-    # BUG: This code only retrieves the first page of results.
-    #      This means you will only get the first 24 apps for a developer.
-    #      Some developers have hundreds of apps so this needs fixed!!!
-    class Developer < MarketBot::Android::Leaderboard
+  module Play
+    class Developer < MarketBot::Play::Chart
       def initialize(developer, options={})
         super(developer, nil, options)
       end
@@ -27,6 +20,5 @@ module MarketBot
         return results
       end
     end
-
   end
 end

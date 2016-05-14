@@ -1,39 +1,8 @@
 module MarketBot
-  module Android
-
+  module Play
     class App
-      MARKET_ATTRIBUTES = [
-        :title,
-        :rating,
-        :updated,
-        :current_version,
-        :requires_android,
-        :category,
-        :installs,
-        :size,
-        :price,
-        :content_rating,
-        :description,
-        :votes,
-        :developer,
-        :more_from_developer,
-        :users_also_installed,
-        :similar,
-        :banner_icon_url,
-        :banner_image_url,
-        :website_url,
-        :email,
-        :screenshot_urls,
-        :whats_new,
-        :rating_distribution,
-        :html,
-        :category_url,
-        :full_screenshot_urls,
-        :reviews,
-      ]
-
       attr_reader :app_id
-      attr_reader *MARKET_ATTRIBUTES
+      attr_reader *ATTRIBUTES
       attr_reader :hydra
       attr_reader :lang
       attr_reader :callback
@@ -255,7 +224,7 @@ module MarketBot
         unless @error
           @result = result
 
-          MARKET_ATTRIBUTES.each do |a|
+          ATTRIBUTES.each do |a|
             attr_name = "@#{a}"
             attr_value = result[a]
             instance_variable_set(attr_name, attr_value)

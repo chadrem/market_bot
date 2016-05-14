@@ -1,8 +1,8 @@
 # Market Bot - [![Build Status](https://travis-ci.org/chadrem/market_bot.svg?branch=master)](https://travis-ci.org/chadrem/market_bot) [![Coverage Status](https://coveralls.io/repos/chadrem/market_bot/badge.svg?branch=master&service=github)](https://coveralls.io/github/chadrem/market_bot?branch=master)
 
-Market Bot is a high performance Ruby scraper for Google's (Google Play) Android Market with a simple to use API.
-Currently it can: scrape apps, app leaderboards, movies, and tv shows.  It can also search for apps.
-It is built on top of Nokogiri and Typhoeus.
+Market Bot is a web scraper (web robot, web spider) for the Google Play Android app store.
+It can collect data on apps, charts, and developers.
+It can also search for apps.
 
 ## Dependencies
 
@@ -11,97 +11,60 @@ It is built on top of Nokogiri and Typhoeus.
 
 ## Installation
 
-    gem install market_bot
+Add this line to your application's Gemfile:
 
-## Getting Started Example
+    gem 'market_bot'
 
-    require 'rubygems'
-    require 'market_bot'
+And then execute:
 
-    # Download all the data for the Facebook app.
-    app = MarketBot::Android::App.new('com.facebook.katana')
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install market_bot
+
+## App API example
+
+    # Download/parse the app.
+    app = MarketBot::Play::App.new('com.facebook.katana')
     app.update
 
-    # Here we will print out the title of the app.
+    # Print out the app title.
     puts app.title
 
-    # Here we will print out the rating of the app.
-    puts app.rating
+    # Print all the other attributes you can find on an app object.
+    puts MarketBot::Play::App::ATTRIBUTES.inspect
 
-    # And the price...
-    puts app.price
+## Charts API example
 
-    # market_bot has many other attributes for each app.
-    # You can see what attributes are available in your version of
-    # market_bot by printing a simple constant included in the gem.
-    puts MarketBot::Android::App::MARKET_ATTRIBUTES.inspect
+    # Download/parse the chart.
+    chart = MarketBot::Play::Chart.new(:topselling_free, :game)
+    chart.update
 
-## Simple API Examples
+    # Print the first app.
+    puts chart.results.first.inspect
 
-    require 'rubygems'
-    require 'market_bot'
+    # Print all the chart identifiers & categories for chart objects.
+    puts MarketBot::Play::Chart::IDENTIFIERS.inspect
+    puts MarketBot::Play::Chart::CATEGORIES.inspect
 
-    # Download/parse the leaderboard.
-    lb = MarketBot::Android::Leaderboard.new(:topselling_free, :game)
-    lb.update
+## Developer API example
 
-    # Download/parse the details for the first and last entries of the leaderboard.
-    first_app = MarketBot::Android::App.new(lb.results.first[:market_id])
-    last_app = MarketBot::Android::App.new(lb.results.last[:market_id])
-    first_app.update
-    last_app.update
-    puts "First place app (#{first_app.title}) price: #{first_app.price}"
-    puts "Last place app (#{last_app.title}) price: #{last_app.price}"
+    # Download/parse developer.
+    dev = MarketBot::Play::Developer.new('Zynga')
+    dev.update
 
-    # Search for apps.
-    sq = MarketBot::Android::SearchQuery.new('donkeys')
-    sq.update
-    puts "Results found: #{sq.results.count}"
+    # Print the first app.
+    puts dev.results.first.inspect
 
-    # Download/parse developer pages.
-    developer = MarketBot::Android::Developer.new('Zynga')
-    developer.update
-    puts "Results found: #{developer.results.count}"
+## Search API example
 
-    # Print the rating for an app.
-    puts MarketBot::Android::App.new('com.king.candycrushsaga').update.rating
+    # Search for apps using keyword(s).
+    search = MarketBot::Play::Search.new('donkeys')
+    search.update
 
-    # Check if an app exists and has a title.
-    def app_exists?(app_id)
-      begin
-        return !!MarketBot::Android::App.new(app_id).update.title
-      rescue
-        return false
-      end
-    end
-    app_exists?('com.king.candycrushsaga')  # Return's true.
-    app_exists?('com.some.fake.app.that.does.not.exist')  # Return's false.
-
-## Advanced API Examples
-
-    require 'rubygems'
-    require 'market_bot'
-
-    # Create a reusable hydra object with 5 http workers.
-    hydra = Typhoeus::Hydra.new(:max_concurrency => 5)
-
-    # Download/parse the leaderboard.
-    lb = MarketBot::Android::Leaderboard.new(:topselling_free, :game, :hyda => hydra)
-    lb.update
-
-    # Download/parse the details for the first and last entries of the leaderboard using the batch API.
-    first_app = MarketBot::Android::App.new(lb.results.first[:market_id], :hydra => hydra)
-    last_app = MarketBot::Android::App.new(lb.results.last[:market_id], :hydra => hydra)
-    first_app.enqueue_update
-    last_app.enqueue_update do |a|
-      # Callback example.  This block will execute on a successful hydra.run.
-      puts "Callback... title: #{a.title}"
-    end
-    hydra.run
-
-    # You must manually check if an error occurred when using the batch API without callbacks.
-    puts "First place app (#{first_app.title}) price: #{first_app.price}" unless first_app.error
-    puts "Last place app (#{last_app.title}) price: #{last_app.price}" unless last_app.error
+    # Print the first app.
+    puts search.results.first.inspect
 
 ## Excessive Use
 
@@ -120,6 +83,5 @@ Please contact me if you are looking for commercial data solutions.
 
 ## Copyright
 
-Copyright (c) 2011 - 2015 Chad Remesch. See LICENSE.txt for
+Copyright (c) 2011 - 2016 Chad Remesch. See LICENSE.txt for
 further details.
-

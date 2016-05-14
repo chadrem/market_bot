@@ -1,7 +1,6 @@
 module MarketBot
-  module Movie
-
-    class Leaderboard
+  module Play
+    class Chart
       attr_reader :identifier, :category
       attr_reader :hydra
 
@@ -9,13 +8,25 @@ module MarketBot
       PERCENT_DENOM = 100
 
       def self.parse(html)
+        if html.include?('<title>Editor&#39;s Choice')
+          parse_editors_choice_page(html)
+        else
+          parse_normal_page(html)
+        end
+      end
+
+      def self.parse_normal_page(html)
         results = []
         doc = Nokogiri::HTML(html)
 
-        doc.css('.card-list').each do |snippet_node|
+        doc.css('.card').each do |snippet_node|
           result = {}
 
           details_node = snippet_node.css('.details')
+
+          unless snippet_node.css('img').empty?
+            result[:icon_url] = snippet_node.css('img').first.attributes['src'].value
+          end
 
           unless snippet_node.css('.current-rating').empty?
             stars_style = snippet_node.css('.current-rating').first.attributes['style'].value
@@ -31,10 +42,9 @@ module MarketBot
             result[:price_usd] = price_elem.text
           end
 
-          result[:genre] = details_node.css('.subtitle').first.attributes['title'].to_s
-          movie_detail_url = details_node.css('.title').first.attributes['href'].to_s.gsub('/store/movies/details', '')
-          result[:market_id]  = movie_detail_url.split('?id=').last
-          result[:market_url] = "https://play.google.com/store/movies/details#{movie_detail_url}&hl=en"
+          result[:developer] = details_node.css('.subtitle').first.attributes['title'].to_s
+          result[:market_id] = details_node.css('.title').first.attributes['href'].to_s.gsub('/store/apps/details?id=', '').gsub(/&feature=.*$/, '')
+          result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}&hl=en"
 
           result[:price_usd] = '$0.00' if result[:price_usd] == 'Install'
 
@@ -44,46 +54,35 @@ module MarketBot
         results
       end
 
-      # This is the initializer method for the Leaderboard class.
-      #
-      # Leaderboard gets initialized by default with a specified identifier, an optional movies category, along with optional
-      # request options.
-      #
-      # * *Args*    :
-      #   - +identifier+ -> The identifier is used to get the results for distinct leaderboards.
-      #                     Valid identifiers include:
-      #                           :topselling_paid
-      #                           :topselling_paid_show
-      #   - +category+ -> The category switches between the actual categories, or genres, of movies within a given leaderboard.
-      #                   Valid categories include:
-      #
-      #                  :action_and_adventure,
-      #                  :animation,
-      #                  :classics,
-      #                  :comedy,
-      #                  :crime,
-      #                  :documentary,
-      #                  :drama,
-      #                  :family,
-      #                  :horror,
-      #                  :independent,
-      #                  :indian_cinema,
-      #                  :music,
-      #                  :sci_fi_and_fantasy,
-      #                  :short_films,
-      #                  :sports,
-      #                  :world_cinema
-      ##   - +options+ -> The optional options Hash contains keys :hydra and :request_opts. :hydra can be used to specify
-      #                   a custom Hydra instance, while :request_opts is a Hash containing further options for the Play
-      #                   Store HTTP request.
-      #
+      def self.parse_editors_choice_page(html)
+        results = []
+
+        doc = Nokogiri::HTML(html)
+
+        doc.css('.fsg-snippet').each do |snippet_node|
+          result = {}
+
+          result[:title]      = snippet_node.css('.title').text
+          result[:price_usd]  = nil
+          result[:developer]  = snippet_node.css('.attribution').text
+          result[:market_id]  = snippet_node.attributes['data-docid'].text
+          result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}&hl=en"
+
+          results << result
+        end
+
+        results
+      end
+
       def initialize(identifier, category=nil, options={})
         @identifier = identifier
         @category = category
         @hydra = options[:hydra] || MarketBot.hydra
-        @request_opts = options[:request_opts] || {}
         @parsed_results = []
         @pending_pages = []
+        @request_opts = options[:request_opts] || {}
+        @request_opts[:timeout] ||= MarketBot.timeout
+        @request_opts[:connecttimeout] ||= MarketBot.connecttimeout
       end
 
       def market_urls(options={})
@@ -96,7 +95,7 @@ module MarketBot
         (min_page..max_page).each do |page|
           start_val = (page - 1) * 24
 
-          url = 'https://play.google.com/store/movies'
+          url = 'https://play.google.com/store/apps'
           url << "/category/#{category.to_s.upcase}" if category
           url << "/collection/#{identifier.to_s}?"
           url << "start=#{start_val}&"
@@ -111,17 +110,22 @@ module MarketBot
 
       def enqueue_update(options={},&block)
         @callback = block
-        min_rank = options[:min_rank] || 1
-        max_rank = options[:max_rank] || 500
-        country  = options[:country]  || 'us'
+        if @identifier.to_s.downcase == 'editors_choice' && category == nil
+          url = 'https://play.google.com/store/apps/collection/editors_choice?&hl=en'
+          process_page(url, 1)
+        else
+          min_rank = options[:min_rank] || 1
+          max_rank = options[:max_rank] || 500
+          country  = options[:country]  || 'us'
 
-        min_page = rank_to_page(min_rank)
-        max_page = rank_to_page(max_rank)
+          min_page = rank_to_page(min_rank)
+          max_page = rank_to_page(max_rank)
 
-        @parsed_results = []
+          @parsed_results = []
 
-        urls = market_urls(:min_page => min_page, :max_page => max_page, :country => country)
-        urls.each_index{ |i| process_page(urls[i], i+1) }
+          urls = market_urls(:min_page => min_page, :max_page => max_page, :country => country)
+          urls.each_index{ |i| process_page(urls[i], i+1) }
+        end
 
         self
       end
@@ -142,7 +146,8 @@ module MarketBot
         @parsed_results.reject{ |page| page.nil? || page.empty? }.flatten
       end
 
-    private
+      private
+
       def process_page(url, page_num)
         @pending_pages << page_num
         request = Typhoeus::Request.new(url, @request_opts)
@@ -150,7 +155,7 @@ module MarketBot
           # HACK: Typhoeus <= 0.4.2 returns a response, 0.5.0pre returns the request.
           response = response.response if response.is_a?(Typhoeus::Request)
 
-          result = Leaderboard.parse(response.body)
+          result = Chart.parse(response.body)
           update_callback(result, page_num)
         end
         @hydra.queue(request)
@@ -162,6 +167,5 @@ module MarketBot
         @callback.call(self) if @callback and @pending_pages.empty?
       end
     end
-
   end
 end

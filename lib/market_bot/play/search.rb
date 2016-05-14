@@ -1,6 +1,6 @@
 module MarketBot
-  module Movie
-    class SearchQuery < MarketBot::Movie::Leaderboard
+  module Play
+    class Search < MarketBot::Play::Chart
       def initialize(query, options={})
         super(query, nil, options)
       end
@@ -17,7 +17,7 @@ module MarketBot
 
           url = "https://play.google.com/store/search?"
           url << "q=#{URI.escape(identifier)}&"
-          url << "c=movies&start=#{start_val}&"
+          url << "c=apps&start=#{start_val}&"
           url << "gl=#{country}&"
           url << "num=24&hl=en"
 
@@ -29,4 +29,3 @@ module MarketBot
     end
   end
 end
-

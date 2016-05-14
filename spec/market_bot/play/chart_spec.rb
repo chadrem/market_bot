@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '../../../spec_helper')
 
-include MarketBot::Android
+include MarketBot::Play
 
 test_id = :topselling_paid
 test_category = :arcade
@@ -8,7 +8,7 @@ test_category = :arcade
 def stub_hydra(hydra)
   test_src_pages = []
   (1..4).each do |page|
-    test_src_pages[page] = read_file(File.dirname(__FILE__), 'data', "leaderboard-apps_topselling_paid-page#{page}.txt")
+    test_src_pages[page] = read_file(File.dirname(__FILE__), 'data', "chart-apps_topselling_paid-page#{page}.txt")
   end
 
   (0...4).each do |i|
@@ -18,7 +18,7 @@ def stub_hydra(hydra)
     Typhoeus.stub(url).and_return(response)
   end
 
-  test_src_editors_choice = read_file(File.dirname(__FILE__), 'data', "leaderboard-apps_editors_choice.txt")
+  test_src_editors_choice = read_file(File.dirname(__FILE__), 'data', "chart-apps_editors_choice.txt")
 
   response = Typhoeus::Response.new(:code => 200, :headers => '', :body => test_src_editors_choice)
   url = "https://play.google.com/store/apps/collection/editors_choice?&hl=en"
@@ -48,30 +48,30 @@ def check_results(results)
 
 end
 
-describe 'Leaderboard' do
+describe 'Chart' do
   context 'Construction' do
     it 'should copy params' do
-      lb =MarketBot::Android::Leaderboard.new(test_id, test_category)
-      lb.identifier.should == test_id
-      lb.category.should == test_category
+      chart =MarketBot::Play::Chart.new(test_id, test_category)
+      chart.identifier.should == test_id
+      chart.category.should == test_category
     end
 
     it 'should copy optional params' do
       hydra = Typhoeus::Hydra.new
-      lb = MarketBot::Android::Leaderboard.new(test_id, test_category, :hydra => hydra)
-      lb.hydra.should equal(hydra)
+      chart = MarketBot::Play::Chart.new(test_id, test_category, :hydra => hydra)
+      chart.hydra.should equal(hydra)
     end
 
     it 'should have an optional category parameter' do
-      lb = MarketBot::Android::Leaderboard.new(test_id)
-      lb.identifier.should == test_id
-      lb.category.should == nil
+      chart = MarketBot::Play::Chart.new(test_id)
+      chart.identifier.should == test_id
+      chart.category.should == nil
     end
   end
 
   it 'should generate URLs using min and max page ranges' do
-    lb = MarketBot::Android::Leaderboard.new(test_id, test_category)
-    urls = lb.market_urls(:min_page => 1, :max_page => 3)
+    chart = MarketBot::Play::Chart.new(test_id, test_category)
+    urls = chart.market_urls(:min_page => 1, :max_page => 3)
     urls.should == [
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=0&gl=us&num=24&hl=en',
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=24&gl=us&num=24&hl=en',
@@ -80,8 +80,8 @@ describe 'Leaderboard' do
   end
 
   it 'should generate URLs using country' do
-    lb = MarketBot::Android::Leaderboard.new(test_id, test_category)
-    urls = lb.market_urls(:min_page => 1, :max_page => 3, :country => 'au')
+    chart = MarketBot::Play::Chart.new(test_id, test_category)
+    urls = chart.market_urls(:min_page => 1, :max_page => 3, :country => 'au')
     urls.should == [
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=0&gl=au&num=24&hl=en',
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=24&gl=au&num=24&hl=en',
@@ -90,8 +90,8 @@ describe 'Leaderboard' do
   end
 
 
-  it 'should convert ranks to market leaderboard pages (24 apps per page)' do
-    app = MarketBot::Android::Leaderboard.new(test_id, test_category)
+  it 'should convert ranks to market chart pages (24 apps per page)' do
+    app = MarketBot::Play::Chart.new(test_id, test_category)
     app.rank_to_page(1).should == 1
     app.rank_to_page(24).should == 1
     app.rank_to_page(25).should == 2
@@ -101,33 +101,33 @@ describe 'Leaderboard' do
   describe 'Updating' do
     context 'Quick API' do
       stub_hydra(Typhoeus::Hydra.hydra)
-      lb = MarketBot::Android::Leaderboard.new(test_id, test_category)
-      lb.instance_variable_set('@hydra', Typhoeus::Hydra.hydra)
-      lb.update(:min_rank => 1, :max_rank => 96)
+      chart = MarketBot::Play::Chart.new(test_id, test_category)
+      chart.instance_variable_set('@hydra', Typhoeus::Hydra.hydra)
+      chart.update(:min_rank => 1, :max_rank => 96)
 
-      check_results(lb.results)
+      check_results(chart.results)
     end
 
     context 'Batch API' do
       hydra = Typhoeus::Hydra.new
       stub_hydra(hydra)
-      lb = MarketBot::Android::Leaderboard.new(test_id, test_category, :hydra => hydra)
-      lb.enqueue_update(:min_rank => 1, :max_rank => 96)
+      chart = MarketBot::Play::Chart.new(test_id, test_category, :hydra => hydra)
+      chart.enqueue_update(:min_rank => 1, :max_rank => 96)
       hydra.run
 
-      check_results(lb.results)
+      check_results(chart.results)
     end
 
     context 'special case (editors choice page)' do
       it 'should properly parse the page and turn them into results' do
         hydra = Typhoeus::Hydra.new
         stub_hydra(hydra)
-        lb = MarketBot::Android::Leaderboard.new('editors_choice', nil, :hydra => hydra)
-        lb.update
+        chart = MarketBot::Play::Chart.new('editors_choice', nil, :hydra => hydra)
+        chart.update
 
-        lb.results.count.should == 60
+        chart.results.count.should == 60
 
-        app = lb.results.last
+        app = chart.results.last
 
         app[:title].should == "Instacart: Grocery Delivery"
         app[:price_usd].should == "Free"

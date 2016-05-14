@@ -1,7 +1,6 @@
 module MarketBot
-  module Android
-
-    class Leaderboard
+  module Play
+    class Chart
       IDENTIFIERS = [
         :editors_choice,
         :featured,
@@ -54,6 +53,5 @@ module MarketBot
         :weather
       ]
     end
-
   end
 end

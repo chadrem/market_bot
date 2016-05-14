@@ -44,19 +44,19 @@ namespace :spec do
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'app_3.txt'))
 
       download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?num=24',
-               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page1.txt'))
+               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'chart-apps_topselling_paid-page1.txt'))
 
       download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=24&num=24',
-               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page2.txt'))
+               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'chart-apps_topselling_paid-page2.txt'))
 
       download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=48&num=24',
-               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page3.txt'))
+               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'chart-apps_topselling_paid-page3.txt'))
 
       download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=96&num=24',
-               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_topselling_paid-page4.txt'))
+               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'chart-apps_topselling_paid-page4.txt'))
 
       download('https://play.google.com/store/apps/collection/editors_choice',
-               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'leaderboard-apps_editors_choice.txt'))
+               File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'chart-apps_editors_choice.txt'))
 
       download('https://play.google.com/store/apps/developer?id=Zynga',
                File.join(File.dirname(__FILE__), 'spec', 'market_bot', 'android', 'data', 'developer-zynga.txt'))
@@ -72,22 +72,22 @@ namespace :benchmark do
     task :overall do
       hydra = Typhoeus::Hydra.new(:max_concurrency => 20)
 
-      leaderboard = nil
-      leaderboard_ms = Benchmark.realtime {
-        leaderboard = MarketBot::Android::Leaderboard.new(:apps_topselling_paid, nil, :hydra => hydra)
-        leaderboard.update
+      chart = nil
+      chart_ms = Benchmark.realtime {
+        chart = MarketBot::Android::Chart.new(:apps_topselling_paid, nil, :hydra => hydra)
+        chart.update
       }
 
       puts '----------------------------------------------------'
-      puts 'Benchmark Leaderboard: Top Selling Paid Apps'
+      puts 'Benchmark Chart: Top Selling Paid Apps'
       puts '----------------------------------------------------'
-      puts "app count: #{leaderboard.results.length}"
-      puts "time: #{leaderboard_ms.round(3)} seconds"
+      puts "app count: #{chart.results.length}"
+      puts "time: #{chart_ms.round(3)} seconds"
       puts
 
       apps = nil
       apps_ms = Benchmark.realtime {
-        apps = leaderboard.results.map{ |r| MarketBot::Android::App.new(r[:market_id], :hydra => hydra).enqueue_update }
+        apps = chart.results.map{ |r| MarketBot::Android::App.new(r[:market_id], :hydra => hydra).enqueue_update }
         hydra.run
       }
 

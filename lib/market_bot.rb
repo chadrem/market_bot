@@ -5,13 +5,12 @@ require 'nokogiri'
 
 require 'market_bot/version'
 require 'market_bot/exceptions'
-require 'market_bot/android/app'
-require 'market_bot/android/leaderboard/constants'
-require 'market_bot/android/leaderboard'
-require 'market_bot/android/search_query'
-require 'market_bot/android/developer'
-require 'market_bot/movie/leaderboard'
-require 'market_bot/movie/search_query'
+require 'market_bot/play/app/constants'
+require 'market_bot/play/app'
+require 'market_bot/play/chart/constants'
+require 'market_bot/play/chart'
+require 'market_bot/play/search'
+require 'market_bot/play/developer'
 
 module MarketBot
   def self.hydra
