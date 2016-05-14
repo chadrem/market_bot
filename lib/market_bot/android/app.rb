@@ -18,7 +18,7 @@ module MarketBot
         :developer,
         :more_from_developer,
         :users_also_installed,
-        :related,
+        :similar,
         :banner_icon_url,
         :banner_image_url,
         :website_url,
@@ -102,12 +102,11 @@ module MarketBot
         result[:developer] = node.at_css('.primary').text.strip
 
         result[:more_from_developer] = []
-        result[:users_also_installed] = []
-        result[:related] = []
+        result[:similar] = []
 
         node = doc.css('.recommendation')
         node.css('.rec-cluster').each do |recommended|
-          assoc_app_type = recommended.at_css('.heading').text.strip.eql?('Similar' ) ? :related : :more_from_developer
+          assoc_app_type = recommended.at_css('.heading').text.strip.eql?('Similar' ) ? :similar : :more_from_developer
           recommended.css('.card').each do |card|
             assoc_app = {}
             assoc_app[:app_id] = card['data-docid'].strip
@@ -115,8 +114,6 @@ module MarketBot
             result[assoc_app_type] << assoc_app
           end
         end
-        # Users also installed is no longer on the page, adding this for backwards compatibility, well, sort of....
-        result[:users_also_installed] = result[:related]
 
         node = doc.at_css('.cover-image')
         unless node.nil?

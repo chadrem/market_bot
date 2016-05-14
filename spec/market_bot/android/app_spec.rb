@@ -23,8 +23,7 @@ def check_getters(app)
     app.description.should =~ /^<div.*?>An action-packed blend of split-second skill and luck-based gameplay!/
     app.votes.should == '11'
     app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
-    app.users_also_installed.should == [{:app_id=>"si.custom.snake"}]
-    app.related.should == [{:app_id=>"si.custom.snake"}]
+    app.similar.should == [{:app_id=>"si.custom.snake"}]
     app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
     app.banner_image_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
     app.website_url.should == 'http://bluefroggaming.com'
@@ -154,12 +153,10 @@ describe 'App' do
     it 'should populate the associated apps keys' do
       result = App.parse(test_src_data2)
 
-      result[:related].should be_a(Array)
-      result[:users_also_installed].should be_a(Array)
+      result[:similar].should be_a(Array)
       result[:more_from_developer].should be_a(Array)
 
-      result[:related].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
-      result[:users_also_installed].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
+      result[:similar].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
       result[:more_from_developer].first[:app_id].should == 'com.evernote.wear'
     end
 
