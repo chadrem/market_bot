@@ -11,17 +11,13 @@ It can also search for apps.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application's Gemfile to use the latest version:
 
-    gem 'market_bot'
+    gem 'market_bot', git: 'https://github.com/chadrem/market_bot.git'
 
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install market_bot
 
 ## App API example
 
