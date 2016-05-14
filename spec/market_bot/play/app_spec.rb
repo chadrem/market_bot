@@ -9,30 +9,30 @@ test_src_data3 = read_file(File.dirname(__FILE__), 'data', 'app_3.txt')
 
 def check_getters(app)
   it 'should populate the getters' do
-    app.title.should == 'Pop Dat'
-    app.rating.should == '4.7'
-    app.updated.should == 'August 26, 2011'
-    app.current_version.should == '1.0'
-    app.requires_android.should == '2.2 and up'
-    app.category.should == 'Arcade'
-    app.category_url.should == 'GAME_ARCADE'
-    app.installs.should == '500 - 1,000'
-    app.size.should == '9.0M'
-    app.price.should == '0'
-    app.content_rating.should == 'Unrated'
-    app.description.should =~ /^<div.*?>An action-packed blend of split-second skill and luck-based gameplay!/
-    app.votes.should == '11'
-    app.more_from_developer.should == [{:app_id=>"com.bluefroggaming.ghost_chicken"}]
-    app.similar.should == [{:app_id=>"si.custom.snake"}]
-    app.banner_icon_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
-    app.banner_image_url.should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
-    app.website_url.should == 'http://bluefroggaming.com'
-    app.email.should == 'support@hdgames.zendesk.com'
-    app.screenshot_urls.first.should == "https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h310"
-    app.full_screenshot_urls.first.should == "https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h900"
-    app.whats_new.should == nil
-    app.rating_distribution.should == {5=>10, 4=>0, 3=>0, 2=>1, 1=>0}
-    app.html.class.should == String
+    expect(app.title).to eq('Pop Dat')
+    expect(app.rating).to eq('4.7')
+    expect(app.updated).to eq('August 26, 2011')
+    expect(app.current_version).to eq('1.0')
+    expect(app.requires_android).to eq('2.2 and up')
+    expect(app.category).to eq('Arcade')
+    expect(app.category_url).to eq('GAME_ARCADE')
+    expect(app.installs).to eq('500 - 1,000')
+    expect(app.size).to eq('9.0M')
+    expect(app.price).to eq('0')
+    expect(app.content_rating).to eq('Unrated')
+    expect(app.description).to match(/^<div.*?>An action-packed blend of split-second skill and luck-based gameplay!/)
+    expect(app.votes).to eq('11')
+    expect(app.more_from_developer).to eq([{:app_id=>"com.bluefroggaming.ghost_chicken"}])
+    expect(app.similar).to eq([{:app_id=>"si.custom.snake"}])
+    expect(app.banner_icon_url).to eq('https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300')
+    expect(app.banner_image_url).to eq('https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300')
+    expect(app.website_url).to eq('http://bluefroggaming.com')
+    expect(app.email).to eq('support@hdgames.zendesk.com')
+    expect(app.screenshot_urls.first).to eq("https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h310")
+    expect(app.full_screenshot_urls.first).to eq("https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h900")
+    expect(app.whats_new).to eq(nil)
+    expect(app.rating_distribution).to eq({5=>10, 4=>0, 3=>0, 2=>1, 1=>0})
+    expect(app.html.class).to eq(String)
   end
 end
 
@@ -40,46 +40,46 @@ describe 'App' do
   context 'Construction' do
     it 'should copy the app_id param' do
       app = App.new(test_id)
-      app.app_id.should == test_id
+      expect(app.app_id).to eq(test_id)
     end
 
     it 'should copy optional params' do
       hydra = Typhoeus::Hydra.new
       app = App.new(test_id, :hydra => hydra)
-      app.hydra.should equal(hydra)
+      expect(app.hydra).to equal(hydra)
     end
   end
 
   it 'should generate market URLs' do
-    App.new(test_id).market_url.should == "https://play.google.com/store/apps/details?id=#{test_id}&hl=en"
+    expect(App.new(test_id).market_url).to eq("https://play.google.com/store/apps/details?id=#{test_id}&hl=en")
   end
 
   context 'Parsing' do
     it 'should populate a hash with the correct keys/values' do
       result = App.parse(test_src_data1)
 
-      result[:title].should == 'Pop Dat'
-      result[:rating].should == '4.7'
-      result[:updated].should == 'August 26, 2011'
-      result[:current_version].should == '1.0'
-      result[:requires_android].should == '2.2 and up'
-      result[:category].should == 'Arcade'
-      result[:category_url].should == 'GAME_ARCADE'
-      result[:installs].should == '500 - 1,000'
-      result[:size].should == '9.0M'
-      result[:price].should == '0'
-      result[:content_rating].should == 'Unrated'
-      result[:description].should =~ /An action-packed blend of split-second/
-      result[:votes].should == '11'
-      result[:developer].should == 'Blue Frog Gaming'
-      result[:banner_icon_url].should == 'https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300'
-      result[:website_url].should == 'http://bluefroggaming.com'
-      result[:email].should == 'support@hdgames.zendesk.com'
-      result[:screenshot_urls].first.should == "https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h310"
-      result[:full_screenshot_urls].first.should == "https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h900"
-      result[:whats_new].should == nil
-      result[:rating_distribution].should == {5=>10, 4=>0, 3=>0, 2=>1, 1=>0}
-      result[:html].should == test_src_data1
+      expect(result[:title]).to eq('Pop Dat')
+      expect(result[:rating]).to eq('4.7')
+      expect(result[:updated]).to eq('August 26, 2011')
+      expect(result[:current_version]).to eq('1.0')
+      expect(result[:requires_android]).to eq('2.2 and up')
+      expect(result[:category]).to eq('Arcade')
+      expect(result[:category_url]).to eq('GAME_ARCADE')
+      expect(result[:installs]).to eq('500 - 1,000')
+      expect(result[:size]).to eq('9.0M')
+      expect(result[:price]).to eq('0')
+      expect(result[:content_rating]).to eq('Unrated')
+      expect(result[:description]).to match(/An action-packed blend of split-second/)
+      expect(result[:votes]).to eq('11')
+      expect(result[:developer]).to eq('Blue Frog Gaming')
+      expect(result[:banner_icon_url]).to eq('https://lh3.ggpht.com/e6QqjMM9K__moeCm2C5HRb0SmGX0XqzhnhiE1MUx8MdNVdQbQW9rhFX_qmtbtBxHAa0=w300')
+      expect(result[:website_url]).to eq('http://bluefroggaming.com')
+      expect(result[:email]).to eq('support@hdgames.zendesk.com')
+      expect(result[:screenshot_urls].first).to eq("https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h310")
+      expect(result[:full_screenshot_urls].first).to eq("https://lh6.ggpht.com/JJWPKPEvz5ivZEeph_gA_oB3VOXYrIrY9lGdGFWHVT4FVub6cUKqxkh5VyxbvVqMXg=h900")
+      expect(result[:whats_new]).to eq(nil)
+      expect(result[:rating_distribution]).to eq({5=>10, 4=>0, 3=>0, 2=>1, 1=>0})
+      expect(result[:html]).to eq(test_src_data1)
 
       result
     end
@@ -87,74 +87,74 @@ describe 'App' do
     it 'should populate a hash with the correct keys/values' do
       result = App.parse(test_src_data2)
 
-      result[:title].should == 'Evernote - stay organized.'
-      result[:rating].should == '4.6'
-      result[:updated].should == 'May 5, 2016'
-      result[:current_version].should == 'Varies with device'
-      result[:requires_android].should == 'Varies with device'
-      result[:category].should == 'Productivity'
-      result[:category_url].should == 'PRODUCTIVITY'
-      result[:size].should == 'Varies with device'
-      result[:price].should == '0'
-      result[:content_rating].should == 'Everyone'
-      result[:description].should =~ /New York Times/
-      result[:votes].should == '1390801'
-      result[:developer].should == 'Evernote Corporation'
-      result[:installs].should == "100,000,000 - 500,000,000"
-      result[:banner_icon_url].should == 'https://lh3.googleusercontent.com/atqaMgabx_ZXVi4AJUcDiHTy-G3nwMAGsjoCsfpebwPjXMV_QXTPefko7Wbwen-EnUo=w300'
-      result[:banner_image_url].should == 'https://lh3.googleusercontent.com/atqaMgabx_ZXVi4AJUcDiHTy-G3nwMAGsjoCsfpebwPjXMV_QXTPefko7Wbwen-EnUo=w300'
-      result[:website_url].should == 'http://evernote.com/privacy/'
-      result[:email].should == 'appstore-evernote-android@evernote.com'
-      result[:screenshot_urls].first.should == "https://lh3.googleusercontent.com/AkEKnkvCyM6e-FS5RT5DExb56uCUDc1S0cc3sI4IORrJAT-HTLQz-jPu8whw-BL5oA=h310"
-      result[:full_screenshot_urls].first.should == "https://lh3.googleusercontent.com/AkEKnkvCyM6e-FS5RT5DExb56uCUDc1S0cc3sI4IORrJAT-HTLQz-jPu8whw-BL5oA=h900"
-      result[:whats_new].should =~ /What's New/
-      result[:rating_distribution].should == {5=>1009112, 4=>280079, 3=>51367, 2=>17062, 1=>32966}
-      result[:html].should == test_src_data2
+      expect(result[:title]).to eq('Evernote - stay organized.')
+      expect(result[:rating]).to eq('4.6')
+      expect(result[:updated]).to eq('May 5, 2016')
+      expect(result[:current_version]).to eq('Varies with device')
+      expect(result[:requires_android]).to eq('Varies with device')
+      expect(result[:category]).to eq('Productivity')
+      expect(result[:category_url]).to eq('PRODUCTIVITY')
+      expect(result[:size]).to eq('Varies with device')
+      expect(result[:price]).to eq('0')
+      expect(result[:content_rating]).to eq('Everyone')
+      expect(result[:description]).to match(/New York Times/)
+      expect(result[:votes]).to eq('1390801')
+      expect(result[:developer]).to eq('Evernote Corporation')
+      expect(result[:installs]).to eq("100,000,000 - 500,000,000")
+      expect(result[:banner_icon_url]).to eq('https://lh3.googleusercontent.com/atqaMgabx_ZXVi4AJUcDiHTy-G3nwMAGsjoCsfpebwPjXMV_QXTPefko7Wbwen-EnUo=w300')
+      expect(result[:banner_image_url]).to eq('https://lh3.googleusercontent.com/atqaMgabx_ZXVi4AJUcDiHTy-G3nwMAGsjoCsfpebwPjXMV_QXTPefko7Wbwen-EnUo=w300')
+      expect(result[:website_url]).to eq('http://evernote.com/privacy/')
+      expect(result[:email]).to eq('appstore-evernote-android@evernote.com')
+      expect(result[:screenshot_urls].first).to eq("https://lh3.googleusercontent.com/AkEKnkvCyM6e-FS5RT5DExb56uCUDc1S0cc3sI4IORrJAT-HTLQz-jPu8whw-BL5oA=h310")
+      expect(result[:full_screenshot_urls].first).to eq("https://lh3.googleusercontent.com/AkEKnkvCyM6e-FS5RT5DExb56uCUDc1S0cc3sI4IORrJAT-HTLQz-jPu8whw-BL5oA=h900")
+      expect(result[:whats_new]).to match(/What's New/)
+      expect(result[:rating_distribution]).to eq({5=>1009112, 4=>280079, 3=>51367, 2=>17062, 1=>32966})
+      expect(result[:html]).to eq(test_src_data2)
     end
 
     it 'should populate a hash with the correct keys/values' do
       result = App.parse(test_src_data3)
 
-      result[:title].should == 'WeatherPro'
-      result[:updated].should == "March 4, 2016"
-      result[:current_version].should == "4.5.1"
-      result[:requires_android].should == '2.3 and up'
-      result[:category].should == 'Weather'
-      result[:category_url].should == 'WEATHER'
-      result[:size].should == '11M'
-      result[:price].should == '$2.99'
-      result[:content_rating].should == 'Everyone'
-      result[:description].should =~ /^.*WeatherPro has been created by MeteoGroup,/
-      result[:developer].should == 'MeteoGroup'
-      result[:rating].should == '4.3'
-      result[:votes].should == '44121'
-      result[:banner_icon_url].should == 'https://lh5.ggpht.com/gEwuqrqo9Hu2qRNfBi8bLs0XByBQEmhvBhyNXJLuPmrT47GNfljir8ddam-Plzhovrg=w300'
-      result[:banner_image_url].should == 'https://lh5.ggpht.com/gEwuqrqo9Hu2qRNfBi8bLs0XByBQEmhvBhyNXJLuPmrT47GNfljir8ddam-Plzhovrg=w300'
-      result[:website_url].should == 'http://www.meteogroup.com/en/gb/about-meteogroup/privacy-policy-and-cookies.html'
-      result[:email].should == 'support@android.weatherpro.de'
-      result[:whats_new].should =~ /We have fixed bugs which can be reported via our help center/
-      result[:rating_distribution].should == {5=>26367, 4=>11216, 3=>2613, 2=>1455, 1=>2460}
-      result[:html].should == test_src_data3
+      expect(result[:title]).to eq('WeatherPro')
+      expect(result[:updated]).to eq("March 4, 2016")
+      expect(result[:current_version]).to eq("4.5.1")
+      expect(result[:requires_android]).to eq('2.3 and up')
+      expect(result[:category]).to eq('Weather')
+      expect(result[:category_url]).to eq('WEATHER')
+      expect(result[:size]).to eq('11M')
+      expect(result[:price]).to eq('$2.99')
+      expect(result[:content_rating]).to eq('Everyone')
+      expect(result[:description]).to match(/^.*WeatherPro has been created by MeteoGroup,/)
+      expect(result[:developer]).to eq('MeteoGroup')
+      expect(result[:rating]).to eq('4.3')
+      expect(result[:votes]).to eq('44121')
+      expect(result[:banner_icon_url]).to eq('https://lh5.ggpht.com/gEwuqrqo9Hu2qRNfBi8bLs0XByBQEmhvBhyNXJLuPmrT47GNfljir8ddam-Plzhovrg=w300')
+      expect(result[:banner_image_url]).to eq('https://lh5.ggpht.com/gEwuqrqo9Hu2qRNfBi8bLs0XByBQEmhvBhyNXJLuPmrT47GNfljir8ddam-Plzhovrg=w300')
+      expect(result[:website_url]).to eq('http://www.meteogroup.com/en/gb/about-meteogroup/privacy-policy-and-cookies.html')
+      expect(result[:email]).to eq('support@android.weatherpro.de')
+      expect(result[:whats_new]).to match(/We have fixed bugs which can be reported via our help center/)
+      expect(result[:rating_distribution]).to eq({5=>26367, 4=>11216, 3=>2613, 2=>1455, 1=>2460})
+      expect(result[:html]).to eq(test_src_data3)
     end
 
     it 'should populate the associated apps keys' do
       result = App.parse(test_src_data2)
 
-      result[:similar].should be_a(Array)
-      result[:more_from_developer].should be_a(Array)
+      expect(result[:similar]).to be_a(Array)
+      expect(result[:more_from_developer]).to be_a(Array)
 
-      result[:similar].first[:app_id].should == 'com.socialnmobile.dictapps.notepad.color.note'
-      result[:more_from_developer].first[:app_id].should == 'com.evernote.wear'
+      expect(result[:similar].first[:app_id]).to eq('com.socialnmobile.dictapps.notepad.color.note')
+      expect(result[:more_from_developer].first[:app_id]).to eq('com.evernote.wear')
     end
 
     it 'should populate the reviews' do
       result = App.parse(test_src_data3)
-      result[:reviews].should be_a(Array)
+      expect(result[:reviews]).to be_a(Array)
       result[:reviews].size == 9
-      result[:reviews][2][:author_name].should == 'Mark Kell'
-      result[:reviews][2][:review_title].should  == 'It is the best... But not for an S7 Edge'
-      result[:reviews][2][:review_text].should  =~ /developers of this app had a good understanding of Android for the S6 Edge/
-      result[:reviews][2][:review_score].should  == 2
+      expect(result[:reviews][2][:author_name]).to eq('Mark Kell')
+      expect(result[:reviews][2][:review_title]).to  eq('It is the best... But not for an S7 Edge')
+      expect(result[:reviews][2][:review_text]).to  match(/developers of this app had a good understanding of Android for the S6 Edge/)
+      expect(result[:reviews][2][:review_score]).to  eq(2)
     end
 
   end
@@ -201,7 +201,7 @@ describe 'App' do
       hydra.run
 
       it 'should call the callback' do
-        callback_flag.should be(true)
+        expect(callback_flag).to be(true)
       end
 
       check_getters(app)
@@ -225,11 +225,11 @@ describe 'App' do
       hydra.run
 
       it 'should call the callback' do
-        callback_flag.should be(true)
+        expect(callback_flag).to be(true)
       end
 
       it 'should set error to the exception' do
-        error.should be_a(Exception)
+        expect(error).to be_a(Exception)
       end
     end
   end

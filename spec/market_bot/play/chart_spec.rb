@@ -27,23 +27,23 @@ end
 
 def check_results(results)
   it 'should return valid results' do
-    results.length.should == 96
+    expect(results.length).to eq(96)
     results.each do |app|
-      app.keys.sort.should == [:developer, :icon_url, :market_id, :market_url, :price_usd, :stars, :title]
-      app[:market_url].should == App.new(app[:market_id]).market_url
-      app[:price_usd].should =~ /^\$\d+\.\d{2}$/
-      app[:stars].to_f.should > 0.0
-      app[:stars].to_f.should <= 5.0
+      expect(app.keys.sort).to eq([:developer, :icon_url, :market_id, :market_url, :price_usd, :stars, :title])
+      expect(app[:market_url]).to eq(App.new(app[:market_id]).market_url)
+      expect(app[:price_usd]).to match(/^\$\d+\.\d{2}$/)
+      expect(app[:stars].to_f).to be > 0.0
+      expect(app[:stars].to_f).to be <= 5.0
     end
   end
 
   it 'should have the top ranking app with valid details' do
-    results.first[:developer].should == 'Mojang'
-    results.first[:market_id].should == 'com.mojang.minecraftpe'
-    results.first[:market_url].should == 'https://play.google.com/store/apps/details?id=com.mojang.minecraftpe&hl=en'
-    results.first[:price_usd].should == '$6.99'
-    results.first[:stars].should == '4.5'
-    results.first[:title].should == "Minecraft: Pocket Edition"
+    expect(results.first[:developer]).to eq('Mojang')
+    expect(results.first[:market_id]).to eq('com.mojang.minecraftpe')
+    expect(results.first[:market_url]).to eq('https://play.google.com/store/apps/details?id=com.mojang.minecraftpe&hl=en')
+    expect(results.first[:price_usd]).to eq('$6.99')
+    expect(results.first[:stars]).to eq('4.5')
+    expect(results.first[:title]).to eq("Minecraft: Pocket Edition")
   end
 
 end
@@ -52,50 +52,50 @@ describe 'Chart' do
   context 'Construction' do
     it 'should copy params' do
       chart =MarketBot::Play::Chart.new(test_id, test_category)
-      chart.identifier.should == test_id
-      chart.category.should == test_category
+      expect(chart.identifier).to eq(test_id)
+      expect(chart.category).to eq(test_category)
     end
 
     it 'should copy optional params' do
       hydra = Typhoeus::Hydra.new
       chart = MarketBot::Play::Chart.new(test_id, test_category, :hydra => hydra)
-      chart.hydra.should equal(hydra)
+      expect(chart.hydra).to equal(hydra)
     end
 
     it 'should have an optional category parameter' do
       chart = MarketBot::Play::Chart.new(test_id)
-      chart.identifier.should == test_id
-      chart.category.should == nil
+      expect(chart.identifier).to eq(test_id)
+      expect(chart.category).to eq(nil)
     end
   end
 
   it 'should generate URLs using min and max page ranges' do
     chart = MarketBot::Play::Chart.new(test_id, test_category)
     urls = chart.market_urls(:min_page => 1, :max_page => 3)
-    urls.should == [
+    expect(urls).to eq([
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=0&gl=us&num=24&hl=en',
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=24&gl=us&num=24&hl=en',
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=48&gl=us&num=24&hl=en'
-    ]
+    ])
   end
 
   it 'should generate URLs using country' do
     chart = MarketBot::Play::Chart.new(test_id, test_category)
     urls = chart.market_urls(:min_page => 1, :max_page => 3, :country => 'au')
-    urls.should == [
+    expect(urls).to eq([
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=0&gl=au&num=24&hl=en',
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=24&gl=au&num=24&hl=en',
       'https://play.google.com/store/apps/category/ARCADE/collection/topselling_paid?start=48&gl=au&num=24&hl=en'
-    ]
+    ])
   end
 
 
   it 'should convert ranks to market chart pages (24 apps per page)' do
     app = MarketBot::Play::Chart.new(test_id, test_category)
-    app.rank_to_page(1).should == 1
-    app.rank_to_page(24).should == 1
-    app.rank_to_page(25).should == 2
-    app.rank_to_page(48).should == 2
+    expect(app.rank_to_page(1)).to eq(1)
+    expect(app.rank_to_page(24)).to eq(1)
+    expect(app.rank_to_page(25)).to eq(2)
+    expect(app.rank_to_page(48)).to eq(2)
   end
 
   describe 'Updating' do
@@ -125,15 +125,15 @@ describe 'Chart' do
         chart = MarketBot::Play::Chart.new('editors_choice', nil, :hydra => hydra)
         chart.update
 
-        chart.results.count.should == 60
+        expect(chart.results.count).to eq(60)
 
         app = chart.results.last
 
-        app[:title].should == "Instacart: Grocery Delivery"
-        app[:price_usd].should == "Free"
-        app[:developer].should == "Instacart"
-        app[:market_id].should == "com.instacart.client"
-        app[:market_url].should == "https://play.google.com/store/apps/details?id=com.instacart.client&hl=en"
+        expect(app[:title]).to eq("Instacart: Grocery Delivery")
+        expect(app[:price_usd]).to eq("Free")
+        expect(app[:developer]).to eq("Instacart")
+        expect(app[:market_id]).to eq("com.instacart.client")
+        expect(app[:market_url]).to eq("https://play.google.com/store/apps/details?id=com.instacart.client&hl=en")
       end
     end
   end

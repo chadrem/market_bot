@@ -15,8 +15,8 @@ end
 
 def check_results(results)
   it 'should return valid results' do
-    results.length.should == 24
-    results[0][:title].should == 'Words With Friends – Play Free'
+    expect(results.length).to eq(24)
+    expect(results[0][:title]).to eq('Words With Friends – Play Free')
   end
 end
 
@@ -24,13 +24,13 @@ describe 'developer' do
   context 'Construction' do
     it 'should copy params' do
       dev = Developer.new(test_developer_id)
-      dev.identifier.should == test_developer_id
+      expect(dev.identifier).to eq(test_developer_id)
     end
 
     it 'should copy optional params' do
       hydra = Typhoeus::Hydra.new
       dev = Developer.new(test_developer_id, :hydra => hydra)
-      dev.hydra.should equal(hydra)
+      expect(dev.hydra).to equal(hydra)
     end
   end
 
