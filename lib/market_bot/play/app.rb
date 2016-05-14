@@ -85,19 +85,19 @@ module MarketBot
 
         node = doc.at_css('.cover-image')
         unless node.nil?
-          url = fix_content_url(node[:src])
+          url = MarketBot::Util.fix_content_url(node[:src])
           result[:banner_icon_url] = url
           result[:banner_image_url] = url
         end
 
         result[:screenshot_urls] = []
         doc.css('.screenshot').each do |node|
-          result[:screenshot_urls] << fix_content_url(node[:src])
+          result[:screenshot_urls] << MarketBot::Util.fix_content_url(node[:src])
         end
 
         result[:full_screenshot_urls] = []
         doc.css('.full-screenshot').each do |node|
-          result[:full_screenshot_urls] << fix_content_url(node[:src])
+          result[:full_screenshot_urls] << MarketBot::Util.fix_content_url(node[:src])
         end
 
         node = doc.at_css('.whatsnew')
@@ -199,10 +199,6 @@ module MarketBot
       end
 
       private
-
-      def self.fix_content_url(url)
-        url =~ /\A\/\// ? "https:#{url}" : url
-      end
 
       def handle_response(response)
         if response.success?

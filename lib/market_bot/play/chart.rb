@@ -25,7 +25,7 @@ module MarketBot
           details_node = snippet_node.css('.details')
 
           unless snippet_node.css('img').empty?
-            result[:icon_url] = snippet_node.css('img').first.attributes['src'].value
+            result[:icon_url] = MarketBot::Util.fix_content_url(snippet_node.css('img').first.attributes['src'].value)
           end
 
           unless snippet_node.css('.current-rating').empty?

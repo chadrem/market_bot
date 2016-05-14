@@ -5,6 +5,7 @@ require 'nokogiri'
 
 require 'market_bot/version'
 require 'market_bot/exceptions'
+require 'market_bot/util'
 require 'market_bot/play/app/constants'
 require 'market_bot/play/app'
 require 'market_bot/play/chart/constants'
