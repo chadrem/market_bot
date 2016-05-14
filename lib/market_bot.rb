@@ -10,7 +10,6 @@ require 'market_bot/play/app/constants'
 require 'market_bot/play/app'
 require 'market_bot/play/chart/constants'
 require 'market_bot/play/chart'
-require 'market_bot/play/search'
 require 'market_bot/play/developer'
 
 module MarketBot

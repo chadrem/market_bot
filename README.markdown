@@ -2,7 +2,6 @@
 
 Market Bot is a web scraper (web robot, web spider) for the Google Play Android app store.
 It can collect data on apps, charts, and developers.
-It can also search for apps.
 
 ## Dependencies
 
@@ -52,15 +51,6 @@ And then execute:
 
     # Print the first app.
     puts dev.results.first.inspect
-
-## Search API example
-
-    # Search for apps using keyword(s).
-    search = MarketBot::Play::Search.new('donkeys')
-    search.update
-
-    # Print the first app.
-    puts search.results.first.inspect
 
 ## Excessive Use
 
