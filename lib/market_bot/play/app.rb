@@ -1,15 +1,12 @@
 module MarketBot
   module Play
     class App
-      attr_reader :app_id
       attr_reader *ATTRIBUTES
-      attr_reader :hydra
+      attr_reader :package
       attr_reader :lang
-      attr_reader :callback
-      attr_reader :error
       attr_reader :result
 
-      def self.parse(html, options={})
+      def self.parse(html, opts={})
         result = {}
 
         doc = Nokogiri::HTML(html)
@@ -51,9 +48,6 @@ module MarketBot
 
         category_div = doc.at_css('.category')
         result[:category] = category_div.text.strip rescue ''
-        cat_link = category_div["href"]
-        path, cat_name = File.split(cat_link)
-        result[:category_url] = cat_name
 
         result[:description] = doc.at_css('div[itemprop="description"]').inner_html.strip
         result[:title] = doc.at_css('div.id-app-title').text
@@ -77,7 +71,7 @@ module MarketBot
           assoc_app_type = recommended.at_css('.heading').text.strip.eql?('Similar' ) ? :similar : :more_from_developer
           recommended.css('.card').each do |card|
             assoc_app = {}
-            assoc_app[:app_id] = card['data-docid'].strip
+            assoc_app[:package] = card['data-docid'].strip
 
             result[assoc_app_type] << assoc_app
           end
@@ -86,8 +80,7 @@ module MarketBot
         node = doc.at_css('.cover-image')
         unless node.nil?
           url = MarketBot::Util.fix_content_url(node[:src])
-          result[:banner_icon_url] = url
-          result[:banner_image_url] = url
+          result[:cover_image_url] = url
         end
 
         result[:screenshot_urls] = []
@@ -104,28 +97,28 @@ module MarketBot
         result[:whats_new] = node.inner_html.strip unless node.nil?
 
         result[:reviews] = []
-        unless options[:skip_reviews] # Review parsing is CPU intensive.
+        unless opts[:skip_reviews] # Review parsing is CPU intensive.
           doc.css('.single-review').each do |node|
             review = {}
-            review[:author_name] = node.at_css('.author-name').text.strip if node.at_css('.author-name')
+            review[:author] = node.at_css('.author-name').text.strip if node.at_css('.author-name')
             raw_tag = node.at_css('.current-rating').to_s
             if raw_tag.match(/100%;/i)
-              review[:review_score] = 5
+              review[:score] = 5
             elsif raw_tag.match(/80%;/i)
-              review[:review_score] = 4
+              review[:score] = 4
             elsif raw_tag.match(/60%;/i)
-              review[:review_score] = 3
+              review[:score] = 3
             elsif raw_tag.match(/40%;/i)
-              review[:review_score] = 2
+              review[:score] = 2
             elsif raw_tag.match(/20%;/i)
-              review[:review_score] = 1
+              review[:score] = 1
             end
             if node.at_css('.review-title')
-              review[:review_title] = node.at_css('.review-title').text.strip
+              review[:title] = node.at_css('.review-title').text.strip
             end
             if node.at_css('.review-body')
-              review[:review_text] = node.at_css('.review-body').text
-                .sub!(review[:review_title],'')
+              review[:text] = node.at_css('.review-body').text
+                .sub!(review[:title],'')
                 .sub!(node.at_css('.review-link').text, '')
                 .strip
             end
@@ -151,58 +144,35 @@ module MarketBot
         result
       end
 
-      def initialize(app_id, options={})
-        @app_id = app_id
-        @hydra = options[:hydra] || MarketBot.hydra
-        @lang = options[:lang] || 'en'
-        @callback = nil
-        @error = nil
-        @request_opts = options[:request_opts] || {}
-        @request_opts[:timeout] ||= MarketBot.timeout
-        @request_opts[:connecttimeout] ||= MarketBot.connecttimeout
+      def initialize(package, opts={})
+        @package = package
+        @lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
+        @request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
       end
 
-      def market_url
-        "https://play.google.com/store/apps/details?id=#{@app_id}&hl=#{lang}"
+      def store_url
+        "https://play.google.com/store/apps/details?id=#{@package}&hl=#{@lang}"
       end
 
       def update
-        req = Typhoeus::Request.new(market_url, @request_opts)
+        req = Typhoeus::Request.new(store_url, @request_opts)
         req.run
-        result = handle_response(req.response)
-        update_callback(result)
-
-        self
-      end
-
-      def enqueue_update(&block)
-        @callback = block
-        @error = nil
-
-        request = Typhoeus::Request.new(market_url, @request_opts)
-
-        request.on_complete do |response|
-          result = nil
-
-          begin
-            result = handle_response(response)
-          rescue Exception => e
-            @error = e
-          end
-
-          update_callback(result)
-        end
-
-        hydra.queue(request)
+        response_handler(req.response)
 
         self
       end
 
       private
 
-      def handle_response(response)
+      def response_handler(response)
         if response.success?
-          App.parse(response.body)
+          @result = self.class.parse(response.body)
+
+          ATTRIBUTES.each do |a|
+            attr_name = "@#{a}"
+            attr_value = @result[a]
+            instance_variable_set(attr_name, attr_value)
+          end
         else
           codes = "code=#{response.code}, return_code=#{response.return_code}"
           case response.code
@@ -214,20 +184,6 @@ module MarketBot
             raise MarketBot::ResponseError.new("Unhandled response: #{codes}")
           end
         end
-      end
-
-      def update_callback(result)
-        unless @error
-          @result = result
-
-          ATTRIBUTES.each do |a|
-            attr_name = "@#{a}"
-            attr_value = result[a]
-            instance_variable_set(attr_name, attr_value)
-          end
-        end
-
-        @callback.call(self) if @callback
       end
     end
   end

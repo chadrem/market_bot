@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'typhoeus'
+
+def download(url, name)
+  path = play_path(name)
+  puts "Downloading: #{name}..."
+  resp = Typhoeus::Request.get(url)
+  File.open(path, 'w') do |file|
+    resp.body.force_encoding('utf-8')
+    file.puts(resp.body)
+  end
+end
+
+def play_path(name)
+  File.join(File.dirname(__FILE__), '..', 'spec', 'market_bot', 'play', 'data', name)
+end
+
+download('https://play.google.com/store/apps/details?id=com.bluefroggaming.popdat', 'app-com.bluefroggaming.popdat.txt')
+download('https://play.google.com/store/apps/details?id=com.mg.android', 'app-com.mg.android.txt')
+download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=0&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-0.txt')
+download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=100&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-1.txt')
+download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=200&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-2.txt')
+download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=300&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-3.txt')
+download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=400&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-4.txt')
+download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=500&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-5.txt')
+download('https://play.google.com/store/apps/developer?id=Zynga', 'developer-zynga.txt')

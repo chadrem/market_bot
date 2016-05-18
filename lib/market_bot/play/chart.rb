@@ -1,171 +1,119 @@
 module MarketBot
-  module Play
-    class Chart
-      attr_reader :identifier, :category
-      attr_reader :hydra
+	module Play
+		class Chart
+			attr_reader :collection
+			attr_reader :category
+			attr_reader :country
+			attr_reader :lang
+			attr_reader :result
 
-      MAX_STARS = 5
-      PERCENT_DENOM = 100
+			def self.parse(html, opts={})
+				opts[:lang] ||= MarketBot::Play::DEFAULT_LANG
 
-      def self.parse(html)
-        if html.include?('<title>Editor&#39;s Choice')
-          parse_editors_choice_page(html)
-        else
-          parse_normal_page(html)
-        end
-      end
+				results = []
+				doc = Nokogiri::HTML(html)
 
-      def self.parse_normal_page(html)
-        results = []
-        doc = Nokogiri::HTML(html)
+				doc.css('.card').each do |snippet_node|
+					result = {}
 
-        doc.css('.card').each do |snippet_node|
-          result = {}
+					details_node = snippet_node.css('.details')
 
-          details_node = snippet_node.css('.details')
+					unless snippet_node.css('img').empty?
+						result[:icon_url] = MarketBot::Util.fix_content_url(snippet_node.css('img').first.attributes['src'].value)
+					end
 
-          unless snippet_node.css('img').empty?
-            result[:icon_url] = MarketBot::Util.fix_content_url(snippet_node.css('img').first.attributes['src'].value)
-          end
+					unless snippet_node.css('.current-rating').empty?
+						stars_style = snippet_node.css('.current-rating').first.attributes['style'].value
+						stars_width_percent = stars_style[/width:\s+([0-9.]+)%/, 1].to_f
+						result[:stars] = (5 * stars_width_percent / 100).round(1).to_s
+					else
+						result[:stars] = nil
+					end
 
-          unless snippet_node.css('.current-rating').empty?
-            stars_style = snippet_node.css('.current-rating').first.attributes['style'].value
-            stars_width_percent = stars_style[/width:\s+([0-9.]+)%/, 1].to_f
-            result[:stars] = (MAX_STARS * stars_width_percent/PERCENT_DENOM).round(1).to_s
-          else
-            result[:stars] = nil
-          end
+					title_node = details_node.css('.title').first
+					result[:title] = title_node.attributes['title'].to_s
+					result[:rank] = title_node.text.gsub(/\..*/, '').to_i
 
-          result[:title] = details_node.css('.title').first.attributes['title'].to_s
+					if (price_elem = details_node.css('.buy span').first)
+						result[:price] = price_elem.text
+					end
 
-          if (price_elem = details_node.css('.buy span').first)
-            result[:price_usd] = price_elem.text
-          end
+					result[:developer] = details_node.css('.subtitle').first.attributes['title'].to_s
+					result[:package] = details_node.css('.title').first.attributes['href'].to_s.gsub('/store/apps/details?id=', '').gsub(/&feature=.*$/, '')
+					result[:store_url] = "https://play.google.com/store/apps/details?id=#{result[:package]}&hl=#{opts[:lang]}"
 
-          result[:developer] = details_node.css('.subtitle').first.attributes['title'].to_s
-          result[:market_id] = details_node.css('.title').first.attributes['href'].to_s.gsub('/store/apps/details?id=', '').gsub(/&feature=.*$/, '')
-          result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}&hl=en"
+					result[:price] = '0' if result[:price] == 'Free'
 
-          result[:price_usd] = '$0.00' if result[:price_usd] == 'Install'
+					results << result
+				end
 
-          results << result
-        end
+				results
+			end
 
-        results
-      end
+			def initialize(collection, category=nil, opts={})
+				@collection = collection
+				@category = category
+				@request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
+				@lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
+				@country = opts[:country] || MarketBot::Play::DEFAULT_COUNTRY
+			end
 
-      def self.parse_editors_choice_page(html)
-        results = []
+			def store_urls
+				urls = []
+				start = 0
+				num = 100
 
-        doc = Nokogiri::HTML(html)
+				6.times do |i|
+					url = 'https://play.google.com/store/apps'
+					url << "/category/#{@category}" if @category
+					url << "/collection/#{@collection}?"
+					url << "start=#{start}&"
+					url << "gl=#{@country}&"
+					url << "num=#{num}&"
+					url << "hl=#{@lang}"
 
-        doc.css('.fsg-snippet').each do |snippet_node|
-          result = {}
+					urls << url
+					start += num
+				end
 
-          result[:title]      = snippet_node.css('.title').text
-          result[:price_usd]  = nil
-          result[:developer]  = snippet_node.css('.attribution').text
-          result[:market_id]  = snippet_node.attributes['data-docid'].text
-          result[:market_url] = "https://play.google.com/store/apps/details?id=#{result[:market_id]}&hl=en"
+				urls
+			end
 
-          results << result
-        end
+			def update(opts={})
+				@result = []
 
-        results
-      end
+				store_urls.each do |url|
+					req = Typhoeus::Request.new(url, @request_opts)
+					req.run
 
-      def initialize(identifier, category=nil, options={})
-        @identifier = identifier
-        @category = category
-        @hydra = options[:hydra] || MarketBot.hydra
-        @parsed_results = []
-        @pending_pages = []
-        @request_opts = options[:request_opts] || {}
-        @request_opts[:timeout] ||= MarketBot.timeout
-        @request_opts[:connecttimeout] ||= MarketBot.connecttimeout
-      end
+					unless response_handler(req.response)
+						break
+					end
+				end
 
-      def market_urls(options={})
-        results = []
+				@result.flatten!
 
-        min_page = options[:min_page] || 1
-        max_page = options[:max_page] || 25
-        country  = options[:country]  || 'us'
+				self
+			end
 
-        (min_page..max_page).each do |page|
-          start_val = (page - 1) * 24
+			private
 
-          url = 'https://play.google.com/store/apps'
-          url << "/category/#{category.to_s.upcase}" if category
-          url << "/collection/#{identifier.to_s}?"
-          url << "start=#{start_val}&"
-          url << "gl=#{country}&"
-          url << "num=24&hl=en"
+			def response_handler(response)
+				if response.success?
+					r = self.class.parse(response.body, lang: @lang)
 
-          results << url
-        end
+					if @result.empty? ||
+							(!@result.empty? &&@result[-1][-1][:rank] + 1 == r[0][:rank])
+						@result << r
+						return true
+					end
 
-        results
-      end
-
-      def enqueue_update(options={},&block)
-        @callback = block
-        if @identifier.to_s.downcase == 'editors_choice' && category == nil
-          url = 'https://play.google.com/store/apps/collection/editors_choice?&hl=en'
-          process_page(url, 1)
-        else
-          min_rank = options[:min_rank] || 1
-          max_rank = options[:max_rank] || 500
-          country  = options[:country]  || 'us'
-
-          min_page = rank_to_page(min_rank)
-          max_page = rank_to_page(max_rank)
-
-          @parsed_results = []
-
-          urls = market_urls(:min_page => min_page, :max_page => max_page, :country => country)
-          urls.each_index{ |i| process_page(urls[i], i+1) }
-        end
-
-        self
-      end
-
-      def update(options={})
-        enqueue_update(options)
-        @hydra.run
-
-        self
-      end
-
-      def rank_to_page(rank)
-        ((rank - 1) / 24) + 1
-      end
-
-      def results
-        raise 'Results do not exist yet.' unless @parsed_results
-        @parsed_results.reject{ |page| page.nil? || page.empty? }.flatten
-      end
-
-      private
-
-      def process_page(url, page_num)
-        @pending_pages << page_num
-        request = Typhoeus::Request.new(url, @request_opts)
-        request.on_complete do |response|
-          # HACK: Typhoeus <= 0.4.2 returns a response, 0.5.0pre returns the request.
-          response = response.response if response.is_a?(Typhoeus::Request)
-
-          result = Chart.parse(response.body)
-          update_callback(result, page_num)
-        end
-        @hydra.queue(request)
-      end
-
-      def update_callback(result, page)
-        @parsed_results[page] = result
-        @pending_pages.delete(page)
-        @callback.call(self) if @callback and @pending_pages.empty?
-      end
-    end
-  end
+					return false
+				else
+					codes = "code=#{response.code}, return_code=#{response.return_code}"
+					raise MarketBot::ResponseError.new("Unhandled response: #{codes}")
+				end
+			end
+		end
+	end
 end

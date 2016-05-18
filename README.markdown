@@ -32,15 +32,17 @@ And then execute:
 
 ## Charts API example
 
-    # Download/parse the chart.
-    chart = MarketBot::Play::Chart.new(:topselling_free, :game)
+Charts are defined by a collection and an option category.
+
+    # Download/parse the chart (collection=topselling_free, category=GAME).
+    chart = MarketBot::Play::Chart.new('topselling_free', 'GAME')
     chart.update
 
     # Print the first app.
-    puts chart.results.first.inspect
+    puts chart.result.first.inspect
 
-    # Print all the chart identifiers & categories for chart objects.
-    puts MarketBot::Play::Chart::IDENTIFIERS.inspect
+    # Print all the chart collections & categories.
+    puts MarketBot::Play::Chart::COLLECTIONS.inspect
     puts MarketBot::Play::Chart::CATEGORIES.inspect
 
 ## Developer API example
@@ -50,7 +52,7 @@ And then execute:
     dev.update
 
     # Print the first app.
-    puts dev.results.first.inspect
+    puts dev.result.first.inspect
 
 ## Excessive Use
 

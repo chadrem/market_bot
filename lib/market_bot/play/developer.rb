@@ -5,19 +5,27 @@ module MarketBot
         super(developer, nil, options)
       end
 
-      def market_urls(options={})
+      def store_urls(options={})
         results = []
-
-        country = options[:country] || 'us'
+        num = 100
 
         url = "https://play.google.com/store/apps/developer?"
-        url << "id=#{URI.escape(identifier)}&"
-        url << "gl=#{country}&"
-        url << "hl=en"
+        url << "id=#{URI.escape(@collection)}&"
+        url << "start=0&"
+        url << "gl=#{@country}&"
+        url << "num=#{num}&"
+        url << "hl=#{@lang}"
 
         results << url
 
         return results
+      end
+
+      def update(opts={})
+        super(opts)
+        @result.each { |r| r.delete(:rank) }
+
+        self
       end
     end
   end

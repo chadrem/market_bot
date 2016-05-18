@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'nokogiri'
+require 'typhoeus'
+
+res = Typhoeus.get('https://play.google.com/store/apps', timeout: 5, connecttimeout: 5)
+doc = Nokogiri::HTML(res.body)
+elems = doc.css('a.child-submenu-link')
+links = elems.map { |e| e.attributes['href'].value }
+
+# Filter out non-app links such as 'Popular Characters'.
+links = links.select { |l| l =~ /apps\/category/ }
+
+categories = links.map { |l| l.gsub('/store/apps/category/', '') }
+
+categories.each { |c| puts c }
