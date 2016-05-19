@@ -3,6 +3,7 @@ module MarketBot
     class App
       ATTRIBUTES = [
         :category,
+        :category_url,
         :content_rating,
         :cover_image_url,
         :current_version,
