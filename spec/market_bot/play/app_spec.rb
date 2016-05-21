@@ -139,8 +139,8 @@ describe MarketBot::Play::App do
 
     before(:all) do
       @package = 'app-com.mg.android'
-        @html = read_play_data('app-com.mg.android.txt')
-        @parsed = MarketBot::Play::App.parse(@html)
+      @html = read_play_data('app-com.mg.android.txt')
+      @parsed = MarketBot::Play::App.parse(@html)
     end
   end
 
@@ -153,6 +153,10 @@ describe MarketBot::Play::App do
     response = Typhoeus::Response.new(code: code, headers: '', body: html)
     Typhoeus.stub(app.store_url).and_return(response)
     app.update
+
+    MarketBot::Play::App::ATTRIBUTES.each do |a|
+      expect(app.send(a)).to eq(app.result[a]), "Attribute: #{a}"
+    end
   end
 
   it 'should raise a NotFoundError for http code 404' do
