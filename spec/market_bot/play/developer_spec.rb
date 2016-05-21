@@ -1,7 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '../../../spec_helper')
 
-include MarketBot::Play
-
 describe MarketBot::Play::Developer do
   shared_context('parsing a developer') do
     it 'should be a valid length' do

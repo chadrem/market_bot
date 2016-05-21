@@ -1,7 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '../../../spec_helper')
 
-include MarketBot::Play
-
 describe MarketBot::Play::Chart do
   shared_context('parsing a chart') do
     it 'should have entries with a valid length' do
