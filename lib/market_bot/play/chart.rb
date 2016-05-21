@@ -86,9 +86,7 @@ module MarketBot
 					req = Typhoeus::Request.new(url, @request_opts)
 					req.run
 
-					unless response_handler(req.response)
-						break
-					end
+					break unless response_handler(req.response)
 				end
 
 				@result.flatten!
