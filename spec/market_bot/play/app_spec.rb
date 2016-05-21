@@ -138,9 +138,59 @@ describe MarketBot::Play::App do
     include_context 'parsing an app'
 
     before(:all) do
-      @package = 'app-com.mg.android',
-      @html = read_play_data('app-com.mg.android.txt'),
-      @parsed = MarketBot::Play::App.parse(@html)
+      @package = 'app-com.mg.android'
+        @html = read_play_data('app-com.mg.android.txt')
+        @parsed = MarketBot::Play::App.parse(@html)
     end
+  end
+
+  it 'should populate the attribute getters' do
+    package = 'app-com.bluefroggaming.popdat'
+    html = read_play_data('app-com.bluefroggaming.popdat.txt')
+    code = 200
+
+    app = MarketBot::Play::App.new(package)
+    response = Typhoeus::Response.new(code: code, headers: '', body: html)
+    Typhoeus.stub(app.store_url).and_return(response)
+    app.update
+  end
+
+  it 'should raise a NotFoundError for http code 404' do
+    package = 'com.missing.app'
+    code = 404
+
+    app = MarketBot::Play::App.new(package)
+    response = Typhoeus::Response.new(code: code)
+    Typhoeus.stub(app.store_url).and_return(response)
+
+    expect {
+      app.update
+    }.to raise_error(MarketBot::NotFoundError)
+  end
+
+  it 'should raise an UnavailableError for http code 403' do
+    package = 'com.not.available.in.your.country.app'
+    code = 403
+
+    app = MarketBot::Play::App.new(package)
+    response = Typhoeus::Response.new(code: code)
+    Typhoeus.stub(app.store_url).and_return(response)
+
+    expect {
+      app.update
+    }.to raise_error(MarketBot::UnavailableError)
+  end
+
+  it 'should raise a ResponseError for unknown http codes' do
+    package = 'com.my.internet.may.be.dead'
+    code = 0
+
+    app = MarketBot::Play::App.new(package)
+    response = Typhoeus::Response.new(code: code)
+    Typhoeus.stub(app.store_url).and_return(response)
+
+    expect {
+      app.update
+    }.to raise_error(MarketBot::ResponseError)
   end
 end
