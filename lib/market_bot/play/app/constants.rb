@@ -24,7 +24,6 @@ module MarketBot
         :size,
         :title,
         :updated,
-        :users_also_installed,
         :votes,
         :website_url,
         :whats_new
