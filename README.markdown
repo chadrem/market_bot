@@ -3,6 +3,14 @@
 Market Bot is a web scraper (web robot, web spider) for the Google Play Android app store.
 It can collect data on apps, charts, and developers.
 
+### Commercial Support
+
+Want data, but don't know how to use this library?
+Want to scrape large quantities of data, but don't want to invest in infrastruture?
+Want to support the development of this library?
+Then please contact me via my Github email address and we can discuss
+commercial solutions.
+
 ## Dependencies
 
 * Nokogiri
