@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency('bundler', '~> 1.10')
   gem.add_development_dependency('rake', '~> 10.0')
   gem.add_development_dependency('rspec', '~> 3.4')
-  gem.add_development_dependency('guard', '~> 2.13')
-  gem.add_development_dependency('guard-rspec', '~> 4.6')
-  gem.add_development_dependency('byebug', '>= 8.2')
+  #gem.add_development_dependency('guard', '~> 2.13')
+  #gem.add_development_dependency('guard-rspec', '~> 4.6')
+  #gem.add_development_dependency('byebug', '>= 8.2')
 end
