@@ -10,12 +10,6 @@ begin
 rescue Exception
 end
 
-begin
-  require 'simplecov'
-  SimpleCov.start
-rescue Exception
-end
-
 require 'market_bot'
 
 # Requires supporting files with custom matchers and macros, etc,
