@@ -78,9 +78,9 @@ describe MarketBot::Play::Chart do
   it 'should generate store_urls' do
     collection = 'topselling_paid'
     category ='GAME_ARCADE'
-    chart = MarketBot::Play::Chart.new(collection, category)
+    chart = MarketBot::Play::Chart.new(collection, category, max_pages: 2)
 
-    expect(chart.store_urls.length).to eq(6)
+    expect(chart.store_urls.length).to eq(2)
 
     chart.store_urls.each_with_index do |url, i|
       msg = "i=#{i}, url=#{url}"
@@ -92,7 +92,7 @@ describe MarketBot::Play::Chart do
   it 'should update' do
     collection = 'topselling_paid'
     category ='GAME_ARCADE'
-    chart = MarketBot::Play::Chart.new(collection, category)
+    chart = MarketBot::Play::Chart.new(collection, category, max_pages: 7)
     code = 200
 
     chart.store_urls.each_with_index do |url, i|

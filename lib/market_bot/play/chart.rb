@@ -56,6 +56,7 @@ module MarketBot
 				@request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
 				@lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
 				@country = opts[:country] || MarketBot::Play::DEFAULT_COUNTRY
+        @max_pages = opts[:max_pages] || MarketBot::Play::Chart::MAX_PAGES
 			end
 
 			def store_urls
@@ -63,7 +64,7 @@ module MarketBot
 				start = 0
 				num = 100
 
-				6.times do |i|
+				@max_pages.times do |i|
 					url = 'https://play.google.com/store/apps'
 					url << "/category/#{@category}" if @category
 					url << "/collection/#{@collection}?"

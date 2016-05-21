@@ -101,7 +101,8 @@ describe MarketBot::Play::App do
     end
 
     it 'should parse the size attribute' do
-      expect(@parsed[:size]).to be_kind_of(String).and match(/\A\d+\.?\d*M\z/)
+      expect(@parsed[:size]).to eq(nil).or(
+        be_kind_of(String).and match(/\A\d+\.?\d*M\z/))
     end
 
     it 'should parse the title attribute' do
@@ -128,7 +129,7 @@ describe MarketBot::Play::App do
     include_context 'parsing an app'
 
     before(:all) do
-      @package = 'app-com.bluefroggaming.popdat'
+      @package = 'com.bluefroggaming.popdat'
       @html = read_play_data('app-com.bluefroggaming.popdat.txt')
       @parsed = MarketBot::Play::App.parse(@html)
     end
@@ -138,7 +139,7 @@ describe MarketBot::Play::App do
     include_context 'parsing an app'
 
     before(:all) do
-      @package = 'app-com.mg.android'
+      @package = 'com.mg.android'
       @html = read_play_data('app-com.mg.android.txt')
       @parsed = MarketBot::Play::App.parse(@html)
     end

@@ -1,6 +1,8 @@
 module MarketBot
   module Play
     class Chart
+      MAX_PAGES = 6
+
       COLLECTIONS = %w{
         topselling_free
         topselling_paid
@@ -11,6 +13,7 @@ module MarketBot
         topselling_new_free
         topselling_new_paid
       }
+
       CATEGORIES = %w{
 				ANDROID_WEAR
 				BOOKS_AND_REFERENCE
