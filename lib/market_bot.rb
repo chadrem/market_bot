@@ -31,7 +31,8 @@ module MarketBot
   end
 
   def self.user_agent
-    @user_agent ||= "MarketBot/#{MarketBot::VERSION} / (+https://github.com/chadrem/market_bot)"
+    @user_agent ||= "MarketBot/#{MarketBot::VERSION} / " \
+      "(+https://github.com/chadrem/market_bot)"
   end
 
   def self.user_agent=(val)
