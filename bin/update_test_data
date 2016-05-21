@@ -25,4 +25,6 @@ download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/top
 download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=300&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-3.txt')
 download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=400&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-4.txt')
 download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=500&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-5.txt')
+download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=600&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-6.txt')
+download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=700&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-7.txt')
 download('https://play.google.com/store/apps/developer?id=Zynga', 'developer-zynga.txt')
