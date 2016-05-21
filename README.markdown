@@ -1,4 +1,4 @@
-# Market Bot - [![Build Status](https://travis-ci.org/chadrem/market_bot.svg?branch=master)](https://travis-ci.org/chadrem/market_bot) [![Coverage Status](https://coveralls.io/repos/chadrem/market_bot/badge.svg?branch=master&service=github)](https://coveralls.io/github/chadrem/market_bot?branch=master)
+# Market Bot - [![Build Status](https://travis-ci.org/chadrem/market_bot.svg?branch=master)](https://travis-ci.org/chadrem/market_bot) [![Coverage Status](https://coveralls.io/repos/github/chadrem/market_bot/badge.svg?branch=master)](https://coveralls.io/github/chadrem/market_bot?branch=master)
 
 Market Bot is a web scraper (web robot, web spider) for the Google Play Android app store.
 It can collect data on apps, charts, and developers.
