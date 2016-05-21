@@ -58,7 +58,7 @@ module MarketBot
           node  = score.at_css('.score')
           result[:rating] = node.text.strip
           node = score.at_css('meta[itemprop="ratingCount"]')
-          result[:votes] = node[:content].strip
+          result[:votes] = node[:content].strip.to_i
         end
 
         node = doc.at_css('div[itemprop="author"]')
@@ -93,9 +93,6 @@ module MarketBot
         doc.css('.full-screenshot').each do |node|
           result[:full_screenshot_urls] << MarketBot::Util.fix_content_url(node[:src])
         end
-
-        node = doc.at_css('.whatsnew')
-        result[:whats_new] = node.inner_html.strip unless node.nil?
 
         result[:reviews] = []
         unless opts[:skip_reviews] # Review parsing is CPU intensive.

@@ -29,8 +29,8 @@ Typhoeus.configure do |config|
   config.block_connection = true
 end
 
-def read_file(*path)
-  data = nil
-  File.open(File.join(path), 'r') { |f| data = f.read }
-  return data
+def read_play_data(name)
+  path = File.join(File.expand_path(File.dirname(__FILE__)),
+                   'market_bot', 'play', 'data', name)
+  File.read(path)
 end
