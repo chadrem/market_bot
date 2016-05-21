@@ -124,7 +124,7 @@ describe MarketBot::Play::App do
     end
   end
 
-  context "(app-com.bluefroggaming.popdat)" do
+  context '(app-com.bluefroggaming.popdat)' do
     include_context 'parsing an app'
 
     before(:all) do
@@ -134,7 +134,7 @@ describe MarketBot::Play::App do
     end
   end
 
-  context "(app-com.mg.android)" do
+  context '(app-com.mg.android)' do
     include_context 'parsing an app'
 
     before(:all) do

@@ -66,7 +66,7 @@ describe MarketBot::Play::Chart do
     end
   end
 
-  describe "(topselling_paid - GAME_ARCADE)" do
+  describe '(topselling_paid - GAME_ARCADE)' do
     include_context 'parsing a chart'
 
     before(:all) do
@@ -75,5 +75,23 @@ describe MarketBot::Play::Chart do
       @html = read_play_data('chart-topselling_paid-GAME_ARCADE-0.txt')
       @parsed = MarketBot::Play::Chart.parse(@html)
     end
+  end
+
+  it 'should update' do
+    collection = 'topselling_paid'
+    category ='GAME_ARCADE'
+    chart = MarketBot::Play::Chart.new(collection, category)
+    code = 200
+
+    chart.store_urls.each_with_index do |url, i|
+      html = read_play_data("chart-topselling_paid-GAME_ARCADE-#{i}.txt")
+      response = Typhoeus::Response.new(code: code, headers: '', body: html)
+      Typhoeus.stub(url).and_return(response)
+    end
+
+    chart.update
+
+    ranks = chart.result.map { |e| e[:rank] }
+    expect(ranks).to eq((ranks[0]..ranks[-1]).to_a)
   end
 end
