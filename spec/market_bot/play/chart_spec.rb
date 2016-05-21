@@ -77,6 +77,20 @@ describe MarketBot::Play::Chart do
     end
   end
 
+  it 'should generate store_urls' do
+    collection = 'topselling_paid'
+    category ='GAME_ARCADE'
+    chart = MarketBot::Play::Chart.new(collection, category)
+
+    expect(chart.store_urls.length).to eq(6)
+
+    chart.store_urls.each_with_index do |url, i|
+      msg = "i=#{i}, url=#{url}"
+      pattern = /\Ahttps:\/\/play\.google\.com\/store\/apps\/category\/#{category}\/collection\/#{collection}\?start=#{i * 100}&gl=us&num=100&hl=en\z/
+      expect(url).to match(Regexp.new(pattern)), msg
+    end
+  end
+
   it 'should update' do
     collection = 'topselling_paid'
     category ='GAME_ARCADE'

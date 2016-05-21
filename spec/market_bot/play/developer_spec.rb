@@ -24,4 +24,31 @@ describe MarketBot::Play::Developer do
       @parsed = MarketBot::Play::Chart.parse(@html)
     end
   end
+
+  it 'should generate store_urls' do
+    name ='zynga'
+    dev = MarketBot::Play::Developer.new(name)
+
+    expect(dev.store_urls.length).to eq(1)
+
+    dev.store_urls.each_with_index do |url, i|
+      msg = "i=#{i}, url=#{url}"
+      pattern = /\Ahttps:\/\/play\.google\.com\/store\/apps\/developer\?id=zynga&start=0&gl=us&num=100&hl=en\z/
+      expect(url).to match(Regexp.new(pattern)), msg
+    end
+  end
+
+  it 'should update' do
+    name = 'zynga'
+    dev = MarketBot::Play::Developer.new(name)
+    code = 200
+
+    dev.store_urls.each_with_index do |url, i|
+      html = read_play_data('developer-zynga.txt')
+      response = Typhoeus::Response.new(code: code, headers: '', body: html)
+      Typhoeus.stub(url).and_return(response)
+    end
+
+    dev.update
+  end
 end
