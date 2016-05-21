@@ -106,4 +106,21 @@ describe MarketBot::Play::Chart do
     ranks = chart.result.map { |e| e[:rank] }
     expect(ranks).to eq((ranks[0]..ranks[-1]).to_a)
   end
+
+  it 'should raise a ResponseError for unknown http codes' do
+    collection = 'topselling_paid'
+    category ='GAME_ARCADE'
+    chart = MarketBot::Play::Chart.new(collection, category)
+    code = 0
+    html = ''
+
+    chart.store_urls.each_with_index do |url, i|
+      response = Typhoeus::Response.new(code: code, headers: '', body: html)
+      Typhoeus.stub(url).and_return(response)
+    end
+
+    expect {
+      chart.update
+    }.to raise_error(MarketBot::ResponseError)
+  end
 end
