@@ -20,13 +20,6 @@ Add this line to your application's Gemfile to use the latest stable version:
 
     gem 'market_bot'
 
-Add this line instead if you want to use the latest development version:
-
-    gem 'market_bot', git: 'https://github.com/chadrem/market_bot.git'
-
-Don't add both of the above lines.
-You must pick either the stable (recommended) or development version.
-
 And then execute:
 
     $ bundle
