@@ -47,7 +47,7 @@ module MarketBot
         result[:price] = doc.at_css('meta[itemprop="price"]')[:content]
 
         category_div = doc.at_css('.category')
-        result[:category] = category_div.text.strip rescue nil
+        result[:category] = category_div.text.strip
         result[:category_url] = File.split(category_div["href"])[1]
 
         result[:description] = doc.at_css('div[itemprop="description"]').inner_html.strip
