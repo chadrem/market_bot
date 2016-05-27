@@ -26,7 +26,6 @@ module MarketBot
         :updated,
         :votes,
         :website_url,
-        :whats_new
       ]
     end
   end
