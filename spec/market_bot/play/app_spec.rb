@@ -123,6 +123,11 @@ describe MarketBot::Play::App do
       expect(@parsed[:website_url]).to be_kind_of(String).and \
         match(/\Ahttps?:\/\//)
     end
+
+    it 'shoud parse the whats_new attribute' do
+      expect(@parsed[:whats_new]).to be_kind_of(String).or \
+        be_kind_of(NilClass)
+    end
   end
 
   context '(app-com.bluefroggaming.popdat)' do

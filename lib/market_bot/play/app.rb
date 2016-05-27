@@ -94,6 +94,10 @@ module MarketBot
           result[:full_screenshot_urls] << MarketBot::Util.fix_content_url(node[:src])
         end
 
+        if (node = doc.at_css('.recent-change'))
+          result[:whats_new] = node.inner_html
+        end
+
         result[:reviews] = []
         unless opts[:skip_reviews] # Review parsing is CPU intensive.
           doc.css('.single-review').each do |node|
