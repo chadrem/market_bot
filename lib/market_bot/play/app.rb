@@ -132,13 +132,15 @@ module MarketBot
 
         result[:rating_distribution] = { 5 => nil, 4 => nil, 3 => nil, 2 => nil, 1 => nil }
 
-        histogram = doc.css('div.rating-histogram')
-        cur_index = 5
-        %w(five four three two one).each do |slot|
-          node = histogram.at_css(".#{slot.to_s}")
-          result[:rating_distribution][cur_index] = node.css('.bar-number').text.gsub(/,/,'').to_i
-          cur_index -= 1
-
+        if (histogram = doc.at_css('div.rating-histogram'))
+          cur_index = 5
+          %w(five four three two one).each do |slot|
+            node = histogram.at_css(".#{slot.to_s}")
+            result[:rating_distribution][cur_index] = node.css('.bar-number').text.gsub(/,/,'').to_i
+            cur_index -= 1
+          end
+        else
+          result[:rating_distribution] = nil
         end
 
         result[:html] = html
