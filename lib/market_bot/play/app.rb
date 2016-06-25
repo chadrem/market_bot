@@ -151,11 +151,12 @@ module MarketBot
       def initialize(package, opts={})
         @package = package
         @lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
+        @country = opts[:country] || MarketBot::Play::DEFAULT_COUNTRY
         @request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
       end
 
       def store_url
-        "https://play.google.com/store/apps/details?id=#{@package}&hl=#{@lang}"
+        "https://play.google.com/store/apps/details?id=#{@package}&hl=#{@lang}&gl=#{@country}"
       end
 
       def update
