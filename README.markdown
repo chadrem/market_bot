@@ -60,6 +60,17 @@ Charts are defined by a collection and an option category.
     # Print the first app.
     puts dev.result.first.inspect
 
+## Language and Country support
+
+Market Bot defaults to USA and English.
+You can specify a country and a language to override the defaults when creating objects:
+
+    chart = MarketBot::Play::Chart.new('topselling_paid', 'BUSINESS', country: 'jp', lang: 'ja')
+    chart.update
+
+    app = MarketBot::Play::App.new('com.facebook.katana', country: 'jp', lang: 'ja')
+    app.update
+
 ## Excessive Use
 
 Google will block your IP address if you attempt to scrape large quantities of data.
