@@ -89,7 +89,7 @@ describe MarketBot::Play::Chart do
     end
   end
 
-  it 'should update' do
+  it 'should update (default)' do
     collection = 'topselling_paid'
     category ='GAME_ARCADE'
     chart = MarketBot::Play::Chart.new(collection, category, max_pages: 7)
@@ -97,6 +97,24 @@ describe MarketBot::Play::Chart do
 
     chart.store_urls.each_with_index do |url, i|
       html = read_play_data("chart-topselling_paid-GAME_ARCADE-#{i}.txt")
+      response = Typhoeus::Response.new(code: code, headers: '', body: html)
+      Typhoeus.stub(url).and_return(response)
+    end
+
+    chart.update
+
+    ranks = chart.result.map { |e| e[:rank] }
+    expect(ranks).to eq((ranks[0]..ranks[-1]).to_a)
+  end
+
+  it 'should update (jp ja)' do
+    collection = 'topselling_paid'
+    category ='BUSINESSS'
+    chart = MarketBot::Play::Chart.new(collection, category, max_pages: 7, country: 'jp', lang: 'ja')
+    code = 200
+
+    chart.store_urls.each_with_index do |url, i|
+      html = read_play_data("chart-jp-ja-topselling_paid-BUSINESS-#{i}.txt")
       response = Typhoeus::Response.new(code: code, headers: '', body: html)
       Typhoeus.stub(url).and_return(response)
     end

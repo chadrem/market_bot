@@ -101,8 +101,7 @@ module MarketBot
 				if response.success?
 					r = self.class.parse(response.body, lang: @lang)
 
-					if @result.empty? ||
-							(!@result.empty? &&@result[-1][-1][:rank] + 1 == r[0][:rank])
+					if @result.empty? || (!@result.empty? && r[0] && @result[-1][-1][:rank] + 1 == r[0][:rank])
 						@result << r
 						return true
 					end
