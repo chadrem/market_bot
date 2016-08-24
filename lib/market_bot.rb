@@ -12,6 +12,7 @@ require 'market_bot/play/app'
 require 'market_bot/play/chart/constants'
 require 'market_bot/play/chart'
 require 'market_bot/play/developer'
+require 'market_bot/play/search'
 
 module MarketBot
   def self.timeout
