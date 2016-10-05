@@ -125,7 +125,7 @@ module MarketBot
                 .strip
             end
             if node.at_css('.review-date')
-              review[:created_at] = note.at_css('.review-date').text.strip
+              review[:created_at] = node.at_css('.review-date').text.strip
             end
             if review
               result[:reviews] << review
