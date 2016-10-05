@@ -124,6 +124,9 @@ module MarketBot
                 .sub!(node.at_css('.review-link').text, '')
                 .strip
             end
+            if node.at_css('.review-date')
+              review[:created_at] = node.at_css('.review-date').text.strip
+            end
             if review
               result[:reviews] << review
             end
