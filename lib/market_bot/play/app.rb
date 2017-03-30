@@ -42,9 +42,9 @@ module MarketBot
           end
         end
 
-        result[:content_rating] = doc.at_css("div.content[itemprop='contentRating']").text
+        result[:content_rating] = doc.at_css("div.content[itemprop='contentRating']").text if doc.at_css("div.content[itemprop='contentRating']")
 
-        result[:price] = doc.at_css('meta[itemprop="price"]')[:content]
+        result[:price] = doc.at_css('meta[itemprop="price"]')[:content] if doc.at_css('meta[itemprop="price"]')
 
         category_div = doc.at_css('.category')
         result[:category] = category_div.text.strip
