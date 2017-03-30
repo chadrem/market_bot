@@ -11,8 +11,9 @@ Please contact me ([chad@remesch.com](mailto:chad@remesch.com)) for commercial s
 
 ## Dependencies
 
-* Nokogiri
-* Typhoeus
+* Ruby MRI 2.1.X or newer
+* Nokogiri gem
+* Typhoeus gem
 
 ## Installation
 
