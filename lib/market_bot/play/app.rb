@@ -50,7 +50,7 @@ module MarketBot
         result[:category] = category_div.text.strip
         result[:category_url] = File.split(category_div["href"])[1]
 
-        result[:description] = doc.at_css('div[itemprop="description"]').inner_html.strip
+        result[:description] = doc.at_css('div[itemprop="description"]').inner_html.strip if doc.at_css('div[itemprop="description"]')
         result[:title] = doc.at_css('div.id-app-title').text
 
         score = doc.at_css('.score-container')
