@@ -72,9 +72,9 @@ describe MarketBot::Play::App do
     it 'should parse the rating_distribution attribute' do
       expect(@parsed[:rating_distribution].length).to eq(5)
       expect(@parsed[:rating_distribution].keys).to \
-        all(be_kind_of(Fixnum)).and contain_exactly(1, 2, 3, 4, 5)
+        all(be_kind_of(expected_number_class)).and contain_exactly(1, 2, 3, 4, 5)
       expect(@parsed[:rating_distribution].values).to \
-        all(be_kind_of(Fixnum)).and all(be_kind_of(Fixnum)).and all(be >= 0)
+        all(be_kind_of(expected_number_class)).and all(be_kind_of(expected_number_class)).and all(be >= 0)
     end
 
     it 'should parse the requires_android attribute' do
@@ -116,7 +116,7 @@ describe MarketBot::Play::App do
     end
 
     it 'should parse the votes attribute' do
-      expect(@parsed[:votes]).to be_kind_of(Fixnum).and be >= 0
+      expect(@parsed[:votes]).to be_kind_of(expected_number_class).and be >= 0
     end
 
     it 'should parse the website_url attribute' do

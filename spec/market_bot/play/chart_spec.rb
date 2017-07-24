@@ -24,7 +24,7 @@ describe MarketBot::Play::Chart do
     it 'should have entries with valid ranks' do
       @parsed.each_with_index do |v, i|
         msg = "i=#{i}, v=#{v.inspect}"
-        expect(v[:rank]).to be_kind_of(Fixnum).and(be > 0), msg
+        expect(v[:rank]).to be_kind_of(expected_number_class).and(be > 0), msg
       end
 
       ranks = @parsed.map { |e| e[:rank] }

@@ -28,3 +28,7 @@ def read_play_data(name)
                    'market_bot', 'play', 'data', name)
   File.read(path)
 end
+
+def expected_number_class
+  5.class == Integer ? Integer : Fixnum
+end
