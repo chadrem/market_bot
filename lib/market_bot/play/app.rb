@@ -63,6 +63,7 @@ module MarketBot
 
         node = doc.at_css('div[itemprop="author"]')
         result[:developer] = node.at_css('.primary').text.strip
+        result[:developer_id] = node.at_css('.primary').attr('href').split('?id=').last.strip
 
         result[:more_from_developer] = []
         result[:similar] = []
