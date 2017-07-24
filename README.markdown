@@ -89,5 +89,5 @@ Please contact me if you are looking for commercial data solutions.
 
 ## Copyright
 
-Copyright (c) 2011 - 2016 Chad Remesch. See LICENSE.txt for
+Copyright (c) 2011 - 2017 Chad Remesch. See LICENSE.txt for
 further details.
