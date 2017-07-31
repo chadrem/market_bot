@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.1.0] - 2017-03-30
+## [1.1.0] - 2017-07-31
 ### Added
 - developer_id to the app class from @Simran1306.
 ### Fixed
