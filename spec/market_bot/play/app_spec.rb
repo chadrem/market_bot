@@ -34,6 +34,10 @@ describe MarketBot::Play::App do
       expect(@parsed[:developer].length).to be > 5
     end
 
+    it 'should parse the developer_id attribute' do
+      expect(@parsed[:developer_id]).to be_kind_of(String)
+    end
+
     it 'should parse the email attribute' do
       expect(@parsed[:email]).to \
         match(/\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i)

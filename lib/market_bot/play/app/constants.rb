@@ -9,6 +9,7 @@ module MarketBot
         :current_version,
         :description,
         :developer,
+        :developer_id,
         :email,
         :full_screenshot_urls,
         :html,
