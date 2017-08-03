@@ -6,6 +6,8 @@ module MarketBot
       attr_reader :lang
       attr_reader :result
 
+      @package = ''
+
       def self.parse(html, opts={})
         result = {}
 
@@ -150,7 +152,7 @@ module MarketBot
         result[:html] = html
 
         result[:permissions] = []
-        puts self
+        puts self.package
         _agent = Mechanize.new
         result[:permissions] = result[:package]
         # _page = _agent.post('https://play.google.com/store/xhr/getdoc?authuser=0',
