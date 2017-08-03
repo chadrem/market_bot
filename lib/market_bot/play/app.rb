@@ -158,7 +158,7 @@ module MarketBot
                               'remember' => '1',
                               'xhr' => 1
                             })
-        result[:permissions] << _page.body
+        # result[:permissions] << _page.body
 
         result
       end
