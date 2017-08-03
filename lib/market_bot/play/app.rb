@@ -9,6 +9,7 @@ module MarketBot
       @package = ''
 
       def initialize(package, opts={})
+        puts package
         @package = package
         @lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
         @country = opts[:country] || MarketBot::Play::DEFAULT_COUNTRY
