@@ -6,16 +6,14 @@ module MarketBot
       attr_reader :lang
       attr_reader :result
 
-      @package = ''
-
       def initialize(package, opts={})
-        self.package = package
+        @package = package
         @lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
         @country = opts[:country] || MarketBot::Play::DEFAULT_COUNTRY
         @request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
       end
 
-      def self.parse(html, opts={})
+      def self.parse(html, package, opts={})
         result = {}
 
         doc = Nokogiri::HTML(html)
@@ -159,7 +157,7 @@ module MarketBot
         result[:html] = html
 
         result[:permissions] = []
-        puts @package
+        puts package
         _agent = Mechanize.new
         result[:permissions] = result[:package]
         # _page = _agent.post('https://play.google.com/store/xhr/getdoc?authuser=0',
@@ -177,19 +175,19 @@ module MarketBot
         "https://play.google.com/store/apps/details?id=#{@package}&hl=#{@lang}&gl=#{@country}"
       end
 
-      def update
+      def update(package)
         req = Typhoeus::Request.new(store_url, @request_opts)
         req.run
-        response_handler(req.response)
+        response_handler(req.response, package)
 
         self
       end
 
       private
 
-      def response_handler(response)
+      def response_handler(response, package)
         if response.success?
-          @result = self.class.parse(response.body)
+          @result = self.class.parse(response.body, package)
 
           ATTRIBUTES.each do |a|
             attr_name = "@#{a}"
