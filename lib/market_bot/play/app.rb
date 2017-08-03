@@ -8,6 +8,13 @@ module MarketBot
 
       @package = ''
 
+      def initialize(package, opts={})
+        @package = package
+        @lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
+        @country = opts[:country] || MarketBot::Play::DEFAULT_COUNTRY
+        @request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
+      end
+
       def self.parse(html, opts={})
         result = {}
 
@@ -164,13 +171,6 @@ module MarketBot
         # result[:permissions] << _page.body
 
         result
-      end
-
-      def initialize(package, opts={})
-        @package = package
-        @lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
-        @country = opts[:country] || MarketBot::Play::DEFAULT_COUNTRY
-        @request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
       end
 
       def store_url
