@@ -2,6 +2,7 @@ require 'uri'
 
 require 'typhoeus'
 require 'nokogiri'
+require 'mechanize'
 
 require 'market_bot/version'
 require 'market_bot/exceptions'
