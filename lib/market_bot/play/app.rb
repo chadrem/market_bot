@@ -151,6 +151,7 @@ module MarketBot
 
         result[:permissions] = []
         _agent = Mechanize.new
+        puts result[:package]
         _page = _agent.post('https://play.google.com/store/xhr/getdoc?authuser=0',
                             { 'ids' => result[:package],
                               'hl' => 'en',
