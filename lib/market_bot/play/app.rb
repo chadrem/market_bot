@@ -150,6 +150,7 @@ module MarketBot
         result[:html] = html
 
         result[:permissions] = []
+        _agent = Mechanize.new
 
         result
       end
