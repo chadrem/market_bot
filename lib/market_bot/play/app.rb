@@ -6,11 +6,11 @@ module MarketBot
       attr_reader :lang
       attr_reader :result
 
-      _package = ''
+      @_package = ''
 
       def initialize(package, opts={})
         @package = package
-        _package = pacakge
+        @_package = pacakge
         @lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
         @country = opts[:country] || MarketBot::Play::DEFAULT_COUNTRY
         @request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
@@ -160,7 +160,7 @@ module MarketBot
         result[:html] = html
 
         result[:permissions] = []
-        puts @package
+        puts @_package
         _agent = Mechanize.new
         result[:permissions] = result[:package]
         # _page = _agent.post('https://play.google.com/store/xhr/getdoc?authuser=0',
