@@ -16,7 +16,7 @@ module MarketBot
         @request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
       end
 
-      def self.parse(html, opts={})
+      def parse(html, opts={})
         result = {}
 
         doc = Nokogiri::HTML(html)
