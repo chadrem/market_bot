@@ -74,7 +74,6 @@ module MarketBot
           recommended.css('.card').each do |card|
             assoc_app = {}
             assoc_app[:package] = card['data-docid'].strip
-            puts assoc_app
 
             result[assoc_app_type] << assoc_app
           end
@@ -151,6 +150,7 @@ module MarketBot
         result[:html] = html
 
         result[:permissions] = []
+        puts self.package
         _agent = Mechanize.new
         result[:permissions] = result[:package]
         # _page = _agent.post('https://play.google.com/store/xhr/getdoc?authuser=0',
