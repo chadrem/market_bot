@@ -74,6 +74,7 @@ module MarketBot
           recommended.css('.card').each do |card|
             assoc_app = {}
             assoc_app[:package] = card['data-docid'].strip
+            puts assoc_app
 
             result[assoc_app_type] << assoc_app
           end
