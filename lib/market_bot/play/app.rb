@@ -173,17 +173,18 @@ module MarketBot
 
         h1.each_with_index do |n, _i|
           n[1].each_with_index do |_n, _i|
-            puts _n[0]
+            result[:permissions] << _n[0]
           end
         end
         h2.each_with_index do |n, _i|
           n[1].each_with_index do |_n, _i|
-            puts _n[0]
+            result[:permissions] << _n[0]
           end
         end
         h3.each_with_index do |n, _i|
-          puts n[0]
+          result[:permissions] << n[0]
         end
+        result[:permissions].uniq!
 
         result
       end
