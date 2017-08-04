@@ -164,7 +164,26 @@ module MarketBot
                               'remember' => '1',
                               'xhr' => 1
                             })
-        result[:permissions] << _page.body
+        my_hash = JSON.parse(_page.body.lines[2..-1].join)
+        my_hash = my_hash[0][2][0][65]
+        h1 = my_hash[my_hash.keys[0]][23][0]
+        h2 = my_hash[my_hash.keys[0]][23][1]
+        h3 = my_hash[my_hash.keys[0]][23][2]
+        h4 = my_hash[my_hash.keys[0]][23][3]
+
+        h1.each_with_index do |n, _i|
+          n[1].each_with_index do |_n, _i|
+            puts _n[0]
+          end
+        end
+        h2.each_with_index do |n, _i|
+          n[1].each_with_index do |_n, _i|
+            puts _n[0]
+          end
+        end
+        h3.each_with_index do |n, _i|
+          puts n[0]
+        end
 
         result
       end

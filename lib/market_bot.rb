@@ -1,4 +1,5 @@
 require 'uri'
+require 'json'
 
 require 'typhoeus'
 require 'nokogiri'
