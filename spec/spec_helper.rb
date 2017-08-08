@@ -14,7 +14,7 @@ require 'market_bot'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
 end
@@ -30,5 +30,5 @@ def read_play_data(name)
 end
 
 def expected_number_class
-  5.class == Integer ? Integer : Fixnum
+  5.class == Integer ? Integer : Integer
 end

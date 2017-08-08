@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.1.0_PRUTHEUS] - 2017-08-03
+### Added
+- app attribute permissions
+
 ## [1.1.0] - 2017-07-31
 ### Added
 - developer_id to the app class from @Simran1306.

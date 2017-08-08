@@ -132,6 +132,11 @@ describe MarketBot::Play::App do
       expect(@parsed[:whats_new]).to be_kind_of(String).or \
         be_kind_of(NilClass)
     end
+
+    it 'shoud parse the permissions attribute' do
+      expect(@parsed[:permissions]).to be_kind_of(String).or \
+        be_kind_of(NilClass)
+    end
   end
 
   context '(app-com.bluefroggaming.popdat)' do

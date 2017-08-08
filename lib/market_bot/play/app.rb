@@ -6,7 +6,14 @@ module MarketBot
       attr_reader :lang
       attr_reader :result
 
-      def self.parse(html, opts={})
+      def initialize(package, opts={})
+        @package = package
+        @lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
+        @country = opts[:country] || MarketBot::Play::DEFAULT_COUNTRY
+        @request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
+      end
+
+      def self.parse(html, package, opts={})
         result = {}
 
         doc = Nokogiri::HTML(html)
@@ -149,33 +156,56 @@ module MarketBot
 
         result[:html] = html
 
-        result
-      end
+        result[:permissions] = []
+        _agent = Mechanize.new
+        _page = _agent.post('https://play.google.com/store/xhr/getdoc?authuser=0',
+                            { 'ids' => package,
+                              'hl' => 'en',
+                              'remember' => '1',
+                              'xhr' => 1
+                            })
+        my_hash = JSON.parse(_page.body.lines[2..-1].join)
+        my_hash = my_hash[0][2][0][65]
+        h1 = my_hash[my_hash.keys[0]][23][0]
+        h2 = my_hash[my_hash.keys[0]][23][1]
+        h3 = my_hash[my_hash.keys[0]][23][2]
+        h4 = my_hash[my_hash.keys[0]][23][3]
 
-      def initialize(package, opts={})
-        @package = package
-        @lang = opts[:lang] || MarketBot::Play::DEFAULT_LANG
-        @country = opts[:country] || MarketBot::Play::DEFAULT_COUNTRY
-        @request_opts = MarketBot::Util.build_request_opts(opts[:request_opts])
+        h1.each_with_index do |n, _i|
+          n[1].each_with_index do |_n, _i|
+            result[:permissions] << _n[0]
+          end
+        end
+        h2.each_with_index do |n, _i|
+          n[1].each_with_index do |_n, _i|
+            result[:permissions] << _n[0]
+          end
+        end
+        h3.each_with_index do |n, _i|
+          result[:permissions] << n[0]
+        end
+        result[:permissions].uniq!
+
+        result
       end
 
       def store_url
         "https://play.google.com/store/apps/details?id=#{@package}&hl=#{@lang}&gl=#{@country}"
       end
 
-      def update
+      def update(package)
         req = Typhoeus::Request.new(store_url, @request_opts)
         req.run
-        response_handler(req.response)
+        response_handler(req.response, package)
 
         self
       end
 
       private
 
-      def response_handler(response)
+      def response_handler(response, package)
         if response.success?
-          @result = self.class.parse(response.body)
+          @result = self.class.parse(response.body, package)
 
           ATTRIBUTES.each do |a|
             attr_name = "@#{a}"
