@@ -91,7 +91,7 @@ describe MarketBot::Play::App do
       expect(@parsed[:reviews]).to \
         be_kind_of(Array).and all(be_kind_of(Hash)).and \
         all(have_key(:title)).and all(have_key(:score)).and \
-        all(have_key(:text))
+        all(have_key(:text)).and all(have_key(:review_id))
     end
 
     it 'should parse the screenshot_urls attribute' do
