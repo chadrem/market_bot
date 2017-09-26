@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.2.0] - 2017-09-26
+### Added
+- Reviews now have a review_id from @tom-wolters.
+
 ## [1.1.0] - 2017-07-31
 ### Added
 - developer_id to the app class from @Simran1306.
