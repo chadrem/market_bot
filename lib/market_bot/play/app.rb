@@ -128,6 +128,9 @@ module MarketBot
             if node.at_css('.review-date')
               review[:created_at] = node.at_css('.review-date').text.strip
             end
+            if node.at_css('.reviews-permalink')
+              review[:review_id] = node.at_css('.reviews-permalink').attr('href').split('&reviewId=').last.strip
+            end
             if review
               result[:reviews] << review
             end
