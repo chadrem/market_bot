@@ -128,9 +128,24 @@ describe MarketBot::Play::App do
         match(/\Ahttps?:\/\//)
     end
 
-    it 'shoud parse the whats_new attribute' do
+    it 'should parse the whats_new attribute' do
       expect(@parsed[:whats_new]).to be_kind_of(String).or \
         be_kind_of(NilClass)
+    end
+
+    it 'should parse the contains_ads attribute' do
+      expect(@parsed[:contains_ads]).to eq(true).or \
+        eq(false)
+    end
+
+    it 'should parse the in_app_products_price attribute' do
+      expect(@parsed[:in_app_products_price]).to eq(nil).or(
+        be_kind_of(String).and match(/(.+(\d|.){1,}\ )\-(.+(\d|.){1,})\ per\ item/))
+    end
+
+    it 'should parse the physical_address attribute' do
+      expect(@parsed[:physical_address]).to eq(nil).or(
+        be_kind_of(String))
     end
   end
 
