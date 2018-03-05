@@ -4,6 +4,7 @@ module MarketBot
       ATTRIBUTES = [
         :category,
         :category_url,
+        :contains_ads,
         :content_rating,
         :cover_image_url,
         :current_version,
@@ -13,6 +14,8 @@ module MarketBot
         :email,
         :full_screenshot_urls,
         :html,
+        :in_app_products_price,
+        :physical_address,
         :installs,
         :more_from_developer,
         :price,

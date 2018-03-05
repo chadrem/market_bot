@@ -25,6 +25,8 @@ module MarketBot
             result[:current_version] = info.at_css('.content').text.strip
           when 'Requires Android'
             result[:requires_android] = info.at_css('.content').text.strip
+          when 'In-app Products'
+            result[:in_app_products_price] = info.at_css('.content').text.strip
           when 'Contact Developer', 'Developer'
             info.css('.dev-link').each do |node|
               node_href = node[:href]
@@ -34,17 +36,18 @@ module MarketBot
                 if q_param = URI(node_href).query.split('&').select{ |p| p =~ /q=/ }.first
                   actual_url = q_param.gsub('q=', '')
                 end
-
                 result[:website_url] = actual_url
               end
             end
-
+            result[:physical_address] = info.at_css('.physical-address').text.strip if info.at_css('.physical-address')
           end
         end
 
         result[:content_rating] = doc.at_css("div.content[itemprop='contentRating']").text if doc.at_css("div.content[itemprop='contentRating']")
 
         result[:price] = doc.at_css('meta[itemprop="price"]')[:content] if doc.at_css('meta[itemprop="price"]')
+
+        result[:contains_ads] = !!doc.at_css('.ads-supported-label-msg')
 
         category_div = doc.at_css('.category')
         result[:category] = category_div.text.strip
