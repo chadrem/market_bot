@@ -30,6 +30,7 @@ module MarketBot
         :updated,
         :votes,
         :website_url,
+        :privacy_url,
         :whats_new,
       ]
     end

@@ -28,17 +28,25 @@ module MarketBot
           when 'In-app Products'
             result[:in_app_products_price] = info.at_css('.content').text.strip
           when 'Contact Developer', 'Developer'
-            info.css('.dev-link').each do |node|
-              node_href = node[:href]
-              if node_href =~ /^mailto:/
-                result[:email] = node_href.gsub(/^mailto:/,'')
-              else
-                if q_param = URI(node_href).query.split('&').select{ |p| p =~ /q=/ }.first
-                  actual_url = q_param.gsub('q=', '')
-                end
-                result[:website_url] = actual_url
-              end
+            dev_links = info.css('.dev-link')
+
+            if website = dev_links.css(':contains("Visit")').first
+              href = website.attr('href')
+              q_param = URI(href).query.split('&').select{ |p| p =~ /q=/ }.first
+              result[:website_url] = q_param.gsub('q=', '')
             end
+
+            if email = dev_links.css(':contains("Email")').first
+              email = email.attr('href')
+              result[:email] = email.gsub(/^mailto:/,'')
+            end
+
+            if privacy = dev_links.css(':contains("Privacy")').first
+              href = privacy.attr('href')
+              q_param = URI(href).query.split('&').select{ |p| p =~ /q=/ }.first
+              result[:privacy_url] = q_param.gsub('q=', '')
+            end
+
             result[:physical_address] = info.at_css('.physical-address').text.strip if info.at_css('.physical-address')
           end
         end
