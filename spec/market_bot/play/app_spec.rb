@@ -134,6 +134,12 @@ describe MarketBot::Play::App do
     it 'should parse the website_url attribute' do
       expect(@parsed[:website_url]).to be_kind_of(String).and \
         match(/\Ahttps?:\/\//)
+      expect(@parsed[:website_url]).not_to match(/privacy/)
+    end
+
+    it 'should parse the privacy_url attribute' do
+        expect(@parsed[:privacy_url]).to match(/\Ahttps?:\/\//).and \
+          be_kind_of(String) if @parsed[:privacy_url]
     end
 
     it 'should parse the whats_new attribute' do
