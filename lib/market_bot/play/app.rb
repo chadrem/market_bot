@@ -49,9 +49,13 @@ module MarketBot
 
         result[:contains_ads] = !!doc.at_css('.ads-supported-label-msg')
 
-        category_div = doc.at_css('.category')
-        result[:category] = category_div.text.strip
-        result[:category_url] = File.split(category_div["href"])[1]
+        category_divs = doc.css('.category')
+
+        result[:categories] = category_divs.map { |d| d.text.strip }
+        result[:categories_urls] = category_divs.map { |d| File.split(d["href"])[1] }
+
+        result[:category] = result[:categories].first
+        result[:category_url] = result[:categories_urls].first
 
         result[:description] = doc.at_css('div[itemprop="description"]').inner_html.strip
         result[:title] = doc.at_css('div.id-app-title').text

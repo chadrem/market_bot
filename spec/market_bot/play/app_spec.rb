@@ -3,11 +3,19 @@ require File.expand_path(File.dirname(__FILE__) + '../../../spec_helper')
 describe MarketBot::Play::App do
   shared_context('parsing an app') do
     it 'should parse the category attribute' do
-      expect(@parsed[:category]).to eq('Arcade').or eq('Weather')
+      expect(@parsed[:category]).to eq('Arcade').or eq('Weather').or eq('Simulation')
     end
 
     it 'should parse the category_url attribute' do
-      expect(@parsed[:category_url]).to eq('GAME_ARCADE').or eq('WEATHER')
+      expect(@parsed[:category_url]).to eq('GAME_ARCADE').or eq('WEATHER').or eq('GAME_SIMULATION')
+    end
+
+    it 'should parse the categories attribute' do
+      expect(@parsed[:categories]).to eq(['Arcade']).or eq(['Weather']).or eq(['Simulation', 'Pretend Play'])
+    end
+
+    it 'should parse the categories_urls attribute' do
+      expect(@parsed[:categories_urls]).to eq(['GAME_ARCADE']).or eq(['WEATHER']).or eq(%w[GAME_SIMULATION FAMILY_PRETEND])
     end
 
     it 'should parse the content_rating attribute' do
@@ -165,6 +173,16 @@ describe MarketBot::Play::App do
     before(:all) do
       @package = 'com.mg.android'
       @html = read_play_data('app-com.mg.android.txt')
+      @parsed = MarketBot::Play::App.parse(@html)
+    end
+  end
+
+  context '(app-com.hasbro.mlpcoreAPPSTORE)' do
+    include_context 'parsing an app'
+
+    before(:all) do
+      @package = 'com.hasbro.mlpcoreAPPSTORE'
+      @html = read_play_data('app-com.hasbro.mlpcoreAPPSTORE.txt')
       @parsed = MarketBot::Play::App.parse(@html)
     end
   end

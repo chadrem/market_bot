@@ -4,6 +4,8 @@ module MarketBot
       ATTRIBUTES = [
         :category,
         :category_url,
+        :categories,
+        :categories_urls,
         :contains_ads,
         :content_rating,
         :cover_image_url,
