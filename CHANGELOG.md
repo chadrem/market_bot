@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.3.0] - 2017-09-26
+## [1.3.0] - 2018-03-10
 ### Added
 - in_app_products_price to the app class from @lightalloy.
 - physical_address to the app class from @lightalloy.
