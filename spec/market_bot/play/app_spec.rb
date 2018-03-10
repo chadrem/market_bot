@@ -91,7 +91,7 @@ describe MarketBot::Play::App do
 
     it 'should parse the requires_android attribute' do
       expect(@parsed[:requires_android]).to \
-        be_kind_of(String).and match(/\A\d\.\d and up\z/)
+        be_kind_of(String).and match(/\A\d(\.\d)* and up\z/)
     end
 
     it 'should parse the reviews attribute' do
@@ -107,7 +107,7 @@ describe MarketBot::Play::App do
     end
 
     it 'should parse the similar attribute' do
-      expect(@parsed[:similar].length).to be > 0
+      expect(@parsed[:similar].length).to be >= 0
       expect(@parsed[:similar]).to all(be_kind_of(Hash)).and \
         all(have_key(:package))
     end
