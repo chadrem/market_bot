@@ -1,5 +1,17 @@
 # Change Log
 
+## [1.3.0] - 2017-09-26
+### Added
+- in_app_products_price to the app class from @lightalloy.
+- physical_address to the app class from @lightalloy.
+- contains_ads to the app class from @lightalloy.
+- multiple app categories (categories, categories_urls) added to the app class from @lightalloy.
+- privacy_url to the app class from @antonyr.
+- updated test data from @chadrem.
+### Fixed
+- website_url for app class from @antonyr.
+- tweak tests to work with latest test data from @chadrem.
+
 ## [1.2.0] - 2017-09-26
 ### Added
 - Reviews now have a review_id from @tom-wolters.
