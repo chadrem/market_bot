@@ -25,20 +25,29 @@ module MarketBot
             result[:current_version] = info.at_css('.content').text.strip
           when 'Requires Android'
             result[:requires_android] = info.at_css('.content').text.strip
+          when 'In-app Products'
+            result[:in_app_products_price] = info.at_css('.content').text.strip
           when 'Contact Developer', 'Developer'
-            info.css('.dev-link').each do |node|
-              node_href = node[:href]
-              if node_href =~ /^mailto:/
-                result[:email] = node_href.gsub(/^mailto:/,'')
-              else
-                if q_param = URI(node_href).query.split('&').select{ |p| p =~ /q=/ }.first
-                  actual_url = q_param.gsub('q=', '')
-                end
+            dev_links = info.css('.dev-link')
 
-                result[:website_url] = actual_url
-              end
+            if website = dev_links.css(':contains("Visit")').first
+              href = website.attr('href')
+              q_param = URI(href).query.split('&').select{ |p| p =~ /q=/ }.first
+              result[:website_url] = q_param.gsub('q=', '')
             end
 
+            if email = dev_links.css(':contains("Email")').first
+              email = email.attr('href')
+              result[:email] = email.gsub(/^mailto:/,'')
+            end
+
+            if privacy = dev_links.css(':contains("Privacy")').first
+              href = privacy.attr('href')
+              q_param = URI(href).query.split('&').select{ |p| p =~ /q=/ }.first
+              result[:privacy_url] = q_param.gsub('q=', '')
+            end
+
+            result[:physical_address] = info.at_css('.physical-address').text.strip if info.at_css('.physical-address')
           end
         end
 
@@ -46,9 +55,15 @@ module MarketBot
 
         result[:price] = doc.at_css('meta[itemprop="price"]')[:content] if doc.at_css('meta[itemprop="price"]')
 
-        category_div = doc.at_css('.category')
-        result[:category] = category_div.text.strip
-        result[:category_url] = File.split(category_div["href"])[1]
+        result[:contains_ads] = !!doc.at_css('.ads-supported-label-msg')
+
+        category_divs = doc.css('.category')
+
+        result[:categories] = category_divs.map { |d| d.text.strip }
+        result[:categories_urls] = category_divs.map { |d| File.split(d["href"])[1] }
+
+        result[:category] = result[:categories].first
+        result[:category_url] = result[:categories_urls].first
 
         result[:description] = doc.at_css('div[itemprop="description"]').inner_html.strip if doc.at_css('div[itemprop="description"]')
         result[:title] = doc.at_css('div.id-app-title').text
@@ -63,6 +78,7 @@ module MarketBot
 
         node = doc.at_css('div[itemprop="author"]')
         result[:developer] = node.at_css('.primary').text.strip
+        result[:developer_id] = node.at_css('.primary').attr('href').split('?id=').last.strip
 
         result[:more_from_developer] = []
         result[:similar] = []
@@ -126,6 +142,9 @@ module MarketBot
             end
             if node.at_css('.review-date')
               review[:created_at] = node.at_css('.review-date').text.strip
+            end
+            if node.at_css('.reviews-permalink')
+              review[:review_id] = node.at_css('.reviews-permalink').attr('href').split('&reviewId=').last.strip
             end
             if review
               result[:reviews] << review
