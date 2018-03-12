@@ -10,7 +10,7 @@ module MarketBot
         num = 100
 
         url = "https://play.google.com/store/apps/developer?"
-        url << "id=#{URI.escape(@collection)}&"
+        url << "id=#{CGI.escape(@collection)}&"
         url << "start=0&"
         url << "gl=#{@country}&"
         url << "num=#{num}&"
