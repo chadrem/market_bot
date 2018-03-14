@@ -69,7 +69,6 @@ You can specify a country and a language to override the defaults when creating 
 ## Excessive Use
 
 Google will block your IP address if you attempt to scrape large quantities of data.
-Please contact me if you are looking for commercial data solutions.
 
 ## Contributing to Market Bot
 
