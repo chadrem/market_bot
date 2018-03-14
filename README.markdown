@@ -82,5 +82,5 @@ Google will block your IP address if you attempt to scrape large quantities of d
 
 ## Copyright
 
-Copyright (c) 2011 - 2017 Chad Remesch. See LICENSE.txt for
+Copyright (c) 2011 - 2018 Chad Remesch. See LICENSE.txt for
 further details.
