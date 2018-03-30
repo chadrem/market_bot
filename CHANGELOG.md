@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.3.1] - 2018-03-29
+### Fixed
+- replace obsolete URI.escape with CGI.escape @lightalloy.
+
 ## [1.3.0] - 2018-03-10
 ### Added
 - in_app_products_price to the app class from @lightalloy.
