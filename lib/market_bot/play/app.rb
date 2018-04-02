@@ -85,7 +85,7 @@ module MarketBot
                 href_q = URI(href).query
                 if href_q
                   q_param = href_q.split('&').select {|p| p =~ /q=/}.first
-                  href    = q_param.gsub('q=', '')
+                  href    = q_param.gsub('q=', '') if q_param
                 end
                 result[:website_url] = href
               end
