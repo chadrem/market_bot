@@ -60,31 +60,38 @@ module MarketBot
             result[:size]                  = additional_info_parent.at('div:contains("Size")').children[1].text
             result[:current_version]       = additional_info_parent.at('div:contains("Current Version")').children[1].text
             result[:requires_android]      = additional_info_parent.at('div:contains("Requires Android")').children[1].text
-            result[:in_app_products_price] = additional_info_parent.at('div:contains("In-app Products")').children[1].text
+            div_inapp_products             = additional_info_parent.at('div:contains("In-app Products")')
+            result[:in_app_products_price] = div_inapp_products.children[1].text if div_inapp_products
             developer_div                  = additional_info_parent.at('div:contains("Developer")')
             unless developer_div
               developer_div = additional_info_parent.at('div:contains("Contact Developer")')
             end
             if developer_div
-              href   = developer_div.at('a:contains("Visit website")').attr('href')
-              href_q = URI(href).query
-              if href_q
-                q_param = href_q.split('&').select {|p| p =~ /q=/}.first
-                href    = q_param.gsub('q=', '')
+              node = developer_div.at('a:contains("Visit website")')
+              if node
+                href   = node.attr('href')
+                href_q = URI(href).query
+                if href_q
+                  q_param = href_q.split('&').select {|p| p =~ /q=/}.first
+                  href    = q_param.gsub('q=', '')
+                end
+                result[:website_url] = href
               end
-              result[:website_url] = href
 
               result[:email] = developer_div.at('a:contains("@")').text
 
-              href   = developer_div.at('a:contains("Privacy Policy")').attr('href')
-              href_q = URI(href).query
-              if href_q
-                q_param = href_q.split('&').select {|p| p =~ /q=/}.first
-                href    = q_param.gsub('q=', '')
-              end
-              result[:privacy_url] = href
+              node = developer_div.at('a:contains("Privacy Policy")')
+              if node
+                href   = node.attr('href')
+                href_q = URI(href).query
+                if href_q
+                  q_param = href_q.split('&').select {|p| p =~ /q=/}.first
+                  href    = q_param.gsub('q=', '')
+                end
+                result[:privacy_url] = href
 
-              result[:physical_address] = developer_div.at('a:contains("Privacy Policy")').parent.next.text
+                result[:physical_address] = node.parent.next.text
+              end
             end
           end
         end
