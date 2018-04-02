@@ -55,14 +55,18 @@ module MarketBot
           h2_additional_info = doc.at('h2:contains("Additional Information")')
           if h2_additional_info
             additional_info_parent         = h2_additional_info.parent.next.children.children
-            result[:updated]               = additional_info_parent.at('div:contains("Updated")').children[1].text
-            result[:installs]              = additional_info_parent.at('div:contains("Installs")').children[1].text
-            result[:size]                  = additional_info_parent.at('div:contains("Size")').children[1].text
-            result[:current_version]       = additional_info_parent.at('div:contains("Current Version")').children[1].text
-            result[:requires_android]      = additional_info_parent.at('div:contains("Requires Android")').children[1].text
-            div_inapp_products             = additional_info_parent.at('div:contains("In-app Products")')
-            result[:in_app_products_price] = div_inapp_products.children[1].text if div_inapp_products
-            developer_div                  = additional_info_parent.at('div:contains("Developer")')
+            node                           = additional_info_parent.at('div:contains("Updated")')
+            result[:updated]               = node.children[1].text if node
+            node                           = additional_info_parent.at('div:contains("Size")')
+            result[:size]                  = node.children[1].text if node
+            node                           = additional_info_parent.at('div:contains("Current Version")')
+            result[:current_version]       = node.children[1].text if node
+            node                           = additional_info_parent.at('div:contains("Requires Android")')
+            result[:requires_android]      = node.children[1].text if node
+            node                           = additional_info_parent.at('div:contains("In-app Products")')
+            result[:in_app_products_price] = node.children[1].text if node
+
+            developer_div = additional_info_parent.xpath('div[./text()="Developer"]').first.parent #additional_info_parent.at('div:contains("Developer")')
             unless developer_div
               developer_div = additional_info_parent.at('div:contains("Contact Developer")')
             end
@@ -102,7 +106,7 @@ module MarketBot
                 href_q = URI(href).query
                 if href_q
                   q_param = href_q.split('&').select {|p| p =~ /q=/}.first
-                  href    = q_param.gsub('q=', '')
+                  href    = q_param.gsub('q=', '') if q_param
                 end
                 result[:privacy_url] = href
 
@@ -251,10 +255,12 @@ module MarketBot
           result[:description]  = doc.at_css('div[itemprop="description"]').inner_html.strip if doc.at_css('div[itemprop="description"]')
           result[:title]        = doc.at_css('h1[itemprop="name"]').text
 
-          node            = doc.at_css('meta[itemprop="ratingValue"]')
-          result[:rating] = node[:content].strip
-          node            = doc.at_css('meta[itemprop="ratingCount"]')
-          result[:votes]  = node[:content].strip.to_i
+          if doc.at_css('meta[itemprop="ratingValue"]')
+            node            = doc.at_css('meta[itemprop="ratingValue"]')
+            result[:rating] = node[:content].strip
+            node            = doc.at_css('meta[itemprop="ratingCount"]')
+            result[:votes]  = node[:content].strip.to_i
+          end
 
           a_similar = doc.at_css('a:contains("Similar")')
           if a_similar
