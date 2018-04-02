@@ -69,7 +69,15 @@ module MarketBot
             if developer_div
               node = developer_div.at('a:contains("Visit website")')
               if node
-                href   = node.attr('href')
+                href             = node.attr('href')
+                encoding_options = {
+                  :invalid => :replace, # Replace invalid byte sequences
+                  :undef => :replace, # Replace anything not defined in ASCII
+                  :replace => '', # Use a blank for those replacements
+                  :universal_newline => true # Always break lines with \n
+                }
+
+                href   = href.encode(Encoding.find('ASCII'), encoding_options)
                 href_q = URI(href).query
                 if href_q
                   q_param = href_q.split('&').select {|p| p =~ /q=/}.first
@@ -82,7 +90,15 @@ module MarketBot
 
               node = developer_div.at('a:contains("Privacy Policy")')
               if node
-                href   = node.attr('href')
+                href             = node.attr('href')
+                encoding_options = {
+                  :invalid => :replace, # Replace invalid byte sequences
+                  :undef => :replace, # Replace anything not defined in ASCII
+                  :replace => '', # Use a blank for those replacements
+                  :universal_newline => true # Always break lines with \n
+                }
+
+                href   = href.encode(Encoding.find('ASCII'), encoding_options)
                 href_q = URI(href).query
                 if href_q
                   q_param = href_q.split('&').select {|p| p =~ /q=/}.first
@@ -90,7 +106,8 @@ module MarketBot
                 end
                 result[:privacy_url] = href
 
-                result[:physical_address] = node.parent.next.text
+                node                      = node.parent.next
+                result[:physical_address] = node.text if node
               end
             end
           end
