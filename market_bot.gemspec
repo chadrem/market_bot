@@ -21,6 +21,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency('bundler', '> 1.7')
   gem.add_development_dependency('rake', '> 10.0')
   gem.add_development_dependency('rspec', '~> 3.6')
+  gem.add_development_dependency('rubocop', '> 0.53.0')
   #gem.add_development_dependency('guard', '~> 2.13')
   #gem.add_development_dependency('guard-rspec', '~> 4.6')
   #gem.add_development_dependency('byebug', '>= 8.2')
