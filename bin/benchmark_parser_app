@@ -6,7 +6,7 @@ require 'market_bot'
 require 'benchmark'
 
 loops = 5
-test_files = %w{app_1.txt app_2.txt app_3.txt}
+test_files = %w[app_1.txt app_2.txt app_3.txt]
 test_files.each do |test_file|
   puts '----------------------------------------------------'
   puts "Benchmark App Parser: #{test_file}"

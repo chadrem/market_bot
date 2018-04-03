@@ -105,8 +105,8 @@ describe MarketBot::Play::App do
       expect(@parsed[:reviews].length).to be > 0
       expect(@parsed[:reviews]).to \
         be_kind_of(Array).and all(be_kind_of(Hash)).and \
-        all(have_key(:title)).and all(have_key(:score)).and \
-        all(have_key(:text)).and all(have_key(:review_id))
+          all(have_key(:title)).and all(have_key(:score)).and \
+            all(have_key(:text)).and all(have_key(:review_id))
     end
 
     it 'should parse the screenshot_urls attribute' do
@@ -127,7 +127,8 @@ describe MarketBot::Play::App do
 
     it 'should parse the size attribute' do
       expect(@parsed[:size]).to eq(nil).or(
-        be_kind_of(String).and match(/\A\d+\.?\d*M\z/))
+        be_kind_of(String).and(match(/\A\d+\.?\d*M\z/))
+      )
     end
 
     it 'should parse the title attribute' do
@@ -151,8 +152,10 @@ describe MarketBot::Play::App do
     end
 
     it 'should parse the privacy_url attribute' do
+      if @parsed[:privacy_url]
         expect(@parsed[:privacy_url]).to match(/\Ahttps?:\/\//).and \
-          be_kind_of(String) if @parsed[:privacy_url]
+          be_kind_of(String)
+      end
     end
 
     it 'should parse the whats_new attribute' do
@@ -167,12 +170,14 @@ describe MarketBot::Play::App do
 
     it 'should parse the in_app_products_price attribute' do
       expect(@parsed[:in_app_products_price]).to eq(nil).or(
-        be_kind_of(String).and match(/(.+(\d|.){1,}\ )\-(.+(\d|.){1,})\ per\ item/))
+        be_kind_of(String).and(match(/(.+(\d|.){1,}\ )\-(.+(\d|.){1,})\ per\ item/))
+      )
     end
 
     it 'should parse the physical_address attribute' do
       expect(@parsed[:physical_address]).to eq(nil).or(
-        be_kind_of(String))
+        be_kind_of(String)
+      )
     end
   end
 
@@ -229,9 +234,9 @@ describe MarketBot::Play::App do
     response = Typhoeus::Response.new(code: code)
     Typhoeus.stub(app.store_url).and_return(response)
 
-    expect {
+    expect do
       app.update
-    }.to raise_error(MarketBot::NotFoundError)
+    end.to raise_error(MarketBot::NotFoundError)
   end
 
   it 'should raise an UnavailableError for http code 403' do
@@ -242,9 +247,9 @@ describe MarketBot::Play::App do
     response = Typhoeus::Response.new(code: code)
     Typhoeus.stub(app.store_url).and_return(response)
 
-    expect {
+    expect do
       app.update
-    }.to raise_error(MarketBot::UnavailableError)
+    end.to raise_error(MarketBot::UnavailableError)
   end
 
   it 'should raise a ResponseError for unknown http codes' do
@@ -255,8 +260,8 @@ describe MarketBot::Play::App do
     response = Typhoeus::Response.new(code: code)
     Typhoeus.stub(app.store_url).and_return(response)
 
-    expect {
+    expect do
       app.update
-    }.to raise_error(MarketBot::ResponseError)
+    end.to raise_error(MarketBot::ResponseError)
   end
 end

@@ -9,8 +9,7 @@ describe MarketBot::Play::Chart do
     it 'should have entries with valid attribute keys' do
       expect(@parsed).to all(have_key(:package)).and all(have_key(:rank)).and \
         all(have_key(:title)).and all(have_key(:store_url)).and \
-        all(have_key(:developer)).and all(have_key(:icon_url))
-
+          all(have_key(:developer)).and all(have_key(:icon_url))
     end
 
     it 'should have entries with valid packages' do
@@ -69,7 +68,7 @@ describe MarketBot::Play::Chart do
 
     before(:all) do
       @collection = 'topselling_paid'
-      @category ='GAME_ARCADE'
+      @category = 'GAME_ARCADE'
       @html = read_play_data('chart-topselling_paid-GAME_ARCADE-0.txt')
       @parsed = MarketBot::Play::Chart.parse(@html)
     end
@@ -77,7 +76,7 @@ describe MarketBot::Play::Chart do
 
   it 'should generate store_urls' do
     collection = 'topselling_paid'
-    category ='GAME_ARCADE'
+    category = 'GAME_ARCADE'
     chart = MarketBot::Play::Chart.new(collection, category, max_pages: 2)
 
     expect(chart.store_urls.length).to eq(2)
@@ -91,7 +90,7 @@ describe MarketBot::Play::Chart do
 
   it 'should update (default)' do
     collection = 'topselling_paid'
-    category ='GAME_ARCADE'
+    category = 'GAME_ARCADE'
     chart = MarketBot::Play::Chart.new(collection, category, max_pages: 7)
     code = 200
 
@@ -109,7 +108,7 @@ describe MarketBot::Play::Chart do
 
   it 'should update (jp ja)' do
     collection = 'topselling_paid'
-    category ='BUSINESSS'
+    category = 'BUSINESSS'
     chart = MarketBot::Play::Chart.new(collection, category, max_pages: 7, country: 'jp', lang: 'ja')
     code = 200
 
@@ -127,18 +126,18 @@ describe MarketBot::Play::Chart do
 
   it 'should raise a ResponseError for unknown http codes' do
     collection = 'topselling_paid'
-    category ='GAME_ARCADE'
+    category = 'GAME_ARCADE'
     chart = MarketBot::Play::Chart.new(collection, category)
     code = 0
     html = ''
 
-    chart.store_urls.each_with_index do |url, i|
+    chart.store_urls.each_with_index do |url, _i|
       response = Typhoeus::Response.new(code: code, headers: '', body: html)
       Typhoeus.stub(url).and_return(response)
     end
 
-    expect {
+    expect do
       chart.update
-    }.to raise_error(MarketBot::ResponseError)
+    end.to raise_error(MarketBot::ResponseError)
   end
 end

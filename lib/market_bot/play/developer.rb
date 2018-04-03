@@ -1,27 +1,27 @@
 module MarketBot
   module Play
     class Developer < MarketBot::Play::Chart
-      def initialize(developer, options={})
+      def initialize(developer, options = {})
         super(developer, nil, options)
       end
 
-      def store_urls(options={})
+      def store_urls(_options = {})
         results = []
         num = 100
 
-        url = "https://play.google.com/store/apps/developer?"
+        url = 'https://play.google.com/store/apps/developer?'
         url << "id=#{CGI.escape(@collection)}&"
-        url << "start=0&"
+        url << 'start=0&'
         url << "gl=#{@country}&"
         url << "num=#{num}&"
         url << "hl=#{@lang}"
 
         results << url
 
-        return results
+        results
       end
 
-      def update(opts={})
+      def update(opts = {})
         super(opts)
         @result.each { |r| r.delete(:rank) }
 

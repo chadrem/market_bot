@@ -1,12 +1,12 @@
 module MarketBot
   module Play
     class App
-      attr_reader *ATTRIBUTES
+      attr_reader(*ATTRIBUTES)
       attr_reader :package
       attr_reader :lang
       attr_reader :result
 
-      def self.parse(html, opts = {})
+      def self.parse(html, _opts = {})
         result = {}
 
         doc = Nokogiri::HTML(html)
@@ -28,9 +28,7 @@ module MarketBot
           result[:in_app_products_price] = node.children[1].text if node
 
           developer_div = additional_info_parent.xpath('div[./text()="Developer"]').first.parent
-          unless developer_div
-            developer_div = additional_info_parent.at('div:contains("Contact Developer")')
-          end
+          developer_div ||= additional_info_parent.at('div:contains("Contact Developer")')
           if developer_div
             node = developer_div.at('a:contains("Visit website")')
             if node
@@ -45,7 +43,7 @@ module MarketBot
               href = href.encode(Encoding.find('ASCII'), encoding_options)
               href_q = URI(href).query
               if href_q
-                q_param = href_q.split('&').select {|p| p =~ /q=/}.first
+                q_param = href_q.split('&').select { |p| p =~ /q=/ }.first
                 href    = q_param.gsub('q=', '') if q_param
               end
               result[:website_url] = href
@@ -66,7 +64,7 @@ module MarketBot
               href   = href.encode(Encoding.find('ASCII'), encoding_options)
               href_q = URI(href).query
               if href_q
-                q_param = href_q.split('&').select {|p| p =~ /q=/}.first
+                q_param = href_q.split('&').select { |p| p =~ /q=/ }.first
                 href    = q_param.gsub('q=', '') if q_param
               end
               result[:privacy_url] = href
@@ -80,8 +78,8 @@ module MarketBot
         a_genres              = doc.search('a[itemprop="genre"]')
         a_genre               = a_genres[0]
 
-        result[:categories]      = a_genres.map {|d| d.text.strip}
-        result[:categories_urls] = a_genres.map {|d| File.split(d["href"])[1]}
+        result[:categories]      = a_genres.map { |d| d.text.strip }
+        result[:categories_urls] = a_genres.map { |d| File.split(d['href'])[1] }
 
         result[:category]     = result[:categories].first
         result[:category_url] = result[:categories_urls].first
@@ -110,21 +108,21 @@ module MarketBot
         a_similar = doc.at_css('a:contains("Similar")')
         if a_similar
           similar_divs     = a_similar.parent.parent.parent.next.children
-          result[:similar] = similar_divs.search('a').select {|a|
-            a["href"].start_with?('/store/apps/details')
-          }.map {|a|
-            {package: a["href"].split('?id=').last.strip}
-          }.compact.uniq
+          result[:similar] = similar_divs.search('a').select do |a|
+            a['href'].start_with?('/store/apps/details')
+          end.map do |a|
+            { package: a['href'].split('?id=').last.strip }
+          end.compact.uniq
         end
 
         h2_more = doc.at_css("h2:contains(\"#{result[:developer]}\")")
         if h2_more
           more_divs                    = h2_more.parent.next.children
-          result[:more_from_developer] = more_divs.search('a').select {|a|
-            a["href"].start_with?('/store/apps/details')
-          }.map {|a|
-            {package: a["href"].split('?id=').last.strip}
-          }.compact.uniq
+          result[:more_from_developer] = more_divs.search('a').select do |a|
+            a['href'].start_with?('/store/apps/details')
+          end.map do |a|
+            { package: a['href'].split('?id=').last.strip }
+          end.compact.uniq
         end
 
         node = doc.at_css('img[alt="Cover art"]')
@@ -136,10 +134,10 @@ module MarketBot
         nodes                    = doc.search('img[alt="Screenshot Image"]')
         result[:screenshot_urls] = []
         unless node.nil?
-          result[:screenshot_urls] = nodes.map {|node|
-            url                      = MarketBot::Util.fix_content_url(node[:src])
+          result[:screenshot_urls] = nodes.map do |n|
+            url                      = MarketBot::Util.fix_content_url(n[:src])
             result[:cover_image_url] = url
-          }
+          end
         end
 
         node               = doc.at_css('h2:contains("What\'s New")')
@@ -183,12 +181,12 @@ module MarketBot
         else
           codes = "code=#{response.code}, return_code=#{response.return_code}"
           case response.code
-            when 404
-              raise MarketBot::NotFoundError.new("Unable to find app in store: #{codes}")
-            when 403
-              raise MarketBot::UnavailableError.new("Unavailable app (country restriction?): #{codes}")
-            else
-              raise MarketBot::ResponseError.new("Unhandled response: #{codes}")
+          when 404
+            raise MarketBot::NotFoundError, "Unable to find app in store: #{codes}"
+          when 403
+            raise MarketBot::UnavailableError, "Unavailable app (country restriction?): #{codes}"
+          else
+            raise MarketBot::ResponseError, "Unhandled response: #{codes}"
           end
         end
       end

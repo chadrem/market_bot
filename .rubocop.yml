@@ -64,3 +64,12 @@ Rails/SkipsModelValidations:
 
 Style/IdenticalConditionalBranches:
   Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Lint/RescueException:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false

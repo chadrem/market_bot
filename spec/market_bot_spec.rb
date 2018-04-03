@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "MarketBot" do
+describe 'MarketBot' do
   it 'should support changing the default request timeout' do
     MarketBot.timeout = 5
     expect(MarketBot.timeout).to eq(5)
