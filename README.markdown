@@ -3,6 +3,11 @@
 Market Bot is a web scraper (web robot, web spider) for the Google Play Android app store.
 It can collect data on apps, charts, and developers.
 
+**Google has recently changed the HTML and CSS for the Play Store.
+This has caused the release version of Market Bot to break.
+New code is in the master branch (unreleased) to begin fixing this problem.
+If you are interesed in helping then please join the discussion in [issue 72](https://github.com/chadrem/market_bot/issues/72).**
+
 ## Dependencies
 
 * Ruby MRI 2.1.X or newer
