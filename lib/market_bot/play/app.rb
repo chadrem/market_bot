@@ -127,16 +127,14 @@ module MarketBot
 
         node = doc.at_css('img[alt="Cover art"]')
         unless node.nil?
-          url                      = MarketBot::Util.fix_content_url(node[:src])
-          result[:cover_image_url] = url
+          result[:cover_image_url] = MarketBot::Util.fix_content_url(node[:src])
         end
 
         nodes                    = doc.search('img[alt="Screenshot Image"]')
         result[:screenshot_urls] = []
         unless node.nil?
           result[:screenshot_urls] = nodes.map do |n|
-            url                      = MarketBot::Util.fix_content_url(n[:src])
-            result[:cover_image_url] = url
+            result[:screenshot_urls] << MarketBot::Util.fix_content_url(n[:src])
           end
         end
 
@@ -145,7 +143,7 @@ module MarketBot
 
         result[:html] = html
 
-        result
+        return result
       end
 
       def initialize(package, opts = {})
