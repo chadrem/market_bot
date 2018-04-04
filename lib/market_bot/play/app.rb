@@ -143,7 +143,7 @@ module MarketBot
 
         result[:html] = html
 
-        return result
+        result
       end
 
       def initialize(package, opts = {})
