@@ -130,11 +130,11 @@ module MarketBot
           result[:cover_image_url] = MarketBot::Util.fix_content_url(node[:src])
         end
 
-        nodes                    = doc.search('img[alt="Screenshot Image"]')
+        nodes = doc.search('img[alt="Screenshot Image"]', 'img[alt="Screenshot"]')
         result[:screenshot_urls] = []
-        unless node.nil?
+        unless nodes.nil?
           result[:screenshot_urls] = nodes.map do |n|
-            result[:screenshot_urls] << MarketBot::Util.fix_content_url(n[:src])
+            MarketBot::Util.fix_content_url(n[:src])
           end
         end
 
