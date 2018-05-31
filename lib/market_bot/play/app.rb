@@ -100,9 +100,9 @@ module MarketBot
 
         if doc.at_css('meta[itemprop="ratingValue"]')
           node            = doc.at_css('meta[itemprop="ratingValue"]')
-          result[:rating] = node[:content].strip
-          node            = doc.at_css('meta[itemprop="ratingCount"]')
-          result[:votes]  = node[:content].strip.to_i
+          result[:rating] = node[:content].strip if node
+          node            = doc.at_css('meta[itemprop="reviewCount"]')
+          result[:votes]  = node[:content].strip.to_i if node
         end
 
         a_similar = doc.at_css('a:contains("Similar")')
