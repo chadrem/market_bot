@@ -17,9 +17,8 @@ def play_path(name)
   File.join(File.dirname(__FILE__), '..', 'spec', 'market_bot', 'play', 'data', name)
 end
 
-download('https://play.google.com/store/apps/details?id=com.bluefroggaming.popdat', 'app-com.bluefroggaming.popdat.txt')
-download('https://play.google.com/store/apps/details?id=com.mg.android', 'app-com.mg.android.txt')
-download('https://play.google.com/store/apps/details?id=com.hasbro.mlpcoreAPPSTORE', 'app-com.hasbro.mlpcoreAPPSTORE.txt')
+download('https://play.google.com/store/apps/details?id=com.mg.android&hl=en&gl=us', 'app-com.mg.android.txt')
+download('https://play.google.com/store/apps/details?id=com.hasbro.mlpcoreAPPSTORE&hl=en&gl=us', 'app-com.hasbro.mlpcoreAPPSTORE.txt')
 download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=0&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-0.txt')
 download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=100&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-1.txt')
 download('https://play.google.com/store/apps/category/GAME_ARCADE/collection/topselling_paid?start=200&gl=us&num=100&hl=en', 'chart-topselling_paid-GAME_ARCADE-2.txt')
