@@ -159,16 +159,6 @@ describe MarketBot::Play::App do
     end
   end
 
-  context '(app-com.bluefroggaming.popdat)' do
-    include_context 'parsing an app'
-
-    before(:all) do
-      @package = 'com.bluefroggaming.popdat'
-      @html = read_play_data('app-com.bluefroggaming.popdat.txt')
-      @parsed = MarketBot::Play::App.parse(@html)
-    end
-  end
-
   context '(app-com.mg.android)' do
     include_context 'parsing an app'
 
@@ -190,8 +180,8 @@ describe MarketBot::Play::App do
   end
 
   it 'should populate the attribute getters' do
-    package = 'app-com.bluefroggaming.popdat'
-    html = read_play_data('app-com.bluefroggaming.popdat.txt')
+    package = 'app-com.mg.android'
+    html = read_play_data('app-com.mg.android.txt')
     code = 200
 
     app = MarketBot::Play::App.new(package)
