@@ -108,21 +108,20 @@ module MarketBot
         a_similar = doc.at_css('a:contains("Similar")')
         if a_similar
           similar_divs     = a_similar.parent.parent.parent.next.children
-          result[:similar] = similar_divs.search('a').select do |a|
-            a['href'].start_with?('/store/apps/details')
-          end.map do |a|
-            { package: a['href'].split('?id=').last.strip }
-          end.compact.uniq
+          result[:similar] = similar_divs.search('a')
+                                         .select { |a| a['href'].start_with?('/store/apps/details') }
+                                         .map { |a| { package: a['href'].split('?id=').last.strip } }
+                                         .compact.uniq
         end
-
         h2_more = doc.at_css("h2:contains(\"#{result[:developer]}\")")
         if h2_more
-          more_divs                    = h2_more.parent.next.children
-          result[:more_from_developer] = more_divs.search('a').select do |a|
-            a['href'].start_with?('/store/apps/details')
-          end.map do |a|
-            { package: a['href'].split('?id=').last.strip }
-          end.compact.uniq
+          more_divs = h2_more.parent.next
+          if more_divs
+            result[:more_from_developer] = more_divs.children.search('a')
+                                                    .select { |a| a['href'].start_with?('/store/apps/details') }
+                                                    .map { |a| { package: a['href'].split('?id=').last.strip } }
+                                                    .compact.uniq
+          end
         end
 
         node = doc.at_css('img[alt="Cover art"]')
