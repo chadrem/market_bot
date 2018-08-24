@@ -48,8 +48,8 @@ module MarketBot
               end
               result[:website_url] = href
             end
-
-            result[:email] = developer_div.at('a:contains("@")').text
+            email = developer_div.at('a:contains("@")')
+            result[:email] = email.text if email
 
             node = developer_div.at('a:contains("Privacy Policy")')
             if node
